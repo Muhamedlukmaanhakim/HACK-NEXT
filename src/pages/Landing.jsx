@@ -1,9 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  Users, Terminal, PieChart, Inbox, Award, ArrowRight,
-  CheckSquare, Share2, MessageSquare, AlertCircle, Cpu, Palette, Mic, BookOpen,
-} from 'lucide-react';
+import { ArrowRight, Users, Check, AlertCircle, Sparkles, Layers, ShieldCheck } from 'lucide-react';
 import Button from '../components/ui/Button';
 import Avatar from '../components/ui/Avatar';
 import SkillBadge from '../components/skills/SkillBadge';
@@ -14,243 +11,234 @@ export default function Landing() {
   const { isAuthenticated } = useAuth();
 
   return (
-    <div className="space-y-20 sm:space-y-28 pt-20 pb-16 overflow-hidden font-mono">
+    <div className="space-y-24 sm:space-y-32 pt-20 pb-20 overflow-hidden font-sans bg-canvas text-ink">
       {/* 1. Hero Section */}
-      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 text-center">
-        <div className="relative z-10 max-w-3xl mx-auto space-y-5">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-retro-surface border border-retro-border text-xs text-retro-amber shadow-panel">
-            <span className="w-1.5 h-1.5 rounded-full bg-retro-amber animate-pulse" />
-            <span>[ SYS // TELEMETRY NETWORK ACTIVE ]</span>
-          </div>
-
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-extrabold tracking-tight text-retro-paper leading-[1.1] uppercase">
-            FIND THE PEOPLE <br />
-            <span className="text-retro-orange">
-              BEHIND THE POSSIBILITY.
-            </span>
-          </h1>
-
-          <p className="text-sm sm:text-base text-retro-paper/75 font-sans max-w-2xl mx-auto leading-relaxed">
-            A high-precision campus collaboration grid. Connecting technical builders, visual designers, and communicators through multi-variable telemetry and requirement matching.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-            <Button
-              variant="primary"
-              size="lg"
-              icon={ArrowRight}
-              iconPosition="right"
-              onClick={() => navigate(isAuthenticated ? '/dashboard' : '/register')}
-              className="w-full sm:w-auto"
-            >
-              [ ENTER THE NETWORK → ]
-            </Button>
-            <Button
-              variant="secondary"
-              size="lg"
-              onClick={() => navigate(isAuthenticated ? '/discover/students' : '/login')}
-              className="w-full sm:w-auto"
-            >
-              [ INSPECT COLLABORATORS ]
-            </Button>
-          </div>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-14">
+        <div className="border-b-2 border-ink pb-6 mb-8 flex items-center justify-between">
+          <span className="text-xs font-mono font-bold uppercase tracking-widest text-ink bg-white border-2 border-ink px-2.5 py-1 shadow-brutal-sm">
+            CAMPUS COLLABORATION NETWORK / 01
+          </span>
+          <span className="text-xs font-mono text-ink/70 hidden sm:inline font-bold">
+            FOR HACKATHONS • RESEARCH • STARTUPS
+          </span>
         </div>
 
-        {/* Hero Visual: Retro Scientific Instrument Schematic */}
-        <div className="relative mt-12 max-w-4xl mx-auto p-4 sm:p-8 rounded-none bg-retro-surface border border-retro-border-strong shadow-terminal overflow-hidden">
-          {/* Schematic Telemetry Header */}
-          <div className="flex items-center justify-between text-[10px] text-retro-muted border-b border-retro-border/60 pb-2 mb-6">
-            <span>[ SCHEMATIC // VECTOR_GRAPH_01 ]</span>
-            <span className="text-retro-amber">FREQ: 1420 MHZ // SIGNAL: 94%</span>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div className="lg:col-span-7 space-y-6">
+            <h1 className="text-5xl sm:text-7xl lg:text-8xl font-display font-extrabold uppercase tracking-tight leading-[0.92] text-ink">
+              FIND<br />
+              <span className="text-brutal-red">YOUR</span><br />
+              PEOPLE.
+            </h1>
+
+            <p className="text-base sm:text-xl text-ink/80 font-sans max-w-xl leading-relaxed">
+              Stop building teams from whoever happens to be around in WhatsApp groups. Find people with the skills your project actually needs.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+              <Button
+                variant="primary"
+                size="lg"
+                icon={ArrowRight}
+                iconPosition="right"
+                onClick={() => navigate(isAuthenticated ? '/dashboard' : '/register')}
+              >
+                [ FIND MY TEAM → ]
+              </Button>
+              <Button
+                variant="secondary"
+                size="lg"
+                onClick={() => navigate('/discover/opportunities')}
+              >
+                [ EXPLORE PROJECTS ]
+              </Button>
+            </div>
           </div>
 
-          <div className="relative h-64 sm:h-72 flex items-center justify-center">
-            {/* SVG Vector Circuit Lines */}
-            <svg className="absolute inset-0 w-full h-full stroke-retro-border-strong" strokeWidth="1.5" strokeDasharray="3 3">
-              <line x1="20%" y1="25%" x2="50%" y2="50%" />
-              <line x1="80%" y1="20%" x2="50%" y2="50%" />
-              <line x1="22%" y1="78%" x2="50%" y2="50%" />
-              <line x1="78%" y1="80%" x2="50%" y2="50%" />
-            </svg>
-
-            {/* Central Node: AI Innovation Project */}
-            <div className="relative z-20 flex flex-col items-center p-3.5 bg-retro-surface-elevated border border-retro-orange shadow-panel">
-              <div className="w-9 h-9 rounded-none bg-retro-surface border border-retro-orange flex items-center justify-center text-retro-orange mb-1.5">
-                <Cpu className="w-5 h-5" />
-              </div>
-              <span className="text-xs font-bold text-retro-paper">AI Innovation Project</span>
-              <span className="text-[10px] text-retro-teal font-bold uppercase tracking-wider">94% Team Match</span>
+          {/* Geometric Formula Area: PEOPLE + SKILLS + PROJECTS = TEAMS */}
+          <div className="lg:col-span-5 border-2 border-ink bg-white p-5 sm:p-6 shadow-brutal space-y-4">
+            <div className="flex items-center justify-between text-xs font-mono font-bold border-b-2 border-ink pb-2">
+              <span>COLLABORATION FORMULA</span>
+              <span className="text-brutal-red font-bold">100% RAW</span>
             </div>
 
-            {/* Surrounding Nodes */}
+            <div className="space-y-2.5 text-xs font-mono">
+              <div className="p-3 border-2 border-ink bg-canvas flex items-center justify-between">
+                <span className="font-bold text-ink uppercase">01 / PEOPLE</span>
+                <span className="text-ink/60">Cross-department creators</span>
+              </div>
+              <div className="text-center font-display font-extrabold text-base text-ink">+</div>
+              <div className="p-3 border-2 border-ink bg-canvas flex items-center justify-between">
+                <span className="font-bold text-ink uppercase">02 / SKILLS</span>
+                <span className="text-ink/60">UI/UX, Backend, Stage Pitch</span>
+              </div>
+              <div className="text-center font-display font-extrabold text-base text-ink">+</div>
+              <div className="p-3 border-2 border-ink bg-canvas flex items-center justify-between">
+                <span className="font-bold text-ink uppercase">03 / PROJECTS</span>
+                <span className="text-ink/60">Clear goals & commitments</span>
+              </div>
+              <div className="text-center font-display font-extrabold text-base text-ink">=</div>
+              <div className="p-3.5 border-2 border-ink bg-signal-yellow text-ink shadow-brutal-sm flex items-center justify-between">
+                <span className="font-display font-bold uppercase text-sm">BALANCED TEAMS</span>
+                <span className="font-mono text-xs font-bold text-ink bg-white px-2 py-0.5 border border-ink">94% MATCH</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. SECTION 01: THE PROBLEM */}
+      <section id="problem" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="border-t-2 border-ink pt-8 space-y-6">
+          <div className="text-xs font-mono font-bold uppercase tracking-widest text-ink/60">
+            01 / THE PROBLEM
+          </div>
+
+          <div className="max-w-4xl space-y-3">
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-display font-extrabold uppercase text-ink tracking-tight leading-tight">
+              "GOOD IDEAS DON'T FAIL BECAUSE PEOPLE AREN'T TALENTED."
+            </h2>
+            <h3 className="text-xl sm:text-3xl font-display font-extrabold uppercase text-brutal-red tracking-tight leading-tight">
+              "THEY FAIL BECAUSE THE RIGHT PEOPLE NEVER FOUND EACH OTHER."
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
             {[
-              { pos: 'top-2 left-1/4 -translate-x-1/2', name: 'Sarah Rahman', label: 'Sarah R.', skill: 'UI/UX', tag: 'DESIGN' },
-              { pos: 'top-2 right-1/4 translate-x-1/2', name: 'Rahul Kumar', label: 'Rahul K.', skill: 'Backend', tag: 'CORE' },
-              { pos: 'bottom-4 left-1/4 -translate-x-1/2', name: 'Meera Nair', label: 'Meera N.', skill: 'Public Speaking', tag: 'PITCH' },
-              { pos: 'bottom-4 right-1/4 translate-x-1/2', name: 'Aisha Khan', label: 'Aisha K.', skill: 'Marketing', tag: 'GROWTH' },
-            ].map((node) => (
-              <div key={node.name} className={`absolute ${node.pos} flex items-center gap-2 p-2 bg-retro-surface border border-retro-border text-left shadow-panel`}>
-                <Avatar name={node.name} size="sm" />
-                <div>
-                  <div className="text-[8px] text-retro-muted uppercase">[{node.tag}]</div>
-                  <p className="text-xs font-bold text-retro-paper">{node.label}</p>
-                  <SkillBadge skill={node.skill} size="xs" />
-                </div>
+              { num: '01', title: 'CHAT SILOS', desc: 'Hackathon requests get drowned in massive unorganized college groups.' },
+              { num: '02', title: 'SAME-DISCIPLINE TRAP', desc: 'Coders team up only with coders; nobody designs or presents the pitch.' },
+              { num: '03', title: 'HIDDEN CAMPUS TALENT', desc: 'Brilliant student designers in adjacent blocks remain invisible.' },
+              { num: '04', title: 'LAST-MINUTE CHAOS', desc: 'Squads assemble 2 hours before the deadline with random skill overlaps.' },
+            ].map((p) => (
+              <div key={p.num} className="p-4 border-2 border-ink bg-white shadow-brutal-sm space-y-2">
+                <span className="text-xs font-mono font-bold text-brutal-red">[{p.num}]</span>
+                <h4 className="text-sm font-display font-bold text-ink uppercase">{p.title}</h4>
+                <p className="text-xs text-ink/75 font-sans">{p.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 2. Problem: The Campus Friction */}
-      <section id="problem" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto text-center space-y-2 mb-8">
-          <span className="text-[10px] font-bold uppercase text-retro-red px-2.5 py-0.5 bg-retro-red/10 border border-retro-red/30">
-            [ DIAGNOSTIC // CAMPUS_FRICTION ]
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-display font-bold text-retro-paper uppercase tracking-tight">
-            THE TALENT EXISTS. THE CONNECTION DOESN'T.
-          </h2>
-          <p className="text-xs sm:text-sm text-retro-muted font-sans">
-            Exceptional projects stumble when team formation depends on arbitrary social chat feeds.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
-          {[
-            { code: '01', title: 'Chat Feeds', desc: 'Lost in noisy message channels.', icon: MessageSquare },
-            { code: '02', title: 'Immediate Peers', desc: 'Confined to identical disciplines.', icon: Users },
-            { code: '03', title: 'Department Silos', desc: 'Zero visibility across faculties.', icon: Share2 },
-            { code: '04', title: 'Personal Networks', desc: 'Excludes complementary creators.', icon: Award },
-            { code: '05', title: 'Unverified Claims', desc: 'No calibrated competency data.', icon: AlertCircle },
-          ].map((item) => (
-            <div key={item.title} className="p-3.5 rounded-none bg-retro-surface border border-retro-border space-y-1.5 shadow-panel">
-              <div className="flex items-center justify-between text-retro-muted text-[10px]">
-                <span>// ERR_{item.code}</span>
-                <item.icon className="w-3.5 h-3.5 text-retro-red" />
-              </div>
-              <h4 className="text-xs font-bold text-retro-paper uppercase">{item.title}</h4>
-              <p className="text-xs text-retro-muted font-sans">{item.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 3. The System Architecture */}
+      {/* 3. SECTION 02: THE SOLUTION */}
       <section id="solution" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto text-center space-y-2 mb-8">
-          <span className="text-[10px] font-bold uppercase text-retro-orange px-2.5 py-0.5 bg-retro-orange/10 border border-retro-orange/30">
-            [ PROTOCOL // COLLABORATION_PIPELINE ]
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-display font-bold text-retro-paper uppercase tracking-tight">
-            HOW COLLABMATRIX POWERS TEAMS
-          </h2>
-        </div>
+        <div className="border-t-2 border-ink pt-8 space-y-6">
+          <div className="text-xs font-mono font-bold uppercase tracking-widest text-ink/60">
+            02 / THE SOLUTION
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          {[
-            { step: '01', title: 'DISCOVER', desc: 'Filter campus students by verified technical, creative, and pitch competencies.' },
-            { step: '02', title: 'MATCH', desc: 'Simulate requirements and rank candidates by skills, domain alignment, and available hours.' },
-            { step: '03', title: 'CONNECT', desc: 'Dispatch structured collaboration invitations with explicit project context.' },
-            { step: '04', title: 'BUILD', desc: 'Run live Team Gap Analysis to locate missing disciplines and achieve 100% readiness.' },
-          ].map((s) => (
-            <div key={s.step} className="p-4 rounded-none bg-retro-surface border border-retro-border hover:border-retro-orange transition-colors shadow-panel space-y-2">
-              <div className="text-xl font-display font-black text-retro-orange">
-                // {s.step}
+          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
+            <h2 className="text-3xl sm:text-5xl font-display font-extrabold uppercase text-ink tracking-tight">
+              COLLAB<span className="text-brutal-red">MATRIX.</span>
+            </h2>
+            <p className="text-sm font-mono text-ink/80 max-w-md">
+              Find students based on structured compatibility factors rather than social randomness.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 pt-2">
+            {[
+              { label: 'SKILLS', desc: 'Technical, visual design, and oral presentation competencies.' },
+              { label: 'INTERESTS', desc: 'Healthcare, fintech, web3, AI, and creative technology domains.' },
+              { label: 'AVAILABILITY', desc: 'Weekend sprints, evening hack sessions, and 10+ hrs/wk.' },
+              { label: 'EXPERIENCE', desc: 'Hackathon champions, beginners, and production builders.' },
+              { label: 'DOMAIN', desc: 'Computer science, mechanical, design school, business cohorts.' },
+            ].map((col, idx) => (
+              <div key={col.label} className="p-4 border-2 border-ink bg-canvas hover:bg-white transition-all shadow-brutal-sm">
+                <span className="text-[10px] font-mono font-bold text-ink/50">0{idx + 1}</span>
+                <h3 className="text-sm font-display font-extrabold text-ink uppercase tracking-wide mt-1 mb-1">{col.label}</h3>
+                <p className="text-xs text-ink/70 font-sans leading-relaxed">{col.desc}</p>
               </div>
-              <h3 className="text-sm font-bold text-retro-paper tracking-wider uppercase">{s.title}</h3>
-              <p className="text-xs text-retro-muted font-sans leading-relaxed">{s.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 4. Features & Capabilities */}
-      <section id="features" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto text-center space-y-2 mb-8">
-          <span className="text-[10px] font-bold uppercase text-retro-teal px-2.5 py-0.5 bg-retro-teal/10 border border-retro-teal/30">
-            [ TELEMETRY // SYSTEM_CAPABILITIES ]
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-display font-bold text-retro-paper uppercase tracking-tight">
-            ENGINEERED FOR PRECISE TEAM FORMATION
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {[
-            { title: 'Student Discovery Grid', desc: 'Debounced search and multi-facet filtering across departments and proficiencies.', icon: Users },
-            { title: 'Requirement Simulation', desc: 'Natural language parsing transforms project prompts into structured requirements.', icon: Terminal },
-            { title: 'Multi-Factor Matching', desc: 'Compatibility calculation weighting skill (50%), domain (20%), and hours (15%).', icon: CheckSquare },
-            { title: 'Team Gap Analysis', desc: 'Dynamic radar and coverage analysis identifying missing skills for project success.', icon: PieChart },
-            { title: 'Request Dispatch', desc: 'Structured incoming and outgoing request dashboards with one-click acceptance.', icon: Inbox },
-            { title: 'Talent Profiles', desc: 'Portfolio-first student dossiers displaying verified competencies and availability.', icon: Award },
-          ].map((f) => (
-            <div key={f.title} className="p-4 rounded-none bg-retro-surface border border-retro-border hover:border-retro-amber transition-colors shadow-panel space-y-2">
-              <div className="w-8 h-8 rounded-none bg-retro-surface-elevated text-retro-amber border border-retro-border flex items-center justify-center">
-                <f.icon className="w-4 h-4" />
-              </div>
-              <h3 className="text-xs font-bold text-retro-paper tracking-wider uppercase">{f.title}</h3>
-              <p className="text-xs text-retro-muted font-sans leading-relaxed">{f.desc}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* 5. Ecosystem: Constellation Matrix */}
-      <section id="ecosystem" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="p-6 sm:p-8 rounded-none bg-retro-surface border border-retro-border-strong shadow-terminal">
-          <div className="text-[10px] text-retro-muted uppercase tracking-widest mb-1">[ CONSTELLATION // MATRIX ]</div>
-          <h3 className="text-lg font-display font-bold text-retro-paper uppercase mb-2">
-            CROSS-DISCIPLINARY TALENT CONSTELLATION
-          </h3>
-          <p className="text-xs text-retro-muted font-sans mb-6">
-            Bridges software engineers, visual designers, speakers, strategists, and researchers into unified project crews.
-          </p>
+      {/* 4. SECTION 03: HOW IT WORKS */}
+      <section id="how-it-works" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="border-t-2 border-ink pt-8 space-y-6">
+          <div className="text-xs font-mono font-bold uppercase tracking-widest text-ink/60">
+            03 / HOW IT WORKS
+          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="p-3 bg-retro-surface-elevated border border-retro-border space-y-2">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-retro-orange uppercase">
-                <Cpu className="w-3.5 h-3.5" /> Technical
-              </div>
-              <div className="flex flex-wrap gap-1">
-                {['Python', 'React', 'AI/ML', 'Backend', 'Data Science'].map((s) => (
-                  <SkillBadge key={s} skill={s} size="xs" />
-                ))}
-              </div>
-            </div>
+          <h2 className="text-3xl sm:text-4xl font-display font-extrabold uppercase text-ink tracking-tight">
+            THE FIVE-STEP TEAM PROTOCOL.
+          </h2>
 
-            <div className="p-3 bg-retro-surface-elevated border border-retro-border space-y-2">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-retro-amber uppercase">
-                <Palette className="w-3.5 h-3.5" /> Creative
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-3 pt-2">
+            {[
+              { num: '01', title: 'CREATE', desc: 'Publish your hackathon project manifesto and required skills.' },
+              { num: '02', title: 'DISCOVER', desc: 'Scan the campus student directory filtered by proven capabilities.' },
+              { num: '03', title: 'MATCH', desc: 'Inspect 94% compatibility scores with clear metric breakdown.' },
+              { num: '04', title: 'CONNECT', desc: 'Transmit direct collaboration requests without awkward chat DMs.' },
+              { num: '05', title: 'BUILD', desc: 'Audit team skill gaps and ship your complete submission.' },
+            ].map((step) => (
+              <div key={step.num} className="p-4 border-2 border-ink bg-white shadow-brutal space-y-2">
+                <div className="text-2xl font-display font-extrabold text-brutal-red">{step.num}</div>
+                <h4 className="text-sm font-display font-extrabold text-ink uppercase tracking-wider">{step.title}</h4>
+                <p className="text-xs text-ink/75 font-sans">{step.desc}</p>
               </div>
-              <div className="flex flex-wrap gap-1">
-                {['UI/UX', 'Figma', 'Graphic Design', 'Video Editing'].map((s) => (
-                  <SkillBadge key={s} skill={s} size="xs" />
-                ))}
-              </div>
-            </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            <div className="p-3 bg-retro-surface-elevated border border-retro-border space-y-2">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-retro-teal uppercase">
-                <Mic className="w-3.5 h-3.5" /> Communication
-              </div>
-              <div className="flex flex-wrap gap-1">
-                {['Public Speaking', 'Presentation', 'Pitch Deck'].map((s) => (
-                  <SkillBadge key={s} skill={s} size="xs" />
-                ))}
-              </div>
+      {/* 5. SECTION 04: TEAM GAP */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="border-2 border-ink bg-white p-6 sm:p-10 shadow-brutal space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-2 border-ink pb-4">
+            <div>
+              <span className="text-xs font-mono font-bold text-ink/60 uppercase tracking-widest">
+                04 / SIGNATURE FEATURE // TEAM GAP ANALYSIS
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-display font-extrabold uppercase text-ink tracking-tight mt-1">
+                AUDIT YOUR SQUAD BEFORE THE DEADLINE.
+              </h2>
             </div>
+            <div className="text-right">
+              <span className="text-xs font-mono font-bold text-ink uppercase">YOUR TEAM</span>
+              <div className="text-2xl sm:text-3xl font-display font-extrabold text-brutal-red">82% COMPLETE</div>
+            </div>
+          </div>
 
-            <div className="p-3 bg-retro-surface-elevated border border-retro-border space-y-2">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-retro-paper uppercase">
-                <BookOpen className="w-3.5 h-3.5" /> Strategy
-              </div>
-              <div className="flex flex-wrap gap-1">
-                {['Marketing', 'Product Management', 'Research'].map((s) => (
-                  <SkillBadge key={s} skill={s} size="xs" />
-                ))}
-              </div>
+          {/* Brutalist Coverage Bar */}
+          <div className="space-y-1.5 font-mono">
+            <div className="w-full h-6 border-2 border-ink bg-canvas relative overflow-hidden">
+              <div className="h-full bg-ink w-[82%]" />
             </div>
+            <div className="flex justify-between text-xs text-ink/70">
+              <span>COVERED: PYTHON, BACKEND, SYSTEM DESIGN</span>
+              <span>82% FULFILLED</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+            {[
+              { num: '01', role: 'UI / UX DESIGN', note: 'Figma prototypes & design system' },
+              { num: '02', role: 'MACHINE LEARNING', note: 'Model evaluation & fine-tuning' },
+              { num: '03', role: 'PUBLIC SPEAKING', note: 'Final jury pitch deck narration' },
+            ].map((gap) => (
+              <div key={gap.num} className="p-3 border-2 border-ink bg-canvas space-y-1">
+                <span className="text-[10px] font-mono font-bold text-brutal-red">MISSING // {gap.num}</span>
+                <p className="text-xs font-display font-bold text-ink uppercase">{gap.role}</p>
+                <p className="text-[11px] text-ink/60 font-sans">{gap.note}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t-2 border-ink">
+            <p className="text-xs text-ink/75 font-sans">
+              CollabMatrix scans campus candidates whose skills fit these exact empty slots.
+            </p>
+            <Button
+              variant="accent"
+              size="md"
+              icon={ArrowRight}
+              iconPosition="right"
+              onClick={() => navigate('/team/gap-analysis')}
+            >
+              [ FIND THE MISSING PIECE → ]
+            </Button>
           </div>
         </div>
       </section>

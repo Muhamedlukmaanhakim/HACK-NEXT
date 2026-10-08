@@ -1,155 +1,123 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --bg-main: #101820;
-  --bg-surface: #17232B;
-  --bg-elevated: #1D2A31;
-  --border-subtle: rgba(241, 232, 211, 0.14);
-  --color-text-primary: #F1E8D3;
-  --color-text-secondary: #D8CCB5;
-  --color-text-muted: #75848C;
-  --accent-coral: #F05A47;
-  --accent-mint: #79B8A5;
-  --accent-yellow: #D8A94A;
-  --accent-orange: #F05A47;
-  --accent-amber: #D8A94A;
-  --accent-teal: #79B8A5;
-  --accent-red: #D9534F;
+  --canvas-bg: #F4F1E8;
+  --ink-primary: #111111;
+  --color-white: #FFFFFF;
+  --brutal-red: #FF4D2E;
+  --signal-yellow: #FFD43B;
+  --campus-green: #3FA66B;
+  --secondary-dark: #252525;
 }
 
 @layer base {
   * {
-    border-color: var(--border-subtle);
+    border-color: #111111;
   }
 
   ::selection {
-    background-color: #F05A47;
-    color: #101820;
+    background-color: #FF4D2E;
+    color: #FFFFFF;
   }
 
   body {
-    background-color: #101820;
-    color: #F1E8D3;
-    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #F4F1E8;
+    color: #111111;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     min-height: 100vh;
     overflow-x: hidden;
-    /* Subtle retro coordinate grid background with parchment line */
-    background-image: 
-      linear-gradient(to right, rgba(241, 232, 211, 0.035) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(241, 232, 211, 0.035) 1px, transparent 1px);
-    background-size: 36px 36px;
-    background-attachment: fixed;
   }
 
-  /* Accessible retro focus ring */
+  h1, h2, h3, h4, .font-editorial {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  /* Accessible brutalist focus ring */
   :focus-visible {
-    outline: 2px solid #F05A47;
+    outline: 2px solid #FF4D2E;
     outline-offset: 2px;
   }
 
-  /* Retro custom scrollbar */
+  /* Brutalist custom scrollbar */
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
   }
   ::-webkit-scrollbar-track {
-    background: #101820;
+    background: #F4F1E8;
+    border-left: 1px solid #111111;
   }
   ::-webkit-scrollbar-thumb {
-    background: #1D2A31;
+    background: #111111;
     border-radius: 0px;
-    border: 1px solid rgba(241, 232, 211, 0.1);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #F05A47;
+    background: #FF4D2E;
   }
 }
 
-/* Retro Technical Panel */
-.retro-panel {
-  background-color: #17232B;
-  border: 1px solid rgba(241, 232, 211, 0.14);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.7);
-  position: relative;
+/* Digital Brutalism System Utilities */
+.brutal-card {
+  background-color: #FFFFFF;
+  border: 2px solid #111111;
+  box-shadow: 4px 4px 0 #111111;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.brutal-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #111111;
 }
 
-/* Subtle Instrument Panel Header */
-.retro-panel-header {
-  border-bottom: 1px solid rgba(241, 232, 211, 0.12);
-  background-color: rgba(29, 42, 49, 0.6);
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+.brutal-card-flat {
+  background-color: #FFFFFF;
+  border: 2px solid #111111;
 }
 
-/* Background coordinate grid */
-.bg-retro-grid {
-  background-image: 
-    linear-gradient(to right, rgba(241, 232, 211, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(241, 232, 211, 0.035) 1px, transparent 1px);
-  background-size: 36px 36px;
+.brutal-border {
+  border: 2px solid #111111;
 }
 
-/* Corner Bracket Accents */
-.corner-brackets {
-  position: relative;
-}
-.corner-brackets::before,
-.corner-brackets::after {
-  content: '';
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border-color: rgba(240, 90, 71, 0.6);
-  pointer-events: none;
-}
-.corner-brackets::before {
-  top: -1px;
-  left: -1px;
-  border-top: 2px solid;
-  border-left: 2px solid;
-}
-.corner-brackets::after {
-  bottom: -1px;
-  right: -1px;
-  border-bottom: 2px solid;
-  border-right: 2px solid;
+.brutal-border-t {
+  border-top: 2px solid #111111;
 }
 
-/* CRT Scanlines subtle overlay */
-.retro-scanlines {
-  background: linear-gradient(
-    rgba(16, 24, 32, 0) 50%, 
-    rgba(0, 0, 0, 0.25) 50%
-  );
-  background-size: 100% 4px;
+.brutal-border-b {
+  border-bottom: 2px solid #111111;
 }
 
-/* Glass nav modernized with dark ink opacity */
-.glass-nav {
-  background: rgba(16, 24, 32, 0.94);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(241, 232, 211, 0.12);
+/* Hard offset button physics */
+.brutal-btn {
+  border: 2px solid #111111;
+  box-shadow: 3px 3px 0 #111111;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.brutal-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 #111111;
+}
+.brutal-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #111111;
 }
 
-.glass-panel {
-  background: rgba(23, 35, 43, 0.92);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(241, 232, 211, 0.14);
+/* Editorial rule separator */
+.editorial-separator {
+  height: 2px;
+  background-color: #111111;
+  width: 100%;
 }
 
 /* Monospace technical tag */
 .mono-tag {
   font-family: 'Space Mono', monospace;
+  text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 

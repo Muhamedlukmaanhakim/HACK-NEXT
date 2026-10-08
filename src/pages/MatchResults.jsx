@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { Cpu, Info, ArrowUpDown } from 'lucide-react';
+import { Cpu, Info, ArrowUpDown, Sparkles, UserPlus, UserCheck } from 'lucide-react';
 import MatchCard from '../components/cards/MatchCard';
+import Button from '../components/ui/Button';
+import Avatar from '../components/ui/Avatar';
 import LoadingState from '../components/ui/LoadingState';
 import EmptyState from '../components/ui/EmptyState';
 import { useAppData } from '../context/AppDataContext';
@@ -20,7 +22,6 @@ export default function MatchResults() {
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Sync state if query param changes
   useEffect(() => {
     if (oppIdParam) {
       setSelectedOppId(oppIdParam);
@@ -47,8 +48,8 @@ export default function MatchResults() {
     await connectStudent(student, opp?.title || 'AI Healthcare Assistant');
     addToast({
       type: 'success',
-      title: 'Collaboration Invitation Dispatched',
-      message: `Invitation transmitted to ${student.name} with project context.`,
+      title: 'INVITATION TRANSMITTED',
+      message: `Collaboration request dispatched to ${student.name}.`,
     });
   };
 
@@ -57,44 +58,72 @@ export default function MatchResults() {
     label: `${o.title} (${o.type})`,
   }));
 
+  const topMatch = matches[0];
+
   return (
-    <div className="space-y-6 animate-fade-in font-mono">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-retro-border pb-4">
+      <div className="border-b-3 border-ink pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <div className="text-[10px] text-retro-muted uppercase tracking-widest mb-1">
-            [ SECTION 08 // MATCH SIGNALS ]
+          <div className="text-xs font-mono font-bold uppercase tracking-wider text-brutal-red mb-1">
+            04 / SMART MATCHING ENGINE
           </div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper tracking-wide uppercase">
-              MATCH SIGNALS <span className="text-retro-orange">//</span> SMART COMPATIBILITY
-            </h1>
-            <span className="p-1 rounded-none bg-retro-surface-elevated text-retro-orange border border-retro-orange/40">
-              <Cpu className="w-4 h-4" />
-            </span>
-          </div>
-          <p className="text-xs text-retro-muted font-sans mt-0.5">
-            Candidates ranked by 50% skill competency, 20% interest, 15% availability, and 15% experience.
+          <h1 className="text-3xl sm:text-5xl font-display font-black text-ink uppercase tracking-tight leading-none">
+            THE MISSING PIECE.
+          </h1>
+          <p className="text-xs sm:text-sm font-mono text-ink/70 font-semibold uppercase mt-2">
+            {matches.length} CANDIDATES MATCH YOUR PROJECT REQUIREMENTS
           </p>
         </div>
 
         {/* Prototype Honesty Notice */}
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-none bg-retro-surface border border-retro-border text-xs text-retro-muted">
-          <Info className="w-3.5 h-3.5 text-retro-amber" />
-          <span>PROTOTYPE: results are simulated from mock data.</span>
+        <div className="flex items-center gap-2 px-3 py-2 bg-white border-2 border-ink shadow-brutal-sm text-xs font-mono font-bold text-ink self-start md:self-auto">
+          <Info className="w-4 h-4 text-ink stroke-[2.5]" />
+          <span>SIMULATED MULTI-FACTOR WEIGHTING</span>
         </div>
       </div>
 
+      {/* Featured Best Match Banner (if top match available) */}
+      {!loading && topMatch && (
+        <div className="p-6 bg-signal-yellow border-2 border-ink shadow-brutal-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="flex items-start gap-4">
+            <Avatar name={topMatch.student.name} size="lg" className="border-2 border-ink bg-white" />
+            <div>
+              <div className="inline-block px-2 py-0.5 bg-ink text-white font-mono text-[10px] font-bold uppercase tracking-wider mb-1">
+                BEST MATCH // {Math.round(topMatch.score)}% COMPATIBILITY
+              </div>
+              <h2 className="font-display font-black text-2xl sm:text-3xl text-ink uppercase tracking-tight">
+                {topMatch.student.name}
+              </h2>
+              <p className="text-xs font-sans text-ink/90 mt-1 max-w-xl font-normal leading-relaxed">
+                {topMatch.reason || 'Top compatibility across skill requirements, active availability, and verified experience.'}
+              </p>
+            </div>
+          </div>
+
+          <Button
+            variant="primary"
+            size="lg"
+            icon={sentConnections.includes(topMatch.student.id) ? UserCheck : UserPlus}
+            disabled={sentConnections.includes(topMatch.student.id)}
+            onClick={() => handleConnect(topMatch.student)}
+            className="whitespace-nowrap w-full md:w-auto text-xs"
+          >
+            {sentConnections.includes(topMatch.student.id) ? 'INVITATION SENT' : `CONNECT WITH ${topMatch.student.name.split(' ')[0].toUpperCase()} →`}
+          </Button>
+        </div>
+      )}
+
       {/* Controls Bar: Opportunity Selector & Sorting */}
-      <div className="p-4 rounded-none bg-retro-surface border border-retro-border flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 shadow-panel">
+      <div className="p-4 bg-white border-2 border-ink shadow-brutal flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
         <div className="flex-1 max-w-md">
-          <label className="block text-[10px] font-mono uppercase tracking-wider text-retro-muted mb-1">
-            [ PARAMETER // TARGET_OPPORTUNITY ]
+          <label className="block text-[10px] font-mono font-bold uppercase tracking-wider text-ink/70 mb-1">
+            TARGET PROJECT:
           </label>
           <select
             value={selectedOppId}
             onChange={(e) => setSelectedOppId(e.target.value)}
-            className="w-full bg-retro-surface-elevated text-retro-paper text-xs rounded-none border border-retro-border px-3 py-2 outline-none focus:border-retro-orange"
+            className="w-full bg-canvas text-ink text-xs font-mono font-bold border-2 border-ink px-3 py-2 outline-none focus:border-brutal-red"
           >
             {oppOptions.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -105,18 +134,18 @@ export default function MatchResults() {
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2 bg-retro-surface-elevated px-3 py-2 rounded-none border border-retro-border text-xs">
-            <ArrowUpDown className="w-3.5 h-3.5 text-retro-muted" />
-            <span className="text-retro-muted">RANK BY:</span>
+          <div className="flex items-center gap-2 bg-canvas px-3 py-2 border-2 border-ink text-xs font-mono font-bold">
+            <ArrowUpDown className="w-3.5 h-3.5 text-ink stroke-[2.5]" />
+            <span className="text-ink/60">RANK:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="bg-transparent text-retro-paper outline-none cursor-pointer font-bold font-mono"
+              className="bg-transparent text-ink outline-none cursor-pointer uppercase font-bold"
             >
-              <option value="best" className="bg-retro-surface">Best Overall Match</option>
-              <option value="skill" className="bg-retro-surface">Skill Overlap (50%)</option>
-              <option value="availability" className="bg-retro-surface">Availability (15%)</option>
-              <option value="experience" className="bg-retro-surface">Experience (15%)</option>
+              <option value="best">OVERALL MATCH</option>
+              <option value="skill">SKILL OVERLAP (50%)</option>
+              <option value="availability">AVAILABILITY (15%)</option>
+              <option value="experience">EXPERIENCE (15%)</option>
             </select>
           </div>
         </div>
@@ -124,9 +153,9 @@ export default function MatchResults() {
 
       {/* Match Cards List */}
       {loading ? (
-        <LoadingState message="Computing multi-factor student compatibility vectors..." />
+        <LoadingState message="COMPUTING COMPATIBILITY METRICS..." />
       ) : matches.length > 0 ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {matches.map((match) => (
             <MatchCard
               key={match.student.id}
@@ -139,8 +168,11 @@ export default function MatchResults() {
         </div>
       ) : (
         <EmptyState
-          title="No candidates located"
-          description="Try broadening the required skills for this project post to discover candidates."
+          icon={Cpu}
+          title="NO CANDIDATES MATCH SPECIFIED CRITERIA"
+          description="Adjust your required project competencies to broaden candidate compatibility."
+          actionLabel="RETURN TO OPPORTUNITIES"
+          onAction={() => navigate('/opportunities')}
         />
       )}
     </div>

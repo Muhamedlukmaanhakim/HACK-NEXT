@@ -1,23 +1,34 @@
 import React from 'react';
-import { getInitials, getAvatarGradient } from '../../utils/format';
+import { getInitials } from '../../utils/format';
+
+const BG_PALETTE = ['#FF4D2E', '#FFD43B', '#3FA66B', '#111111', '#252525'];
+const TEXT_PALETTE = ['#FFFFFF', '#111111', '#111111', '#FFFFFF', '#FFFFFF'];
 
 export default function Avatar({
   name = '',
   size = 'md',
   className = '',
   showOnline = false,
-  isOnline = false
+  isOnline = false,
 }) {
   const initials = getInitials(name);
-  const { from, to } = getAvatarGradient(name);
+  
+  // Deterministic flat color selection
+  let hash = 0;
+  for (let i = 0; i < (name || '').length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const colorIndex = Math.abs(hash) % BG_PALETTE.length;
+  const bgColor = BG_PALETTE[colorIndex];
+  const textColor = TEXT_PALETTE[colorIndex];
 
   const sizeClasses = {
-    xs: 'w-6 h-6 text-[9px]',
-    sm: 'w-8 h-8 text-[11px]',
-    md: 'w-10 h-10 text-xs',
-    lg: 'w-12 h-12 text-sm',
-    xl: 'w-16 h-16 text-base',
-    '2xl': 'w-20 h-20 text-lg'
+    xs: 'w-6 h-6 text-[10px]',
+    sm: 'w-8 h-8 text-xs',
+    md: 'w-10 h-10 text-xs sm:text-sm',
+    lg: 'w-12 h-12 text-sm sm:text-base',
+    xl: 'w-16 h-16 text-lg',
+    '2xl': 'w-20 h-20 text-xl font-black',
   };
 
   const currentSize = sizeClasses[size] || sizeClasses.md;
@@ -25,20 +36,21 @@ export default function Avatar({
   return (
     <div className={`relative inline-flex flex-shrink-0 ${className}`}>
       <div
-        className={`${currentSize} rounded-md font-mono font-bold flex items-center justify-center text-paper shadow-panel select-none border border-surface-border ring-1 ring-surface-border/40`}
+        className={`${currentSize} rounded-none font-mono font-bold flex items-center justify-center select-none border-2 border-ink`}
         style={{
-          background: `linear-gradient(135deg, ${from} 0%, ${to} 100%)`
+          backgroundColor: bgColor,
+          color: textColor,
         }}
         aria-label={name}
         role="img"
       >
-        <span className="tracking-tighter drop-shadow-sm">{initials}</span>
+        <span className="tracking-tight">{initials}</span>
       </div>
       {showOnline && (
         <span
-          className={`absolute -top-1 -right-1 block rounded-full ring-2 ring-background ${
-            isOnline ? 'bg-accent-teal shadow-teal-glow' : 'bg-text-muted'
-          } ${size === 'xs' || size === 'sm' ? 'w-2 h-2' : 'w-2.5 h-2.5'}`}
+          className={`absolute -top-1 -right-1 block rounded-full border border-ink ${
+            isOnline ? 'bg-campus-green' : 'bg-canvas'
+          } ${size === 'xs' || size === 'sm' ? 'w-2.5 h-2.5' : 'w-3 h-3'}`}
           aria-hidden="true"
         />
       )}

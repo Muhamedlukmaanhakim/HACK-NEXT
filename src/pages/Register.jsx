@@ -6,7 +6,6 @@ import {
   Lock,
   ArrowRight,
   ArrowLeft,
-  Check,
   GraduationCap,
   Briefcase,
   Building,
@@ -37,8 +36,8 @@ export default function Register() {
 
   const validateStep1 = () => {
     const errs = {};
-    if (!formData.name.trim()) errs.name = 'Full name is required for network identification.';
-    else if (formData.name.trim().length < 2) errs.name = 'Please provide a valid full name.';
+    if (!formData.name.trim()) errs.name = 'Full name is required.';
+    else if (formData.name.trim().length < 2) errs.name = 'Provide a valid full name.';
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -46,14 +45,10 @@ export default function Register() {
   const validateStep3 = () => {
     const errs = {};
     if (!formData.email.trim()) errs.email = 'Campus email is required.';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      errs.email = 'Please provide a valid campus email address.';
-    }
-    if (formData.role === 'faculty' && !formData.department.trim()) {
-      errs.department = 'Department name is required.';
-    }
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) errs.email = 'Provide a valid email.';
+    if (formData.role === 'faculty' && !formData.department.trim()) errs.department = 'Department is required.';
     if (!formData.password) errs.password = 'Password is required.';
-    else if (formData.password.length < 8) errs.password = 'Password must contain at least 8 characters.';
+    else if (formData.password.length < 8) errs.password = 'Must be at least 8 chars.';
     if (formData.password !== formData.confirmPassword) errs.confirmPassword = 'Passwords do not match.';
     setErrors(errs);
     return Object.keys(errs).length === 0;
@@ -74,8 +69,8 @@ export default function Register() {
       });
       addToast({
         type: 'success',
-        title: 'Network Initialized',
-        message: `Welcome, ${formData.name.split(' ')[0]}! Proceeding to calibration...`,
+        title: 'NETWORK INITIALIZED',
+        message: `Welcome, ${formData.name.split(' ')[0]}! Starting onboarding...`,
       });
       navigate('/onboarding');
     } catch (err) {
@@ -86,51 +81,51 @@ export default function Register() {
   };
 
   return (
-    <div className="space-y-5 font-mono">
+    <div className="space-y-6 font-mono">
       {/* Header Stamp */}
       <div>
-        <div className="text-[10px] text-retro-muted uppercase tracking-widest mb-1">
-          [ AUTH // NETWORK_INITIALIZATION ]
+        <div className="text-[11px] font-mono font-bold text-ink/60 uppercase tracking-widest mb-1">
+          02 / INITIALIZATION
         </div>
-        <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper uppercase tracking-wide">
-          # ENTER THE NETWORK
+        <h1 className="text-3xl sm:text-4xl font-display font-extrabold text-ink uppercase tracking-tight leading-none">
+          ENTER<br />THE<br /><span className="text-brutal-red">NETWORK.</span>
         </h1>
-        <p className="text-xs text-retro-muted font-sans mt-0.5">
+        <p className="text-xs text-ink/75 font-sans mt-2">
           Join the campus collaboration grid to assemble complementary project squads.
         </p>
       </div>
 
       {/* Progress Tracker */}
-      <div className="p-2.5 bg-retro-surface border border-retro-border flex items-center justify-between text-[11px] select-none shadow-panel">
-        <div className={`flex items-center gap-1.5 ${step === 1 ? 'text-retro-coral font-bold' : step > 1 ? 'text-retro-mint' : 'text-retro-muted'}`}>
+      <div className="p-3 bg-white border-2 border-ink flex items-center justify-between text-xs font-mono font-bold select-none shadow-brutal-sm">
+        <div className={`flex items-center gap-1.5 ${step === 1 ? 'text-brutal-red' : step > 1 ? 'text-campus-green' : 'text-ink/40'}`}>
           <span>{step > 1 ? '✓' : step === 1 ? '●' : '○'}</span>
           <span>01 IDENTITY</span>
         </div>
-        <span className="text-retro-border font-mono hidden sm:inline">──────</span>
-        <div className={`flex items-center gap-1.5 ${step === 2 ? 'text-retro-coral font-bold' : step > 2 ? 'text-retro-mint' : 'text-retro-muted'}`}>
+        <span className="text-ink/30 hidden sm:inline">──────</span>
+        <div className={`flex items-center gap-1.5 ${step === 2 ? 'text-brutal-red' : step > 2 ? 'text-campus-green' : 'text-ink/40'}`}>
           <span>{step > 2 ? '✓' : step === 2 ? '●' : '○'}</span>
           <span>02 ROLE</span>
         </div>
-        <span className="text-retro-border font-mono hidden sm:inline">──────</span>
-        <div className={`flex items-center gap-1.5 ${step === 3 ? 'text-retro-coral font-bold' : 'text-retro-muted'}`}>
+        <span className="text-ink/30 hidden sm:inline">──────</span>
+        <div className={`flex items-center gap-1.5 ${step === 3 ? 'text-brutal-red' : 'text-ink/40'}`}>
           <span>{step === 3 ? '●' : '○'}</span>
           <span>03 ACCOUNT</span>
         </div>
       </div>
 
       {errors.form && (
-        <div className="p-2.5 bg-retro-red/10 border border-retro-red/40 text-xs text-retro-red">
-          [ERR: {errors.form}]
+        <div className="p-3 border-2 border-brutal-red bg-brutal-red/10 text-xs font-bold text-brutal-red">
+          ERR: {errors.form}
         </div>
       )}
 
-      {/* STEP 1: IDENTIFICATION */}
+      {/* STEP 1 */}
       {step === 1 && (
-        <form onSubmit={(e) => { e.preventDefault(); if (validateStep1()) setStep(2); }} className="space-y-4 animate-fade-in">
-          <div className="p-3 bg-retro-surface border border-retro-border space-y-1">
-            <span className="text-[9px] uppercase tracking-widest text-retro-muted">// STEP 01 / IDENTIFICATION</span>
-            <h2 className="text-sm sm:text-base font-display font-bold text-retro-paper uppercase">WHAT SHOULD WE CALL YOU?</h2>
-            <p className="text-xs text-retro-muted font-sans">Enter your full legal or campus name for network identification and compatibility indexing.</p>
+        <form onSubmit={(e) => { e.preventDefault(); if (validateStep1()) setStep(2); }} className="space-y-4 animate-fade-in font-sans">
+          <div className="p-4 bg-white border-2 border-ink space-y-1 shadow-brutal-sm">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-ink/60">// 01 IDENTIFICATION</span>
+            <h2 className="text-base font-display font-bold text-ink uppercase">WHAT SHOULD WE CALL YOU?</h2>
+            <p className="text-xs text-ink/70">Enter your full legal or campus name for directory identification.</p>
           </div>
           <Input
             label="Full Name"
@@ -145,75 +140,62 @@ export default function Register() {
             autoFocus
             required
           />
-          <Button type="submit" variant="primary" size="md" className="w-full" icon={ArrowRight} iconPosition="right">
+          <Button type="submit" variant="primary" size="md" className="w-full font-mono" icon={ArrowRight} iconPosition="right">
             [ CONTINUE TO ROLE → ]
           </Button>
         </form>
       )}
 
-      {/* STEP 2: ACCESS IDENTITY (ROLE SELECTION) */}
+      {/* STEP 2 */}
       {step === 2 && (
-        <div className="space-y-4 animate-fade-in">
-          <div className="p-3 bg-retro-surface border border-retro-border space-y-1">
-            <span className="text-[9px] uppercase tracking-widest text-retro-muted">// STEP 02 / ACCESS IDENTITY</span>
-            <h2 className="text-sm sm:text-base font-display font-bold text-retro-paper uppercase">WHO ARE YOU JOINING AS?</h2>
-            <p className="text-xs text-retro-muted font-sans">Select your campus access tier to configure your collaboration workspace.</p>
+        <div className="space-y-4 animate-fade-in font-sans">
+          <div className="p-4 bg-white border-2 border-ink space-y-1 shadow-brutal-sm">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-ink/60">// 02 CAMPUS CLASSIFICATION</span>
+            <h2 className="text-base font-display font-bold text-ink uppercase">CHOOSE YOUR PROTOCOL</h2>
+            <p className="text-xs text-ink/70">Select your active role inside the university ecosystem.</p>
           </div>
-
-          <div className="grid grid-cols-1 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <RoleSelectCard
               roleKey="student"
-              selected={formData.role === 'student'}
-              title="01 / STUDENT"
-              subtitle="Undergraduate & Postgraduate Learners"
-              description="Discover hackathon teammates, join student build squads, showcase project portfolios, and fill skill gaps across campus departments."
+              title="Student Builder"
+              description="Discover teammates for hackathons, side projects, and campus startups."
               icon={GraduationCap}
-              onSelect={(r) => setFormData({ ...formData, role: r })}
+              badgeText="PEER NODE"
+              isSelected={formData.role === 'student'}
+              onSelect={() => setFormData({ ...formData, role: 'student' })}
             />
             <RoleSelectCard
               roleKey="faculty"
-              selected={formData.role === 'faculty'}
-              title="02 / FACULTY"
-              subtitle="Mentors, Professors & Researchers"
-              description="Guide student research initiatives, propose capstone projects, evaluate cohort builds, and mentor student hackathon delegations."
-              icon={Briefcase}
-              onSelect={(r) => setFormData({ ...formData, role: r })}
+              title="Faculty / Mentor"
+              description="Post lab research initiatives and guide student collaboration squads."
+              icon={Building}
+              badgeText="FACULTY NODE"
+              isSelected={formData.role === 'faculty'}
+              onSelect={() => setFormData({ ...formData, role: 'faculty' })}
             />
           </div>
-
-          <div className="flex items-center gap-3 pt-1">
+          <div className="flex items-center gap-3 pt-2 font-mono">
             <Button type="button" variant="outline" size="md" onClick={() => setStep(1)} icon={ArrowLeft} className="flex-1">
               [ ← BACK ]
             </Button>
             <Button type="button" variant="primary" size="md" onClick={() => setStep(3)} icon={ArrowRight} iconPosition="right" className="flex-1">
-              [ PROCEED TO CREDENTIALS → ]
+              [ CONTINUE → ]
             </Button>
           </div>
         </div>
       )}
 
-      {/* STEP 3: ACCOUNT INITIALIZATION */}
+      {/* STEP 3 */}
       {step === 3 && (
-        <form onSubmit={handleSubmit} className="space-y-4 animate-fade-in">
-          <div className="p-3 bg-retro-surface border border-retro-border space-y-1.5">
-            <div className="flex items-center justify-between">
-              <span className="text-[9px] uppercase tracking-widest text-retro-muted">// STEP 03 / ACCOUNT INITIALIZATION</span>
-              <span className="text-[10px] text-retro-mint flex items-center gap-1 font-bold">
-                <Check className="w-3 h-3" /> VERIFIED: {formData.name}
-              </span>
-            </div>
-            <div className="flex items-center gap-2 pt-0.5">
-              <span className="text-xs font-bold text-retro-paper uppercase">{formData.name}</span>
-              <span className="text-[9px] px-1.5 py-0.2 bg-retro-surface-elevated text-retro-amber border border-retro-border uppercase">
-                {formData.role === 'student' ? 'STUDENT ACCESS' : 'FACULTY ACCESS'}
-              </span>
-            </div>
+        <form onSubmit={handleSubmit} className="space-y-4 animate-fade-in font-sans">
+          <div className="p-4 bg-white border-2 border-ink space-y-1 shadow-brutal-sm font-mono">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-ink/60">// 03 CREDENTIAL SETUP</span>
+            <h2 className="text-base font-display font-bold text-ink uppercase">CAMPUS ACCESS PASS</h2>
           </div>
-
           <Input
-            label="College Email"
+            label="College Email (.edu)"
             type="email"
-            placeholder="your.name@campus.edu"
+            placeholder="lukmaan@campus.edu"
             value={formData.email}
             onChange={(e) => {
               setFormData({ ...formData, email: e.target.value });
@@ -223,7 +205,6 @@ export default function Register() {
             error={errors.email}
             required
           />
-
           {formData.role === 'faculty' && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <Input
@@ -231,7 +212,6 @@ export default function Register() {
                 placeholder="e.g. Computer Science"
                 value={formData.department}
                 onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                icon={Building}
                 error={errors.department}
                 required
               />
@@ -244,7 +224,6 @@ export default function Register() {
               />
             </div>
           )}
-
           <Input
             label="Password (min 8 chars)"
             type="password"
@@ -258,7 +237,6 @@ export default function Register() {
             error={errors.password}
             required
           />
-
           <Input
             label="Confirm Password"
             type="password"
@@ -272,23 +250,22 @@ export default function Register() {
             error={errors.confirmPassword}
             required
           />
-
-          <div className="flex items-center gap-3 pt-1">
+          <div className="flex items-center gap-3 pt-1 font-mono">
             <Button type="button" variant="outline" size="md" onClick={() => setStep(2)} icon={ArrowLeft} className="flex-1">
               [ ← BACK ]
             </Button>
             <Button type="submit" variant="primary" size="md" className="flex-1" icon={ArrowRight} iconPosition="right" isLoading={isSubmitting}>
-              [ ENTER THE NETWORK → ]
+              [ JOIN NETWORK → ]
             </Button>
           </div>
         </form>
       )}
 
       {/* Login Redirect */}
-      <p className="text-xs text-retro-muted text-center pt-2">
+      <p className="text-xs font-mono text-ink/70 text-center pt-2">
         Existing operator?{' '}
-        <Link to="/login" className="text-retro-coral hover:text-retro-amber font-bold transition-colors uppercase tracking-wider">
-          Sign In
+        <Link to="/login" className="text-brutal-red hover:underline font-bold uppercase tracking-wider ml-1">
+          [ SIGN IN ]
         </Link>
       </p>
     </div>

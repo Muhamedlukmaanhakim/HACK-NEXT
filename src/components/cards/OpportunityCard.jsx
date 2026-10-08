@@ -1,6 +1,5 @@
 import React from 'react';
 import SkillBadge from '../skills/SkillBadge';
-import Badge from '../ui/Badge';
 import Button from '../ui/Button';
 import Avatar from '../ui/Avatar';
 import { Users, ArrowRight } from 'lucide-react';
@@ -24,64 +23,59 @@ export default function OpportunityCard({
   } = opportunity;
 
   const memberCount = currentMembers.length;
-  const isAlmostFull = memberCount === teamSize - 1;
   const isFull = memberCount >= teamSize;
 
-  const statusVariant = isFull ? 'danger' : isAlmostFull ? 'warning' : 'success';
-
   return (
-    <div className={`p-4 sm:p-5 rounded-none bg-retro-surface border border-retro-border hover:border-retro-orange/60 transition-all duration-150 flex flex-col justify-between group shadow-panel relative font-mono ${className}`}>
-      {/* Corner crosshairs */}
-      <div className="absolute top-1 left-1 text-[8px] text-retro-muted/40 leading-none select-none">+</div>
-      <div className="absolute top-1 right-1 text-[8px] text-retro-muted/40 leading-none select-none">+</div>
-
+    <div className={`p-5 bg-white border-2 border-ink shadow-brutal hover:shadow-brutal-lg hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-150 flex flex-col justify-between group ${className}`}>
       <div>
-        {/* Top Meta */}
-        <div className="flex items-center justify-between gap-2 mb-2.5">
-          <Badge variant="teal" size="sm">
-            {type}
-          </Badge>
-          <div className="flex items-center gap-1.5">
+        {/* Top Header Bar */}
+        <div className="flex items-center justify-between pb-2.5 mb-3 border-b-2 border-ink">
+          <span className="font-mono text-[10px] font-bold text-ink uppercase tracking-wider bg-signal-yellow px-2 py-0.5 border border-ink">
+            {type} // {id ? `0${id}`.slice(-3) : '014'}
+          </span>
+          <div className="flex items-center gap-1.5 font-mono text-[10px] font-bold">
             {matchScore !== undefined && (
-              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-none bg-retro-orange/15 text-retro-orange border border-retro-orange/40">
+              <span className="bg-brutal-red text-white px-2 py-0.5 border border-ink">
                 {matchScore}% MATCH
               </span>
             )}
-            <Badge variant={statusVariant} size="sm">
-              {status}
-            </Badge>
+            <span className={`px-2 py-0.5 border border-ink ${
+              isFull ? 'bg-ink text-white' : 'bg-campus-green text-ink'
+            }`}>
+              {status.toUpperCase()}
+            </span>
           </div>
         </div>
 
         {/* Title */}
-        <h3 className="text-sm sm:text-base font-display font-bold text-retro-paper group-hover:text-retro-amber transition-colors mb-1.5 tracking-tight">
+        <h3 className="font-display font-black text-base sm:text-lg text-ink uppercase tracking-tight leading-snug group-hover:text-brutal-red transition-colors mb-2">
           {title}
         </h3>
 
         {/* Creator Info */}
-        <div className="flex items-center gap-2 mb-2.5">
-          <Avatar name={creator?.name || 'Lead'} size="xs" />
-          <span className="text-[11px] text-retro-muted">
-            LEAD: <strong className="text-retro-paper font-semibold">{creator?.name}</strong> ({creator?.department || 'CSE'})
+        <div className="flex items-center gap-2 mb-3">
+          <Avatar name={creator?.name || 'Lead'} size="xs" className="border border-ink" />
+          <span className="text-[11px] font-mono text-ink/70 font-semibold uppercase">
+            BY <strong className="text-ink">{creator?.name || 'Student Lead'}</strong> ({creator?.department || 'CS'} '{creator?.year ? creator.year.slice(-2) : '25'})
           </span>
         </div>
 
         {/* Description */}
-        <p className="text-xs text-retro-paper/70 font-sans line-clamp-2 mb-3 leading-relaxed">
+        <p className="text-xs text-ink/80 font-sans line-clamp-2 mb-4 leading-relaxed">
           {description}
         </p>
 
         {/* Required Skills */}
-        <div className="space-y-1 mb-3">
-          <div className="text-[9px] font-mono uppercase tracking-widest text-retro-muted">
-            // REQUIRED COMPETENCIES:
+        <div className="space-y-1.5 mb-4">
+          <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-ink/60">
+            NEEDED COMPETENCIES:
           </div>
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-1.5">
             {requiredSkills.slice(0, 4).map((skill) => (
               <SkillBadge key={skill} skill={skill} size="xs" />
             ))}
             {requiredSkills.length > 4 && (
-              <span className="text-[9px] font-mono text-retro-muted px-1.5 py-0.2 bg-retro-surface-elevated border border-retro-border">
+              <span className="text-[10px] font-mono font-bold text-ink px-1.5 py-0.5 bg-canvas border border-ink">
                 +{requiredSkills.length - 4} MORE
               </span>
             )}
@@ -89,28 +83,32 @@ export default function OpportunityCard({
         </div>
       </div>
 
-      {/* Footer */}
-      <div className="pt-2.5 border-t border-retro-border/60 flex items-center justify-between gap-3 text-xs">
-        <div className="flex items-center gap-2">
-          <div className="flex -space-x-1.5 overflow-hidden">
-            {currentMembers.slice(0, 3).map((m) => (
-              <Avatar key={m.id || m.name} name={m.name} size="xs" className="ring-1 ring-retro-surface" />
+      {/* Footer & Segmented Progress Bar */}
+      <div className="pt-3 border-t-2 border-ink space-y-3">
+        {/* Segmented Team Bar */}
+        <div className="flex items-center justify-between text-xs font-mono font-bold">
+          <span className="text-ink text-[11px]">
+            {memberCount} / {teamSize} MEMBERS FILLED
+          </span>
+          <div className="flex items-center gap-1">
+            {Array.from({ length: teamSize }).map((_, i) => (
+              <div
+                key={i}
+                className={`w-4 h-2 border border-ink ${
+                  i < memberCount ? 'bg-ink' : 'bg-canvas'
+                }`}
+              />
             ))}
           </div>
-          <span className="text-[10px] text-retro-muted flex items-center gap-1 font-mono">
-            <Users className="w-3 h-3" />
-            <span>{memberCount}/{teamSize} ROLES</span>
-          </span>
         </div>
 
         <Button
           variant="outline"
           size="sm"
-          icon={ArrowRight}
-          iconPosition="right"
+          className="w-full text-xs py-1.5 justify-center"
           onClick={() => onView && onView(opportunity)}
         >
-          [ INSPECT → ]
+          VIEW PROJECT →
         </Button>
       </div>
     </div>

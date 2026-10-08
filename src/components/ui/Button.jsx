@@ -14,21 +14,34 @@ export default function Button({
   onClick,
   ...props
 }) {
-  const baseClasses = 'inline-flex items-center justify-center font-mono font-bold tracking-wider uppercase rounded-sm transition-all duration-150 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-orange focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none active:translate-y-0.5';
+  const baseClasses =
+    'inline-flex items-center justify-center font-display font-bold tracking-wider uppercase border-2 border-ink transition-all duration-150 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brutal-red disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none';
 
   const variants = {
-    primary: 'bg-accent-orange text-background hover:brightness-110 active:brightness-90 border border-accent-amber/50 shadow-terminal',
-    secondary: 'bg-surface-elevated text-paper hover:bg-surface-hover border border-surface-border hover:border-accent-orange/60 shadow-panel',
-    outline: 'bg-transparent text-paper border border-surface-border hover:border-accent-orange hover:text-accent-orange hover:bg-surface-elevated/40',
-    ghost: 'bg-transparent text-text-secondary hover:text-paper hover:bg-surface-elevated/60 border border-transparent',
-    danger: 'bg-status-danger/15 text-status-danger border border-status-danger/35 hover:bg-status-danger/25',
-    teal: 'bg-accent-teal/15 text-accent-teal border border-accent-teal/35 hover:bg-accent-teal/25',
+    primary:
+      'bg-ink text-canvas hover:bg-black hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-brutal active:translate-x-0.5 active:translate-y-0.5 active:shadow-none shadow-brutal-sm',
+    secondary:
+      'bg-white text-ink hover:bg-canvas hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-brutal active:translate-x-0.5 active:translate-y-0.5 active:shadow-none shadow-brutal-sm',
+    accent:
+      'bg-brutal-red text-white hover:brightness-105 hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-brutal active:translate-x-0.5 active:translate-y-0.5 active:shadow-none shadow-brutal-sm',
+    red:
+      'bg-brutal-red text-white hover:brightness-105 hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-brutal active:translate-x-0.5 active:translate-y-0.5 active:shadow-none shadow-brutal-sm',
+    yellow:
+      'bg-brutal-yellow text-ink hover:brightness-105 hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-brutal active:translate-x-0.5 active:translate-y-0.5 active:shadow-none shadow-brutal-sm',
+    outline:
+      'bg-transparent text-ink border-2 border-ink hover:bg-white hover:-translate-y-0.5 hover:shadow-brutal-sm active:translate-y-0',
+    ghost:
+      'bg-transparent text-ink border-transparent hover:bg-canvas-muted hover:border-ink',
+    danger:
+      'bg-brutal-red text-white border-2 border-ink hover:brightness-105 shadow-brutal-sm',
+    teal:
+      'bg-brutal-green text-white border-2 border-ink hover:brightness-105 shadow-brutal-sm',
   };
 
   const sizes = {
-    sm: 'text-[11px] px-2.5 py-1.5 h-8 gap-1.5 min-h-[32px]',
-    md: 'text-xs px-4 py-2 h-9 sm:h-10 gap-2 min-h-[36px]',
-    lg: 'text-xs sm:text-sm px-6 py-2.5 h-11 sm:h-12 gap-2.5 min-h-[44px]',
+    sm: 'text-xs px-3 py-1.5 h-8 gap-1.5 min-h-[32px]',
+    md: 'text-xs sm:text-sm px-4 py-2 h-10 gap-2 min-h-[40px]',
+    lg: 'text-sm sm:text-base px-6 py-3 h-12 gap-2.5 min-h-[48px]',
   };
 
   const variantClass = variants[variant] || variants.primary;
@@ -44,14 +57,14 @@ export default function Button({
     >
       {isLoading ? (
         <>
-          <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
+          <Loader2 className="w-4 h-4 animate-spin mr-1.5" aria-hidden="true" />
           <span>{children}</span>
         </>
       ) : (
         <>
-          {Icon && iconPosition === 'left' && <Icon className="w-3.5 h-3.5 flex-shrink-0" aria-hidden="true" />}
+          {Icon && iconPosition === 'left' && <Icon className="w-4 h-4 flex-shrink-0" aria-hidden="true" />}
           <span>{children}</span>
-          {Icon && iconPosition === 'right' && <Icon className="w-3.5 h-3.5 flex-shrink-0" aria-hidden="true" />}
+          {Icon && iconPosition === 'right' && <Icon className="w-4 h-4 flex-shrink-0" aria-hidden="true" />}
         </>
       )}
     </button>

@@ -7,47 +7,45 @@ export default function CollaborationMatrix({
   className = '',
 }) {
   return (
-    <div className={`p-4 sm:p-5 rounded-none bg-retro-surface border border-retro-border font-mono shadow-panel space-y-4 ${className}`}>
+    <div className={`p-6 bg-white border-2 border-ink shadow-brutal space-y-4 ${className}`}>
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-retro-border/80 pb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b-2 border-ink pb-3">
         <div className="flex items-center gap-2">
-          <div className="p-1 rounded-sm bg-retro-surface-elevated text-retro-coral border border-retro-coral/40">
-            <Grid className="w-3.5 h-3.5" />
-          </div>
+          <Grid className="w-5 h-5 text-ink stroke-[2.5]" />
           <div>
-            <div className="text-[9px] uppercase tracking-widest text-retro-muted">
-              // TELEMETRY MATRIX // DOT_GRID_SYSTEM
+            <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-brutal-red">
+              PUNCH-CARD MATRIX // COLLABORATION GRID
             </div>
-            <h3 className="text-xs sm:text-sm font-display font-bold text-retro-paper uppercase tracking-wider">
-              COLLABORATION DOT MATRIX
+            <h3 className="font-display font-black text-base text-ink uppercase tracking-tight">
+              TEAM COMPETENCY DOT MATRIX
             </h3>
           </div>
         </div>
-        <div className="flex items-center gap-3 text-[10px] text-retro-muted">
+        <div className="flex items-center gap-4 text-xs font-mono font-bold text-ink">
           <span className="flex items-center gap-1.5">
-            <span className="text-retro-mint text-xs">●</span> COVERED
+            <span className="text-campus-green text-lg leading-none">●</span> PRESENT
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="text-retro-coral text-xs">○</span> OPEN GAP
+            <span className="text-brutal-red text-lg leading-none">○</span> MISSING GAP
           </span>
         </div>
       </div>
 
       {/* Responsive Matrix Table */}
-      <div className="overflow-x-auto">
-        <table className="w-full text-left text-xs border-collapse">
+      <div className="overflow-x-auto border-2 border-ink">
+        <table className="w-full text-left text-xs font-mono border-collapse bg-white">
           <thead>
-            <tr className="border-b border-retro-border bg-retro-surface-elevated/60 text-[10px] text-retro-muted uppercase tracking-wider">
-              <th className="py-2.5 px-3 font-semibold">Competency Vector</th>
+            <tr className="border-b-2 border-ink bg-canvas text-[11px] font-bold text-ink uppercase">
+              <th className="py-3 px-4">REQUIRED COMPETENCY</th>
               {members.map((member) => (
-                <th key={member.id} className="py-2.5 px-3 font-semibold text-center whitespace-nowrap">
-                  {member.name.split(' ')[0]}
+                <th key={member.id} className="py-3 px-3 text-center whitespace-nowrap">
+                  {member.name.split(' ')[0].toUpperCase()}
                 </th>
               ))}
-              <th className="py-2.5 px-3 font-semibold text-right">Roster Status</th>
+              <th className="py-3 px-4 text-right">STATUS</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-retro-border/50">
+          <tbody className="divide-y-2 divide-ink">
             {requirements.map((req) => {
               const coveringMembers = members.filter((m) =>
                 (m.skills || []).some(
@@ -59,10 +57,12 @@ export default function CollaborationMatrix({
               return (
                 <tr
                   key={req}
-                  className="hover:bg-retro-surface-elevated/40 transition-colors"
+                  className={`transition-colors ${
+                    isCovered ? 'hover:bg-canvas' : 'bg-brutal-red/10'
+                  }`}
                 >
-                  <td className="py-2.5 px-3 font-medium text-retro-paper">
-                    <span className="text-[10px] text-retro-muted mr-1.5 font-mono">›</span>
+                  <td className="py-3 px-4 font-bold text-ink uppercase">
+                    <span className="text-ink/60 mr-2 font-mono">›</span>
                     {req}
                   </td>
 
@@ -71,17 +71,17 @@ export default function CollaborationMatrix({
                       (s) => s.toLowerCase() === req.toLowerCase()
                     );
                     return (
-                      <td key={member.id} className="py-2.5 px-3 text-center">
+                      <td key={member.id} className="py-3 px-3 text-center text-lg leading-none">
                         {hasSkill ? (
                           <span
-                            className="inline-block text-retro-mint text-base leading-none select-none"
-                            title={`${member.name} provides ${req}`}
+                            className="inline-block text-campus-green font-bold select-none"
+                            title={`${member.name} covers ${req}`}
                           >
                             ●
                           </span>
                         ) : (
                           <span
-                            className="inline-block text-retro-muted/40 text-base leading-none select-none"
+                            className="inline-block text-ink/30 select-none"
                             title={`${member.name} does not cover ${req}`}
                           >
                             ○
@@ -91,16 +91,16 @@ export default function CollaborationMatrix({
                     );
                   })}
 
-                  <td className="py-2.5 px-3 text-right">
+                  <td className="py-3 px-4 text-right">
                     {isCovered ? (
-                      <span className="inline-flex items-center gap-1 text-[9px] font-bold px-2 py-0.5 rounded-none bg-retro-mint/15 text-retro-mint border border-retro-mint/40 uppercase">
-                        <CheckCircle2 className="w-2.5 h-2.5" />
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 bg-campus-green text-ink border border-ink uppercase">
+                        <CheckCircle2 className="w-3 h-3 stroke-[2.5]" />
                         COVERED ({coveringMembers.length})
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1 text-[9px] font-bold px-2 py-0.5 rounded-none bg-retro-coral/15 text-retro-coral border border-retro-coral/40 uppercase">
-                        <AlertCircle className="w-2.5 h-2.5" />
-                        OPEN GAP
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 bg-brutal-red text-white border border-ink uppercase animate-pulse">
+                        <AlertCircle className="w-3 h-3 stroke-[2.5]" />
+                        CRITICAL GAP
                       </span>
                     )}
                   </td>
@@ -111,9 +111,9 @@ export default function CollaborationMatrix({
         </table>
       </div>
 
-      <div className="pt-2 border-t border-retro-border/60 text-[10px] text-retro-muted flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-        <span>[ SCAN // MATRIX_DENSITY: {requirements.length} REQUIRED VECTORS ]</span>
-        <span className="text-retro-amber font-mono">PUNCH-CARD VERIFIED TELEMETRY</span>
+      <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between text-[11px] font-mono font-bold text-ink/70">
+        <span>MATRIX DENSITY: {requirements.length} VECTORS EVALUATED</span>
+        <span className="uppercase text-ink">SYSTEM STATUS: OPTIMIZING</span>
       </div>
     </div>
   );

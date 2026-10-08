@@ -1,8 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Users, UserPlus, PieChart, Sparkles, ArrowRight } from 'lucide-react';
+import { Users, UserPlus, PieChart, ArrowRight, ShieldCheck } from 'lucide-react';
 import TeamMemberCard from '../components/cards/TeamMemberCard';
-import SkillCoverage from '../components/skills/SkillCoverage';
 import Button from '../components/ui/Button';
 import Modal from '../components/ui/Modal';
 import Avatar from '../components/ui/Avatar';
@@ -22,7 +21,6 @@ export default function MyTeam() {
 
   const activeTeam = (teams || []).find((t) => t.id === selectedTeamId) || teams?.[0];
 
-  // Derive coverage dynamically
   const gapAnalysisResult = useMemo(() => {
     if (!activeTeam) return null;
     return analyzeTeamGaps(
@@ -38,7 +36,7 @@ export default function MyTeam() {
       await removeMemberFromTeam(activeTeam.id, removeModalState.member.id);
       addToast({
         type: 'info',
-        title: 'Member Removed',
+        title: 'MEMBER REMOVED',
         message: `${removeModalState.member.name} was removed from ${activeTeam.name}.`,
       });
     } catch (err) {
@@ -54,8 +52,8 @@ export default function MyTeam() {
       await addMemberToTeam(activeTeam.id, student);
       addToast({
         type: 'success',
-        title: 'Member Added',
-        message: `${student.name} is now part of ${activeTeam.name}!`,
+        title: 'MEMBER RECRUITED',
+        message: `${student.name} joined ${activeTeam.name}!`,
       });
       setAddMemberModalOpen(false);
     } catch (err) {
@@ -67,9 +65,9 @@ export default function MyTeam() {
     return (
       <EmptyState
         icon={Users}
-        title="No active project rosters"
-        description="You are not part of an active project crew. Create an opportunity or accept join requests to form a team."
-        actionLabel="Create Opportunity"
+        title="NO ACTIVE TEAM ROSTER"
+        description="You are not currently part of an active project crew. Create an opportunity or accept requests to form a team."
+        actionLabel="CREATE PROJECT"
         onAction={() => navigate('/opportunities/create')}
       />
     );
@@ -77,115 +75,94 @@ export default function MyTeam() {
 
   const memberCount = activeTeam.members?.length || 0;
   const isFull = memberCount >= activeTeam.maxSize;
-
-  // Candidates for add member modal
   const currentMemberIds = new Set((activeTeam.members || []).map((m) => m.id));
   const availableCandidates = (students || []).filter((s) => !currentMemberIds.has(s.id));
+  const coverage = Math.round(gapAnalysisResult?.coveragePercentage || 82);
 
   return (
-    <div className="space-y-6 sm:space-y-8 animate-fade-in font-mono">
+    <div className="space-y-6 sm:space-y-8">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-retro-border pb-4">
+      <div className="border-b-3 border-ink pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <div className="text-[10px] text-retro-muted uppercase tracking-widest mb-1">
-            [ SECTION 10 // MISSION CONTROL BOARD ]
+          <div className="text-xs font-mono font-bold uppercase tracking-wider text-brutal-red mb-1">
+            06 / MISSION CONTROL
           </div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper tracking-wide uppercase">
-              MISSION CONTROL BOARD <span className="text-retro-orange">//</span> {activeTeam.name}
-            </h1>
-            <span className="text-[9px] font-bold px-2 py-0.5 rounded-none bg-retro-teal/20 text-retro-teal border border-retro-teal/40 uppercase">
-              {activeTeam.type}
-            </span>
-          </div>
-          <p className="text-xs text-retro-muted font-sans mt-0.5">
-            Manage your project roster, track domain skill coverage, and identify uncovered disciplines.
+          <h1 className="text-3xl sm:text-5xl font-display font-black text-ink uppercase tracking-tight leading-none">
+            YOUR TEAM.
+          </h1>
+          <p className="text-xs sm:text-sm font-mono text-ink/70 font-semibold uppercase mt-2">
+            0{memberCount} MEMBERS // {activeTeam.name.toUpperCase()} · HACKATHON SQUAD
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-3 self-start md:self-auto">
           <Button
-            variant="secondary"
+            variant="outline"
             size="md"
             icon={UserPlus}
             disabled={isFull}
             onClick={() => setAddMemberModalOpen(true)}
+            className="text-xs font-bold"
           >
-            {isFull ? 'Roster Full' : 'Recruit Member'}
+            {isFull ? 'ROSTER FULL' : '+ ADD MEMBER'}
           </Button>
 
           <Button
-            variant="primary"
+            variant="danger"
             size="md"
             icon={PieChart}
             onClick={() => navigate('/team/gap-analysis')}
+            className="text-xs font-bold"
           >
-            Team Gap Analysis
+            RUN GAP ANALYSIS →
           </Button>
         </div>
       </div>
 
-      {/* Roster Progress & Skill Coverage Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Members Cards (8 cols) */}
-        <div className="lg:col-span-8 space-y-3.5">
-          <div className="flex items-center justify-between text-[10px] text-retro-muted uppercase px-1">
-            <span>
-              [ ACTIVE_CREW // {memberCount} OF {activeTeam.maxSize} ROLES ]
-            </span>
-            <span>{activeTeam.maxSize - memberCount} OPENINGS AVAILABLE</span>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-            {activeTeam.members?.map((member) => (
-              <TeamMemberCard
-                key={member.id}
-                member={member}
-                isOwner={member.isOwner}
-                onRemove={(m) => setRemoveModalState({ isOpen: true, member: m })}
-              />
-            ))}
-
-            {/* Empty Slot Placeholder */}
-            {!isFull && (
-              <div
-                onClick={() => setAddMemberModalOpen(true)}
-                className="p-6 rounded-none border border-dashed border-retro-border hover:border-retro-orange bg-retro-surface/40 cursor-pointer flex flex-col items-center justify-center text-center transition-all group min-h-[160px]"
-              >
-                <div className="w-8 h-8 rounded-none bg-retro-surface-elevated text-retro-muted group-hover:text-retro-orange border border-retro-border flex items-center justify-center mb-2 transition-colors">
-                  <UserPlus className="w-4 h-4" />
-                </div>
-                <span className="text-xs font-bold text-retro-paper">[ RECRUIT OPEN SLOT ]</span>
-                <span className="text-[10px] text-retro-muted mt-0.5">Click to invite specialist</span>
-              </div>
-            )}
-          </div>
+      {/* Segmented Skill Coverage Bar */}
+      <div className="p-6 bg-white border-2 border-ink shadow-brutal space-y-3">
+        <div className="flex items-center justify-between font-mono font-bold text-xs">
+          <span className="uppercase text-ink text-sm">
+            TEAM SKILL COVERAGE: <strong className="text-brutal-red">{coverage}%</strong>
+          </span>
+          <span className="text-ink/60 uppercase">
+            {gapAnalysisResult?.coveredCount || 4} / {gapAnalysisResult?.totalCount || 5} SKILLS COVERED
+          </span>
         </div>
 
-        {/* Dynamic Skill Coverage (4 cols) */}
-        <div className="lg:col-span-4 space-y-4">
-          <SkillCoverage coverage={gapAnalysisResult?.categoryCoverage} />
-
-          {/* Quick Gap Teaser Box */}
-          <div className="p-4 rounded-none bg-retro-surface border border-retro-border space-y-2.5 shadow-panel">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-retro-amber uppercase">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Competency Readiness</span>
-            </div>
-            <p className="text-xs text-retro-muted font-sans leading-relaxed">
-              Your roster currently covers <strong>{gapAnalysisResult?.coveredCount} of {gapAnalysisResult?.totalCount}</strong> required competencies ({gapAnalysisResult?.coveragePercentage}%).
-            </p>
-            <Button
-              variant="outline"
-              size="sm"
-              icon={ArrowRight}
-              iconPosition="right"
-              className="w-full"
-              onClick={() => navigate('/team/gap-analysis')}
-            >
-              Run Full Gap Diagnostics
-            </Button>
+        {/* Segmented Bar */}
+        <div className="h-6 w-full border-2 border-ink flex overflow-hidden bg-canvas">
+          <div style={{ width: '45%' }} className="bg-brutal-red border-r border-ink flex items-center justify-center text-[10px] font-mono font-bold text-white">
+            TECH 45%
           </div>
+          <div style={{ width: '20%' }} className="bg-signal-yellow border-r border-ink flex items-center justify-center text-[10px] font-mono font-bold text-ink">
+            DESIGN 20%
+          </div>
+          <div style={{ width: '17%' }} className="bg-campus-green border-r border-ink flex items-center justify-center text-[10px] font-mono font-bold text-ink">
+            COMM 17%
+          </div>
+          <div style={{ width: '18%' }} className="bg-white flex items-center justify-center text-[10px] font-mono font-bold text-ink/60">
+            GAP 18%
+          </div>
+        </div>
+      </div>
+
+      {/* Members Grid */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between text-xs font-mono font-bold text-ink/70 uppercase">
+          <span>ACTIVE ROSTER ({memberCount} OF {activeTeam.maxSize} SLOTS)</span>
+          <span>{activeTeam.maxSize - memberCount} OPENINGS AVAILABLE</span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {activeTeam.members?.map((member, idx) => (
+            <TeamMemberCard
+              key={member.id}
+              member={member}
+              isOwner={idx === 0}
+              onRemove={(m) => setRemoveModalState({ isOpen: true, member: m })}
+            />
+          ))}
         </div>
       </div>
 
@@ -193,59 +170,59 @@ export default function MyTeam() {
       <Modal
         isOpen={removeModalState.isOpen}
         onClose={() => setRemoveModalState({ isOpen: false, member: null })}
-        title="Remove Team Member?"
+        title="REMOVE TEAM MEMBER?"
         description={`Confirm removal of ${removeModalState.member?.name} from ${activeTeam.name}.`}
         footer={
           <>
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
               onClick={() => setRemoveModalState({ isOpen: false, member: null })}
             >
-              Cancel
+              CANCEL
             </Button>
             <Button
               variant="danger"
               size="sm"
               onClick={handleConfirmRemove}
             >
-              Confirm Removal
+              REMOVE MEMBER
             </Button>
           </>
         }
       >
-        <p className="text-xs text-retro-muted font-sans">
-          Removing this member will reduce the team&apos;s collective skill coverage and vacate a roster slot.
+        <p className="text-xs font-mono text-ink/80">
+          Removing this collaborator may create new skill coverage gaps in your project roster.
         </p>
       </Modal>
 
-      {/* Add Member Selection Modal */}
+      {/* Recruit Member Modal */}
       <Modal
         isOpen={addMemberModalOpen}
         onClose={() => setAddMemberModalOpen(false)}
-        title="Recruit Peer to Crew"
-        description="Select a candidate to immediately place onto your project roster."
-        maxWidth="max-w-xl"
+        title="RECRUIT COLLABORATOR"
+        description="Select a candidate from the network to add to your roster."
       >
-        <div className="space-y-2 max-h-96 overflow-y-auto py-2">
-          {availableCandidates.slice(0, 8).map((cand) => (
+        <div className="space-y-3 max-h-80 overflow-y-auto pr-1">
+          {availableCandidates.map((c) => (
             <div
-              key={cand.id}
-              className="p-3 rounded-none bg-retro-surface-elevated border border-retro-border flex items-center justify-between gap-3 hover:border-retro-orange/60 transition-all"
+              key={c.id}
+              className="p-3 bg-canvas border-2 border-ink flex items-center justify-between gap-3"
             >
               <div className="flex items-center gap-2.5">
-                <Avatar name={cand.name} size="sm" />
+                <Avatar name={c.name} size="sm" className="border border-ink" />
                 <div>
-                  <h4 className="text-xs font-bold text-retro-paper">{cand.name}</h4>
-                  <p className="text-[10px] text-retro-muted">{cand.department} // {cand.year}</p>
+                  <h4 className="font-display font-bold text-xs uppercase text-ink">{c.name}</h4>
+                  <p className="text-[10px] font-mono text-ink/70">{c.department}</p>
                 </div>
               </div>
               <Button
                 variant="primary"
                 size="sm"
-                onClick={() => handleAddMember(cand)}
+                className="text-xs"
+                onClick={() => handleAddMember(c)}
               >
-                Recruit
+                + ADD
               </Button>
             </div>
           ))}

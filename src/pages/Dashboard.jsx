@@ -4,22 +4,19 @@ import {
   Users,
   Compass,
   Inbox,
-  Eye,
   PlusCircle,
   ArrowRight,
-  Cpu,
   PieChart,
+  UserCheck,
 } from 'lucide-react';
 import StatCard from '../components/cards/StatCard';
 import OpportunityCard from '../components/cards/OpportunityCard';
 import StudentCard from '../components/cards/StudentCard';
-import ProgressBar from '../components/ui/ProgressBar';
 import Button from '../components/ui/Button';
 import Avatar from '../components/ui/Avatar';
 import { useAuth } from '../context/AuthContext';
 import { useAppData } from '../context/AppDataContext';
 import { useToast } from '../context/ToastContext';
-import { getTimeGreeting } from '../utils/greeting';
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -28,44 +25,21 @@ export default function Dashboard() {
   const navigate = useNavigate();
 
   const firstName = (user?.name || 'Lukmaan').split(' ')[0];
-  const greeting = getTimeGreeting(firstName);
 
-  // Profile completion percentage
-  const profileCompletion = useMemo(() => {
-    let completed = 0;
-    const checks = [
-      user?.name,
-      user?.department,
-      user?.year,
-      user?.bio,
-      user?.skills?.length,
-      user?.interests?.length,
-      user?.availability?.length,
-    ];
-    checks.forEach((item) => {
-      if (item) completed += 1;
-    });
-    return Math.round((completed / checks.length) * 100) || 85;
-  }, [user]);
-
-  // Pending requests count
   const pendingRequestsCount = useMemo(() => {
     return (requests || []).filter((r) => r.status === 'Pending').length;
   }, [requests]);
 
-  // Recommended opportunities (top 4)
   const recommendedOpportunities = useMemo(() => {
-    return (opportunities || []).slice(0, 4);
+    return (opportunities || []).slice(0, 3);
   }, [opportunities]);
 
-  // Recommended students (exclude current user, top 3)
   const recommendedStudents = useMemo(() => {
     return (students || [])
       .filter((s) => s.id !== user?.id)
       .slice(0, 3);
   }, [students, user]);
 
-  // Active collaboration team
   const activeTeam = teams?.[0];
 
   const handleConnect = async (student) => {
@@ -78,19 +52,20 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="space-y-6 sm:space-y-8 animate-fade-in font-mono">
-      {/* Top Welcome & Mission Control Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-retro-border pb-5">
+    <div className="space-y-12 animate-fade-in font-sans">
+      {/* 1. Header: GOOD MORNING, LUKMAAN. WHAT ARE YOU BUILDING NEXT? */}
+      <div className="border-b-2 border-ink pb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <div className="text-[10px] text-retro-muted uppercase tracking-widest mb-1">
-            [ SYSTEM // CONSOLE_STATION_01  ● ONLINE ]
-          </div>
-          <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper tracking-wide uppercase">
-            YOUR COLLABORATION NETWORK
+          <span className="text-xs font-mono font-bold uppercase tracking-widest text-ink/60 bg-white border border-ink px-2 py-0.5 shadow-brutal-sm">
+            CAMPUS CONSOLE / 01
+          </span>
+          <h2 className="text-xs sm:text-sm font-mono text-ink/75 uppercase tracking-wide mt-2 font-bold">
+            GOOD MORNING, {firstName.toUpperCase()}.
+          </h2>
+          <h1 className="text-3xl sm:text-5xl font-display font-extrabold uppercase text-ink tracking-tight leading-none mt-1">
+            WHAT ARE YOU<br />
+            <span className="text-brutal-red">BUILDING NEXT?</span>
           </h1>
-          <p className="text-xs text-retro-muted font-sans mt-0.5">
-            {greeting}. Monitoring candidate compatibility, team gaps, and active rosters.
-          </p>
         </div>
 
         <Button
@@ -99,175 +74,177 @@ export default function Dashboard() {
           icon={PlusCircle}
           onClick={() => navigate('/opportunities/create')}
         >
-          Create Project
+          [ START SOMETHING → ]
         </Button>
       </div>
 
-      {/* Profile Calibration Meter */}
-      <div className="p-4 rounded-none bg-retro-surface border border-retro-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-panel relative">
-        <div className="space-y-0.5 max-w-lg">
-          <div className="flex items-center gap-2 text-xs">
-            <span className="font-bold text-retro-paper uppercase tracking-wider">
-              [ CALIBRATION // PROFILE_COMPLETENESS ]
-            </span>
-            <span className="text-retro-orange font-bold font-mono">
-              {profileCompletion}%
-            </span>
-          </div>
-          <p className="text-xs text-retro-muted font-sans">
-            Calibrated profile vectors increase recommendation rank across campus teams by up to 2.4x.
-          </p>
-        </div>
-        <div className="w-full sm:w-64 flex items-center gap-3">
-          <ProgressBar value={profileCompletion} variant="orange" size="sm" />
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => navigate('/profile')}
-            className="text-xs text-retro-amber hover:text-retro-orange whitespace-nowrap"
-          >
-            Review
-          </Button>
-        </div>
-      </div>
-
-      {/* 4 Telemetry Stat Cards with large numbers */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
+      {/* 2. Oversized Metrics (Section 13) */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
-          label="ACTIVE CONNECTIONS"
-          value="04"
-          icon={Users}
-          change="+1 this week"
+          label="ACTIVE PROJECTS"
+          value="03"
+          icon={Compass}
+          change="Sprint in progress"
         />
         <StatCard
           label="POTENTIAL MATCHES"
           value="12"
-          icon={Cpu}
+          icon={Users}
           change="94% peak signal"
           isKey={true}
         />
         <StatCard
-          label="TEAM GAPS"
-          value="03"
-          icon={PieChart}
-          change="2 critical"
-          trend="neutral"
+          label="REQUESTS"
+          value={pendingRequestsCount > 0 ? (pendingRequestsCount < 10 ? `0${pendingRequestsCount}` : `${pendingRequestsCount}`) : '04'}
+          icon={Inbox}
+          change="Action required"
         />
         <StatCard
-          label="CAMPUS POSTS"
-          value={opportunities?.length ? (opportunities.length < 10 ? `0${opportunities.length}` : `${opportunities.length}`) : "10"}
-          icon={Compass}
-          change="10 open posts"
+          label="TEAM GAP"
+          value="01"
+          icon={PieChart}
+          change="UI/UX missing"
         />
       </div>
 
-      {/* Active Team Docket Banner */}
-      {activeTeam && (
-        <div className="p-4 sm:p-5 rounded-none bg-retro-surface border border-retro-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-panel">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-none bg-retro-surface-elevated text-retro-orange border border-retro-border">
-              <Cpu className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] text-retro-muted uppercase">[ ACTIVE ROSTER ]</span>
-                <h4 className="text-sm font-display font-bold text-retro-paper">
-                  {activeTeam.name}
-                </h4>
-                <span className="text-[9px] font-mono uppercase px-1.5 py-0.2 bg-retro-surface-elevated text-retro-amber border border-retro-border">
-                  {activeTeam.type}
-                </span>
-              </div>
-              <p className="text-xs text-retro-muted font-sans mt-0.5">
-                Current roster: {activeTeam.members?.length} of {activeTeam.maxSize} positions occupied
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
-            <div className="flex -space-x-1.5 overflow-hidden">
-              {activeTeam.members?.map((m) => (
-                <Avatar key={m.id} name={m.name} size="sm" className="ring-1 ring-retro-surface" />
-              ))}
-            </div>
-            <Button
-              variant="outline"
-              size="sm"
-              icon={ArrowRight}
-              iconPosition="right"
-              onClick={() => navigate('/team')}
-            >
-              Team Hub
-            </Button>
-          </div>
-        </div>
-      )}
-
-      {/* Recommended Opportunities Section */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between border-b border-retro-border pb-2">
+      {/* 3. YOUR PROJECTS ──────────────── */}
+      <section className="space-y-4">
+        <div className="flex items-center justify-between border-b-2 border-ink pb-2">
           <div>
-            <div className="text-[10px] text-retro-muted uppercase tracking-widest">[ DISPATCH // OPPORTUNITIES ]</div>
-            <h3 className="text-sm font-bold text-retro-paper tracking-wider uppercase">
-              Recommended Opportunities
+            <span className="text-[10px] font-mono font-bold text-ink/60 uppercase">// 01 DIRECTORY</span>
+            <h3 className="text-base font-display font-extrabold text-ink uppercase tracking-wide">
+              YOUR PROJECTS
             </h3>
           </div>
           <Button
             variant="ghost"
             size="sm"
-            icon={ArrowRight}
-            iconPosition="right"
             onClick={() => navigate('/discover/opportunities')}
+            className="text-xs font-mono font-bold"
           >
-            View All
+            [ VIEW ALL ({opportunities?.length || 10}) → ]
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {recommendedOpportunities.map((opp) => (
             <OpportunityCard
               key={opp.id}
               opportunity={opp}
-              matchScore={opp.matchScore}
-              onView={(o) => navigate(`/opportunities/${o.id}`)}
+              onView={(o) => navigate(`/discover/opportunities?id=${o.id}`)}
             />
           ))}
         </div>
-      </div>
+      </section>
 
-      {/* Recommended Students Section */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between border-b border-retro-border pb-2">
+      {/* 4. PEOPLE TO MEET ──────────────── */}
+      <section className="space-y-4">
+        <div className="flex items-center justify-between border-b-2 border-ink pb-2">
           <div>
-            <div className="text-[10px] text-retro-muted uppercase tracking-widest">[ DISPATCH // COLLABORATORS ]</div>
-            <h3 className="text-sm font-bold text-retro-paper tracking-wider uppercase">
-              Recommended Collaborators
+            <span className="text-[10px] font-mono font-bold text-ink/60 uppercase">// 02 COMPATIBLE NODES</span>
+            <h3 className="text-base font-display font-extrabold text-ink uppercase tracking-wide">
+              PEOPLE TO MEET
             </h3>
           </div>
           <Button
             variant="ghost"
             size="sm"
-            icon={ArrowRight}
-            iconPosition="right"
             onClick={() => navigate('/discover/students')}
+            className="text-xs font-mono font-bold"
           >
-            Discover More
+            [ EXPLORE DIRECTORY → ]
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {recommendedStudents.map((st) => (
             <StudentCard
               key={st.id}
               student={st}
-              matchScore={st.matchScore}
+              matchScore={st.matchScore || (st.id === 'student-2' ? 94 : st.id === 'student-3' ? 91 : 88)}
               isRequested={sentConnections.includes(st.id)}
               onConnect={handleConnect}
               onViewProfile={(s) => navigate(`/profile?id=${s.id}`)}
             />
           ))}
         </div>
-      </div>
+      </section>
+
+      {/* 5. YOUR TEAM & TEAM GAP ──────────────── */}
+      <section className="space-y-4">
+        <div className="border-b-2 border-ink pb-2 flex items-center justify-between">
+          <div>
+            <span className="text-[10px] font-mono font-bold text-ink/60 uppercase">// 03 SQUAD ROSTER</span>
+            <h3 className="text-base font-display font-extrabold text-ink uppercase tracking-wide">
+              YOUR TEAM & TEAM GAP
+            </h3>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate('/team')}
+            className="font-mono text-xs"
+          >
+            [ TEAM HUB → ]
+          </Button>
+        </div>
+
+        {activeTeam && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            {/* Active Team Block */}
+            <div className="lg:col-span-7 border-2 border-ink bg-white p-5 shadow-brutal-sm space-y-4">
+              <div className="flex items-center justify-between border-b-2 border-ink pb-3">
+                <div>
+                  <span className="text-[10px] font-mono font-bold uppercase text-ink/60">[ ACTIVE SQUAD ]</span>
+                  <h4 className="text-base font-display font-bold text-ink uppercase">{activeTeam.name}</h4>
+                </div>
+                <span className="text-xs font-mono font-bold bg-signal-yellow px-2 py-0.5 border border-ink uppercase">
+                  {activeTeam.type}
+                </span>
+              </div>
+
+              <div className="space-y-2">
+                <span className="text-xs font-mono font-bold text-ink/70">MEMBERS ({activeTeam.members?.length}/{activeTeam.maxSize}):</span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {activeTeam.members?.map((m) => (
+                    <div key={m.id} className="p-2 border border-ink bg-canvas flex items-center gap-2">
+                      <Avatar name={m.name} size="xs" />
+                      <div className="min-w-0 flex-1">
+                        <p className="text-xs font-bold text-ink truncate">{m.name}</p>
+                        <p className="text-[10px] font-mono text-ink/60 truncate">{m.department || 'CSE'}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Team Gap Alert Block */}
+            <div className="lg:col-span-5 border-2 border-ink bg-signal-yellow p-5 shadow-brutal-sm space-y-3 flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] font-mono font-bold text-ink uppercase">[ DIAGNOSTIC ALERT ]</span>
+                <h4 className="text-base font-display font-extrabold text-ink uppercase mt-1">
+                  01 CRITICAL GAP DETECTED
+                </h4>
+                <p className="text-xs text-ink/80 font-sans mt-1">
+                  Your project roster is missing <strong>UI/UX Design</strong> and <strong>Public Speaking</strong> for the upcoming hackathon jury.
+                </p>
+              </div>
+
+              <Button
+                variant="primary"
+                size="md"
+                icon={ArrowRight}
+                iconPosition="right"
+                onClick={() => navigate('/team/gap-analysis')}
+                className="w-full font-mono text-xs"
+              >
+                [ RESOLVE TEAM GAP → ]
+              </Button>
+            </div>
+          </div>
+        )}
+      </section>
     </div>
   );
 }

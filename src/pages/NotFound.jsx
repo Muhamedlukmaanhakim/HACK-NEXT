@@ -1,34 +1,35 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Compass, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import Button from '../components/ui/Button';
 
 export default function NotFound() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-[70vh] flex flex-col items-center justify-center text-center p-6 space-y-4 font-mono">
-      <div className="w-12 h-12 rounded-none bg-retro-surface-elevated border border-retro-border flex items-center justify-center text-retro-orange shadow-panel">
-        <Compass className="w-6 h-6" />
+    <div className="min-h-[70vh] flex flex-col items-center justify-center text-center p-6 space-y-5">
+      <div className="text-7xl sm:text-9xl font-display font-black text-ink leading-none">
+        404
       </div>
       <div className="space-y-1">
-        <div className="text-[10px] font-bold uppercase tracking-widest text-retro-red">
-          [ FAULT // 404_ROUTE_UNRESOLVED ]
+        <div className="text-xs font-mono font-bold uppercase tracking-wider text-brutal-red">
+          ROUTE UNRESOLVED // NOT FOUND
         </div>
-        <h1 className="text-2xl font-display font-bold text-retro-paper uppercase tracking-wide">
-          Target Route Not Found
+        <h1 className="text-2xl sm:text-3xl font-display font-black text-ink uppercase tracking-tight">
+          YOU'VE GONE OFF THE GRID.
         </h1>
-        <p className="text-xs text-retro-muted max-w-sm mx-auto font-sans">
-          The requested coordinate or cluster node does not exist in this campus collaboration grid.
+        <p className="text-xs sm:text-sm font-mono text-ink/70 max-w-sm mx-auto uppercase font-semibold">
+          THE REQUESTED PAGE DOES NOT EXIST IN THE COLLABMATRIX NETWORK.
         </p>
       </div>
       <Button
         variant="primary"
-        size="md"
+        size="lg"
         icon={ArrowLeft}
         onClick={() => navigate('/dashboard')}
+        className="text-xs font-bold uppercase tracking-wider"
       >
-        Return to Dashboard Console
+        RETURN TO DASHBOARD →
       </Button>
     </div>
   );

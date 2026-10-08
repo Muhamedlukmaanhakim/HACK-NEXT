@@ -22,16 +22,16 @@ export default function FilterPanel({
   const activeCount = Object.values(filters).filter(Boolean).length;
 
   const content = (
-    <div className="space-y-4 font-mono">
-      <div className="flex items-center justify-between pb-2.5 border-b border-retro-border">
+    <div className="space-y-4">
+      <div className="flex items-center justify-between pb-3 border-b-2 border-ink">
         <div className="flex items-center gap-2">
-          <Filter className="w-3.5 h-3.5 text-retro-orange" />
-          <h3 className="text-xs font-bold text-retro-paper tracking-wider uppercase">
-            PARAMETER FILTERS
+          <Filter className="w-4 h-4 text-ink stroke-[2.5]" />
+          <h3 className="font-display font-bold text-xs uppercase tracking-wider text-ink">
+            FILTERS
           </h3>
           {activeCount > 0 && (
-            <span className="text-[9px] font-bold px-1.5 py-0.2 bg-retro-orange text-retro-bg">
-              {activeCount}
+            <span className="text-[10px] font-bold px-1.5 py-0.5 bg-signal-yellow text-ink border border-ink">
+              {activeCount} ACTIVE
             </span>
           )}
         </div>
@@ -39,26 +39,26 @@ export default function FilterPanel({
           <button
             type="button"
             onClick={onReset}
-            className="text-[10px] text-retro-amber hover:text-retro-orange flex items-center gap-1 transition-colors uppercase tracking-wider"
+            className="text-[11px] font-mono font-bold text-brutal-red hover:underline flex items-center gap-1 transition-colors uppercase tracking-wider"
           >
-            <RotateCcw className="w-2.5 h-2.5" />
-            <span>[RESET]</span>
+            <RotateCcw className="w-3 h-3 stroke-[2.5]" />
+            <span>RESET</span>
           </button>
         )}
       </div>
 
       {/* Department Filter */}
       {options.departments && (
-        <div className="space-y-1">
-          <label className="text-[10px] font-mono uppercase tracking-wider text-retro-muted">
-            [ FIELD // DEPARTMENT ]
+        <div className="space-y-1.5">
+          <label className="text-[10px] font-mono font-bold uppercase tracking-wider text-ink/70">
+            DEPARTMENT
           </label>
           <select
             value={department}
             onChange={(e) => onChange({ ...filters, department: e.target.value })}
-            className="w-full bg-retro-surface-elevated text-retro-paper text-xs rounded-none border border-retro-border p-2 outline-none focus:border-retro-orange"
+            className="w-full bg-canvas text-ink text-xs font-mono border-2 border-ink p-2 outline-none focus:border-brutal-red focus:bg-white transition-colors"
           >
-            <option value="">All Departments</option>
+            <option value="">ALL DEPARTMENTS</option>
             {options.departments.map((dept) => (
               <option key={dept} value={dept}>{dept}</option>
             ))}
@@ -68,16 +68,16 @@ export default function FilterPanel({
 
       {/* Year Filter */}
       {options.years && (
-        <div className="space-y-1">
-          <label className="text-[10px] font-mono uppercase tracking-wider text-retro-muted">
-            [ FIELD // YEAR_OF_STUDY ]
+        <div className="space-y-1.5">
+          <label className="text-[10px] font-mono font-bold uppercase tracking-wider text-ink/70">
+            YEAR OF STUDY
           </label>
           <select
             value={year}
             onChange={(e) => onChange({ ...filters, year: e.target.value })}
-            className="w-full bg-retro-surface-elevated text-retro-paper text-xs rounded-none border border-retro-border p-2 outline-none focus:border-retro-orange"
+            className="w-full bg-canvas text-ink text-xs font-mono border-2 border-ink p-2 outline-none focus:border-brutal-red focus:bg-white transition-colors"
           >
-            <option value="">All Years</option>
+            <option value="">ALL YEARS</option>
             {options.years.map((y) => (
               <option key={y} value={y}>{y}</option>
             ))}
@@ -87,16 +87,16 @@ export default function FilterPanel({
 
       {/* Category Filter */}
       {options.categories && (
-        <div className="space-y-1">
-          <label className="text-[10px] font-mono uppercase tracking-wider text-retro-muted">
-            [ FIELD // SKILL_DISCIPLINE ]
+        <div className="space-y-1.5">
+          <label className="text-[10px] font-mono font-bold uppercase tracking-wider text-ink/70">
+            DISCIPLINE
           </label>
           <select
             value={category}
             onChange={(e) => onChange({ ...filters, category: e.target.value })}
-            className="w-full bg-retro-surface-elevated text-retro-paper text-xs rounded-none border border-retro-border p-2 outline-none focus:border-retro-orange"
+            className="w-full bg-canvas text-ink text-xs font-mono border-2 border-ink p-2 outline-none focus:border-brutal-red focus:bg-white transition-colors"
           >
-            <option value="">All Disciplines</option>
+            <option value="">ALL DISCIPLINES</option>
             {options.categories.map((c) => (
               <option key={c} value={c}>{c}</option>
             ))}
@@ -106,16 +106,16 @@ export default function FilterPanel({
 
       {/* Project Type Filter (for opportunities) */}
       {options.projectTypes && (
-        <div className="space-y-1">
-          <label className="text-[10px] font-mono uppercase tracking-wider text-retro-muted">
-            [ FIELD // COLLAB_TYPE ]
+        <div className="space-y-1.5">
+          <label className="text-[10px] font-mono font-bold uppercase tracking-wider text-ink/70">
+            PROJECT TYPE
           </label>
           <select
             value={projectType}
             onChange={(e) => onChange({ ...filters, projectType: e.target.value })}
-            className="w-full bg-retro-surface-elevated text-retro-paper text-xs rounded-none border border-retro-border p-2 outline-none focus:border-retro-orange"
+            className="w-full bg-canvas text-ink text-xs font-mono border-2 border-ink p-2 outline-none focus:border-brutal-red focus:bg-white transition-colors"
           >
-            <option value="">All Types</option>
+            <option value="">ALL TYPES</option>
             {options.projectTypes.map((pt) => (
               <option key={pt} value={pt}>{pt}</option>
             ))}
@@ -125,16 +125,16 @@ export default function FilterPanel({
 
       {/* Availability Filter */}
       {options.availabilities && (
-        <div className="space-y-1">
-          <label className="text-[10px] font-mono uppercase tracking-wider text-retro-muted">
-            [ FIELD // AVAILABILITY ]
+        <div className="space-y-1.5">
+          <label className="text-[10px] font-mono font-bold uppercase tracking-wider text-ink/70">
+            AVAILABILITY
           </label>
           <select
             value={availability}
             onChange={(e) => onChange({ ...filters, availability: e.target.value })}
-            className="w-full bg-retro-surface-elevated text-retro-paper text-xs rounded-none border border-retro-border p-2 outline-none focus:border-retro-orange"
+            className="w-full bg-canvas text-ink text-xs font-mono border-2 border-ink p-2 outline-none focus:border-brutal-red focus:bg-white transition-colors"
           >
-            <option value="">Any Schedule</option>
+            <option value="">ANY SCHEDULE</option>
             {options.availabilities.map((a) => (
               <option key={a} value={a}>{a}</option>
             ))}
@@ -147,7 +147,7 @@ export default function FilterPanel({
   return (
     <>
       {/* Desktop Panel */}
-      <div className={`hidden lg:block p-4 rounded-none bg-retro-surface border border-retro-border shadow-panel ${className}`}>
+      <div className={`hidden lg:block p-5 bg-white border-2 border-ink shadow-brutal ${className}`}>
         {content}
       </div>
 
@@ -155,24 +155,24 @@ export default function FilterPanel({
       {isOpen && (
         <div className="fixed inset-0 z-50 lg:hidden flex justify-end">
           <div
-            className="fixed inset-0 bg-retro-bg/85 backdrop-blur-sm"
+            className="fixed inset-0 bg-ink/70 backdrop-blur-xs"
             onClick={onClose}
           />
-          <div className="relative w-full max-w-xs bg-retro-surface border-l border-retro-border h-full p-4 overflow-y-auto z-10 animate-slide-up font-mono">
-            <div className="flex items-center justify-between pb-3 mb-3 border-b border-retro-border">
-              <span className="text-xs font-bold text-retro-paper uppercase tracking-wider">[ PARAMETER FILTERS ]</span>
+          <div className="relative w-full max-w-xs bg-canvas border-l-4 border-ink h-full p-6 overflow-y-auto z-10 font-mono shadow-brutal-xl">
+            <div className="flex items-center justify-between pb-3 mb-4 border-b-2 border-ink">
+              <span className="font-display font-bold text-sm text-ink uppercase tracking-wider">FILTERS</span>
               <button
                 type="button"
                 onClick={onClose}
-                className="p-1 text-retro-muted hover:text-retro-paper"
+                className="p-1 border border-ink bg-white text-ink hover:bg-signal-yellow"
               >
-                <X className="w-4 h-4" />
+                <X className="w-4 h-4 stroke-[2.5]" />
               </button>
             </div>
             {content}
-            <div className="mt-5 pt-3 border-t border-retro-border">
-              <Button variant="primary" className="w-full font-mono text-xs" onClick={onClose}>
-                [ APPLY PARAMETERS ]
+            <div className="mt-6 pt-4 border-t-2 border-ink">
+              <Button variant="primary" className="w-full text-xs" onClick={onClose}>
+                APPLY FILTERS
               </Button>
             </div>
           </div>

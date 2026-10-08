@@ -1,5 +1,5 @@
 import React from 'react';
-import { Terminal, Check, Info } from 'lucide-react';
+import { Check, Info, Sparkles } from 'lucide-react';
 import Button from '../ui/Button';
 import SkillBadge from '../skills/SkillBadge';
 
@@ -7,7 +7,6 @@ export default function AIAnalysisCard({
   analysis,
   onApplySkills,
   onRemoveSkill,
-  onAddCustomSkill,
   className = '',
 }) {
   if (!analysis) return null;
@@ -19,34 +18,31 @@ export default function AIAnalysisCard({
   } = analysis;
 
   return (
-    <div className={`p-5 rounded-none bg-retro-surface border border-retro-orange shadow-panel transition-all duration-300 animate-slide-up font-mono ${className}`}>
+    <div className={`p-5 bg-white border-2 border-ink shadow-brutal animate-slide-up ${className}`}>
       {/* Header */}
-      <div className="flex items-center justify-between gap-3 mb-3 border-b border-retro-border pb-2.5">
-        <div className="flex items-center gap-2">
-          <div className="p-1 rounded-sm bg-retro-surface-elevated border border-retro-orange/60 text-retro-orange">
-            <Terminal className="w-4 h-4" />
+      <div className="flex items-center justify-between pb-3 mb-3 border-b-2 border-ink">
+        <div>
+          <div className="text-[10px] font-mono font-bold text-brutal-red uppercase tracking-wider">
+            NATURAL LANGUAGE PARSER // ANALYSIS COMPLETE
           </div>
-          <div>
-            <div className="text-[10px] text-retro-muted uppercase tracking-wider">[ SUBROUTINE // NLP_PARSER ]</div>
-            <h4 className="text-xs font-bold text-retro-paper tracking-wider uppercase">
-              AI Requirement Analysis
-            </h4>
-          </div>
+          <h4 className="font-display font-black text-sm uppercase text-ink">
+            PARSED COMPETENCIES IDENTIFIED
+          </h4>
         </div>
-        <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-none bg-retro-orange/15 text-retro-orange border border-retro-orange/40">
-          CONFIDENCE: {confidence}%
+        <span className="font-mono text-xs font-bold px-2 py-0.5 bg-signal-yellow text-ink border border-ink">
+          CONFIDENCE {confidence}%
         </span>
       </div>
 
       {/* Summary */}
-      <div className="text-xs text-retro-paper/80 mb-3 bg-retro-surface-elevated p-3 border border-retro-border font-sans leading-relaxed">
+      <div className="text-xs font-sans text-ink/80 bg-canvas p-3 border-2 border-ink mb-4 leading-relaxed font-normal">
         {summary}
       </div>
 
       {/* Detected Skills */}
-      <div className="mb-4 space-y-1.5">
-        <div className="text-[10px] font-mono uppercase tracking-widest text-retro-muted">
-          // DETECTED COMPETENCY VECTORS:
+      <div className="mb-4 space-y-2">
+        <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-ink/70">
+          IDENTIFIED REQUIRED SKILLS ({skills.length}):
         </div>
         <div className="flex flex-wrap gap-1.5">
           {skills.map((skill) => (
@@ -58,7 +54,7 @@ export default function AIAnalysisCard({
             />
           ))}
           {skills.length === 0 && (
-            <span className="text-xs text-retro-muted italic">
+            <span className="text-xs font-mono text-ink/50 uppercase">
               No matching skill vectors detected.
             </span>
           )}
@@ -66,20 +62,21 @@ export default function AIAnalysisCard({
       </div>
 
       {/* Actions */}
-      <div className="pt-2.5 border-t border-retro-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
-        <div className="flex items-center gap-1.5 text-[10px] text-retro-muted">
-          <Info className="w-3.5 h-3.5 text-retro-amber flex-shrink-0" />
-          <span>PROTOTYPE: results are simulated from mock data.</span>
+      <div className="pt-3 border-t-2 border-ink flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="flex items-center gap-1.5 text-[11px] font-mono text-ink/60">
+          <Info className="w-3.5 h-3.5 text-ink flex-shrink-0" />
+          <span>SIMULATION: Mock requirement extraction engine.</span>
         </div>
 
         {onApplySkills && skills.length > 0 && (
           <Button
-            variant="primary"
+            variant="danger"
             size="sm"
             icon={Check}
             onClick={onApplySkills}
+            className="text-xs font-bold"
           >
-            Apply to Required Skills
+            MERGE SKILLS INTO PROJECT →
           </Button>
         )}
       </div>

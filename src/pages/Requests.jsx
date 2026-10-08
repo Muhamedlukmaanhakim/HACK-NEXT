@@ -25,8 +25,8 @@ export default function Requests() {
     await acceptRequest(req.id);
     addToast({
       type: 'success',
-      title: 'Collaboration Confirmed',
-      message: `${req.student?.name} has been enrolled into your project roster!`,
+      title: 'COLLABORATION CONFIRMED',
+      message: `${req.student?.name} has joined your project roster!`,
     });
   };
 
@@ -35,24 +35,24 @@ export default function Requests() {
     await declineRequest(declineModalState.request.id);
     addToast({
       type: 'info',
-      title: 'Request Archived',
+      title: 'REQUEST ARCHIVED',
       message: `Declined request from ${declineModalState.request.student?.name}.`,
     });
     setDeclineModalState({ isOpen: false, request: null });
   };
 
   return (
-    <div className="space-y-6 animate-fade-in font-mono">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="border-b border-retro-border pb-4">
-        <div className="text-[10px] text-retro-muted uppercase tracking-widest mb-1">
-          [ SECTION 09 // ESTABLISH CONNECTION ]
+      <div className="border-b-3 border-ink pb-6">
+        <div className="text-xs font-mono font-bold uppercase tracking-wider text-brutal-red mb-1">
+          05 / COLLABORATION REQUESTS
         </div>
-        <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper tracking-wide uppercase">
-          ESTABLISH CONNECTION <span className="text-retro-orange">//</span> REQUESTS
+        <h1 className="text-3xl sm:text-5xl font-display font-black text-ink uppercase tracking-tight leading-none">
+          INBOX & SENT INVITATIONS.
         </h1>
-        <p className="text-xs text-retro-muted font-sans mt-0.5">
-          Review inbound applications to join your projects and monitor outgoing team invitations.
+        <p className="text-xs sm:text-sm font-mono text-ink/70 font-semibold uppercase mt-2">
+          REVIEW INBOUND APPLICATIONS AND MONITOR OUTGOING INVITATIONS
         </p>
       </div>
 
@@ -67,10 +67,10 @@ export default function Requests() {
       />
 
       {/* Content */}
-      <div className="space-y-3.5">
+      <div className="space-y-4">
         {activeTab === 'incoming' ? (
           incomingRequests.length > 0 ? (
-            <div className="grid grid-cols-1 gap-3.5">
+            <div className="grid grid-cols-1 gap-4">
               {incomingRequests.map((req) => (
                 <RequestCard
                   key={req.id}
@@ -84,13 +84,13 @@ export default function Requests() {
           ) : (
             <EmptyState
               icon={Inbox}
-              title="No incoming collaboration dispatches"
-              description="When students discover your opportunities and apply, their dispatches will register here."
+              title="NO INCOMING COLLABORATION REQUESTS"
+              description="When students discover your opportunities and apply, their dispatches will appear here."
             />
           )
         ) : (
           sentRequests.length > 0 ? (
-            <div className="grid grid-cols-1 gap-3.5">
+            <div className="grid grid-cols-1 gap-4">
               {sentRequests.map((req) => (
                 <RequestCard
                   key={req.id}
@@ -102,7 +102,7 @@ export default function Requests() {
           ) : (
             <EmptyState
               icon={Send}
-              title="No transmitted invitations"
+              title="NO TRANSMITTED INVITATIONS"
               description="You have not transmitted invitations to any collaborators yet. Explore students or inspect matches to connect."
             />
           )
@@ -113,30 +113,30 @@ export default function Requests() {
       <Modal
         isOpen={declineModalState.isOpen}
         onClose={() => setDeclineModalState({ isOpen: false, request: null })}
-        title="Decline Collaboration Request?"
+        title="DECLINE COLLABORATION REQUEST?"
         description="Confirm rejection of this student's request to join your project roster."
         footer={
           <>
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
               onClick={() => setDeclineModalState({ isOpen: false, request: null })}
             >
-              Cancel
+              CANCEL
             </Button>
             <Button
               variant="danger"
               size="sm"
               onClick={handleConfirmDecline}
             >
-              Decline Dispatch
+              DECLINE DISPATCH
             </Button>
           </>
         }
       >
-        <div className="p-3 rounded-none bg-retro-red/10 border border-retro-red/30 flex items-center gap-2.5 text-xs text-retro-red font-mono">
-          <AlertTriangle className="w-4 h-4 flex-shrink-0" />
-          <span>The applicant will receive telemetry notification that your roster is currently occupied.</span>
+        <div className="p-3 bg-canvas border-2 border-ink flex items-center gap-2.5 text-xs text-ink font-mono font-bold">
+          <AlertTriangle className="w-4 h-4 text-brutal-red flex-shrink-0 stroke-[2.5]" />
+          <span>The applicant will receive notification that the project roster is currently full.</span>
         </div>
       </Modal>
     </div>

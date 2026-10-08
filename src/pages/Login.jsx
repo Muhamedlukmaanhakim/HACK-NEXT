@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Mail, Lock, LogIn, KeyRound, Cpu } from 'lucide-react';
+import { Mail, Lock, LogIn, KeyRound, ArrowRight } from 'lucide-react';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
 import Modal from '../components/ui/Modal';
@@ -46,7 +46,7 @@ export default function Login() {
       addToast({
         type: 'success',
         title: 'Session Authenticated',
-        message: 'Welcome back to CollabMatrix console.',
+        message: 'Welcome back to CollabMatrix.',
       });
       navigate(destination, { replace: true });
     } catch (err) {
@@ -78,7 +78,7 @@ export default function Login() {
       addToast({
         type: 'success',
         title: 'Google Sign-In Active',
-        message: 'Authenticated with campus Google workspace.',
+        message: 'Authenticated with Google account.',
       });
       navigate('/dashboard', { replace: true });
     } finally {
@@ -100,54 +100,50 @@ export default function Login() {
     addToast({
       type: 'info',
       title: 'Reset Token Dispatched',
-      message: `A simulated recovery token was sent to ${forgotEmail}.`,
+      message: `Simulated recovery token dispatched to ${forgotEmail}.`,
     });
     setForgotEmail('');
   };
 
   return (
-    <div className="space-y-5 font-mono">
+    <div className="space-y-6 font-mono">
       <div>
-        <div className="text-[10px] text-retro-muted uppercase tracking-widest mb-1">
-          [ AUTH // CONSOLE_SIGN_IN ]
+        <div className="text-[11px] font-mono font-bold text-ink/60 uppercase tracking-widest mb-1">
+          01 / AUTHENTICATION
         </div>
-        <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper uppercase tracking-wide">
-          Operator Authentication
+        <h1 className="text-2xl sm:text-3xl font-display font-extrabold text-ink uppercase tracking-tight">
+          WELCOME BACK.
         </h1>
-        <p className="text-xs text-retro-muted font-sans mt-0.5">
-          Sign in to access your collaboration console and team telemetry.
+        <p className="text-xs text-ink/70 font-sans mt-0.5">
+          Sign in to access your collaboration dashboard and active build squads.
         </p>
       </div>
 
       {/* Demo Login Quick Shortcut Banner */}
-      <div className="p-3.5 rounded-none bg-retro-surface-elevated border border-retro-orange/60 flex items-center justify-between gap-3 shadow-panel">
-        <div className="flex items-center gap-2.5">
-          <div className="p-1.5 rounded-none bg-retro-surface border border-retro-orange text-retro-orange">
-            <Cpu className="w-4 h-4" />
-          </div>
-          <div>
-            <p className="text-xs font-bold text-retro-paper">HACKATHON DEMO MODE</p>
-            <p className="text-[10px] text-retro-muted">Instant 1-click access as Lukmaan Hakim</p>
-          </div>
+      <div className="p-4 border-2 border-ink bg-signal-yellow shadow-brutal-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div>
+          <p className="text-xs font-display font-extrabold text-ink uppercase tracking-wider">HACKATHON DEMO MODE</p>
+          <p className="text-[11px] font-mono text-ink/80">1-click instant login as Lukmaan Hakim (CSE, YR-02)</p>
         </div>
         <Button
           variant="primary"
           size="sm"
           onClick={handleDemoLogin}
           isLoading={isSubmitting}
+          className="w-full sm:w-auto"
         >
-          [ DEMO LOGIN ]
+          [ DEMO LOGIN → ]
         </Button>
       </div>
 
       {errors.form && (
-        <div className="p-2.5 rounded-none bg-retro-red/10 border border-retro-red/40 text-xs text-retro-red">
-          [ERR: {errors.form}]
+        <div className="p-3 border-2 border-brutal-red bg-brutal-red/10 text-xs font-bold text-brutal-red">
+          ERR: {errors.form}
         </div>
       )}
 
       {/* Standard Email/Password Form */}
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 font-sans">
         <Input
           label="College Email"
           type="email"
@@ -176,11 +172,11 @@ export default function Login() {
             error={errors.password}
             required
           />
-          <div className="flex justify-end mt-1">
+          <div className="flex justify-end mt-1 font-mono">
             <button
               type="button"
               onClick={() => setForgotModalOpen(true)}
-              className="text-[11px] text-retro-muted hover:text-retro-amber transition-colors uppercase tracking-wider"
+              className="text-xs text-ink/70 hover:text-brutal-red font-bold transition-colors uppercase tracking-wider"
             >
               [ Forgot password? ]
             </button>
@@ -201,27 +197,27 @@ export default function Login() {
 
       {/* Divider */}
       <div className="relative flex items-center justify-center">
-        <div className="border-t border-retro-border w-full" />
-        <span className="bg-retro-bg px-3 text-[10px] text-retro-muted uppercase tracking-widest relative">
+        <div className="border-t-2 border-ink w-full" />
+        <span className="bg-canvas px-3 text-[10px] font-mono font-bold text-ink/60 uppercase tracking-widest relative">
           // OR //
         </span>
       </div>
 
-      {/* Google Simulated OAuth */}
+      {/* Google Button */}
       <Button
         variant="secondary"
         size="md"
         className="w-full font-mono text-xs"
         onClick={handleGoogleLogin}
       >
-        Continue with your Google account
+        CONTINUE WITH YOUR GOOGLE ACCOUNT
       </Button>
 
       {/* Register redirect */}
-      <p className="text-xs text-retro-muted text-center pt-2">
+      <p className="text-xs font-mono text-ink/70 text-center pt-2">
         New operator?{' '}
-        <Link to="/register" className="text-retro-orange hover:text-retro-amber font-bold transition-colors uppercase tracking-wider">
-          Create Account
+        <Link to="/register" className="text-brutal-red hover:underline font-bold uppercase tracking-wider ml-1">
+          [ CREATE ACCOUNT ]
         </Link>
       </p>
 
@@ -237,12 +233,12 @@ export default function Login() {
               Cancel
             </Button>
             <Button variant="primary" size="sm" icon={KeyRound} onClick={handleResetPassword}>
-              Send Recovery Token
+              [ Send Token ]
             </Button>
           </>
         }
       >
-        <div className="space-y-4 py-2">
+        <div className="space-y-4 py-2 font-sans">
           <Input
             label="College Email"
             type="email"

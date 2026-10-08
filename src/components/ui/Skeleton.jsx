@@ -2,19 +2,19 @@ import React from 'react';
 
 export default function Skeleton({ className = '', variant = 'text' }) {
   const variants = {
-    text: 'h-3.5 w-full rounded-none',
-    title: 'h-5 w-3/4 rounded-none',
-    avatar: 'w-9 h-9 rounded-none',
-    card: 'h-44 w-full rounded-none',
-    badge: 'h-5 w-16 rounded-none',
-    button: 'h-8 w-24 rounded-none',
+    text: 'h-4 w-full',
+    title: 'h-6 w-3/4',
+    avatar: 'w-10 h-10 border-2 border-ink',
+    card: 'h-48 w-full border-2 border-ink',
+    badge: 'h-5 w-16 border border-ink',
+    button: 'h-9 w-24 border-2 border-ink',
   };
 
   const variantClass = variants[variant] || '';
 
   return (
     <div
-      className={`bg-retro-surface-elevated/80 animate-pulse border border-retro-border/40 ${variantClass} ${className}`}
+      className={`bg-ink/10 animate-pulse ${variantClass} ${className}`}
       aria-hidden="true"
     />
   );
@@ -22,10 +22,10 @@ export default function Skeleton({ className = '', variant = 'text' }) {
 
 export function CardSkeleton() {
   return (
-    <div className="p-4 rounded-none bg-retro-surface border border-retro-border space-y-3 font-mono">
+    <div className="p-5 bg-white border-2 border-ink shadow-brutal space-y-4">
       <div className="flex items-center gap-3">
         <Skeleton variant="avatar" />
-        <div className="space-y-1.5 flex-1">
+        <div className="space-y-2 flex-1">
           <Skeleton variant="title" className="w-1/2" />
           <Skeleton variant="text" className="w-1/3" />
         </div>

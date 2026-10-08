@@ -8,125 +8,117 @@ export default {
   theme: {
     extend: {
       colors: {
-        retro: {
-          bg: '#101820',
-          surface: '#17232B',
-          'surface-elevated': '#1D2A31',
-          'surface-hover': '#24333B',
-          border: 'rgba(241, 232, 211, 0.14)',
-          paper: '#F1E8D3',
-          'paper-dim': '#D8CCB5',
-          muted: '#75848C',
-          orange: '#F05A47', // Muted Coral
-          coral: '#F05A47',
-          amber: '#D8A94A',  // Muted Yellow / NASA Gold
-          yellow: '#D8A94A',
-          teal: '#79B8A5',   // Muted Analog Mint
-          mint: '#79B8A5',
-          red: '#D9534F',
+        canvas: {
+          DEFAULT: '#F4F1E8', // Primary off-white canvas
+          pure: '#FFFFFF',
+          dark: '#111111',
+          muted: '#EAE6DB',
         },
         ink: {
-          DEFAULT: '#101820',
-          dark: '#0B1117',
-          surface: '#17232B',
-          elevated: '#1D2A31',
-          hover: '#24333B',
+          DEFAULT: '#111111', // Primary black
+          pure: '#000000',
+          secondary: '#252525',
+          muted: '#555555',
+          subtle: '#777777',
         },
-        sand: {
-          DEFAULT: '#F1E8D3',
-          muted: '#D8CCB5',
-          dim: '#75848C',
-          border: 'rgba(241, 232, 211, 0.14)',
+        brutal: {
+          red: '#FF4D2E',    // Brutal Red
+          yellow: '#FFD43B', // Signal Yellow
+          green: '#3FA66B',  // Campus Green
+          black: '#111111',
+          white: '#FFFFFF',
+          canvas: '#F4F1E8',
+          dark: '#252525',
         },
-        coral: {
-          DEFAULT: '#F05A47',
-          hover: '#D94D3B',
-          glow: 'rgba(240, 90, 71, 0.25)',
-        },
-        mint: {
-          DEFAULT: '#79B8A5',
-          glow: 'rgba(121, 184, 165, 0.25)',
-        },
-        yellow: {
-          DEFAULT: '#D8A94A',
-          glow: 'rgba(216, 169, 74, 0.25)',
+        // Semantic aliases & backward compatibility
+        retro: {
+          bg: '#F4F1E8',
+          surface: '#FFFFFF',
+          'surface-elevated': '#F4F1E8',
+          'surface-hover': '#ECE8DD',
+          border: '#111111',
+          paper: '#111111',
+          'paper-dim': '#333333',
+          muted: '#555555',
+          orange: '#FF4D2E',
+          coral: '#FF4D2E',
+          amber: '#FFD43B',
+          yellow: '#FFD43B',
+          teal: '#3FA66B',
+          mint: '#3FA66B',
+          red: '#FF4D2E',
         },
         background: {
-          DEFAULT: '#101820', // Deep ink / blue-black
-          subtle: '#0D141B',
-          pure: '#080D11',
+          DEFAULT: '#F4F1E8',
+          subtle: '#EAE6DB',
+          pure: '#FFFFFF',
         },
         surface: {
-          DEFAULT: '#17232B', // Deep ink secondary surface
-          elevated: '#1D2A31', // Elevated instrument panel
-          hover: '#24333B',
-          border: 'rgba(241, 232, 211, 0.14)', // Warm parchment line
-          'border-subtle': 'rgba(241, 232, 211, 0.07)',
-          'border-hover': 'rgba(240, 90, 71, 0.4)',
-          'border-active': 'rgba(240, 90, 71, 0.7)',
+          DEFAULT: '#FFFFFF',
+          elevated: '#F4F1E8',
+          hover: '#ECE8DD',
+          border: '#111111',
+          'border-subtle': '#111111',
+          'border-hover': '#FF4D2E',
+          'border-active': '#111111',
         },
         paper: {
-          DEFAULT: '#F1E8D3', // Warm Sand / Ivory paper
-          dim: '#D8CCB5',
-          muted: '#75848C',
+          DEFAULT: '#111111',
+          dim: '#333333',
+          muted: '#555555',
         },
         accent: {
-          DEFAULT: '#F05A47', // Primary Retro Coral
-          coral: '#F05A47',
-          orange: '#F05A47',  // Muted Coral
-          amber: '#D8A94A',   // Warm Yellow / NASA Gold
-          yellow: '#D8A94A',
-          red: '#D9534F',     // Muted Vintage Red
-          teal: '#79B8A5',    // Desaturated Analog Mint
-          mint: '#79B8A5',
-          ochre: '#D8A94A',
+          DEFAULT: '#FF4D2E',
+          coral: '#FF4D2E',
+          orange: '#FF4D2E',
+          amber: '#FFD43B',
+          yellow: '#FFD43B',
+          red: '#FF4D2E',
+          teal: '#3FA66B',
+          mint: '#3FA66B',
         },
         text: {
-          primary: '#F1E8D3',   // Warm Sand
-          secondary: '#D8CCB5', // Warm muted sand
-          muted: '#75848C',     // Dim ink graphite
+          primary: '#111111',
+          secondary: '#333333',
+          muted: '#666666',
         },
         status: {
-          success: '#79B8A5',   // Analog Mint
-          warning: '#D8A94A',   // Vintage Yellow
-          danger: '#D9534F',    // Muted Red
-          info: '#F05A47',      // Muted Coral
+          success: '#3FA66B',
+          warning: '#FFD43B',
+          danger: '#FF4D2E',
+          info: '#111111',
         },
-        category: {
-          technical: '#F05A47',    // Coral
-          creative: '#D8A94A',     // Yellow
-          communication: '#79B8A5',// Mint
-          research: '#D9534F',     // Red
-          business: '#D8A94A',     // Yellow
-          leadership: '#79B8A5',   // Mint
-        }
       },
       fontFamily: {
-        display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
-        sans: ['"Space Grotesk"', 'Inter', 'system-ui', 'sans-serif'],
+        display: ['"Space Grotesk"', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
         mono: ['"Space Mono"', '"JetBrains Mono"', 'monospace'],
       },
       borderRadius: {
         'none': '0px',
         'sm': '2px',
-        'DEFAULT': '4px',
-        'md': '6px',
-        'lg': '8px',
-        'xl': '10px',
-        '2xl': '12px',
+        'DEFAULT': '0px',
+        'md': '2px',
+        'lg': '4px',
+        'xl': '4px',
+        '2xl': '4px',
       },
       boxShadow: {
-        'panel': '0 4px 20px -2px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(233, 223, 201, 0.05)',
-        'elevated': '0 10px 30px -4px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(233, 223, 201, 0.08)',
-        'terminal': '0 0 15px rgba(242, 106, 46, 0.15)',
-        'amber-glow': '0 0 15px rgba(245, 181, 68, 0.18)',
-        'teal-glow': '0 0 15px rgba(77, 139, 131, 0.18)',
+        'brutal': '4px 4px 0 #111111',
+        'brutal-sm': '2px 2px 0 #111111',
+        'brutal-lg': '6px 6px 0 #111111',
+        'brutal-xl': '8px 8px 0 #111111',
+        'brutal-red': '4px 4px 0 #FF4D2E',
+        'brutal-yellow': '4px 4px 0 #FFD43B',
+        'brutal-green': '4px 4px 0 #3FA66B',
+        // Legacy compatibility
+        'panel': '3px 3px 0 #111111',
+        'elevated': '5px 5px 0 #111111',
+        'terminal': '4px 4px 0 #FF4D2E',
       },
       animation: {
-        'fade-in': 'fadeIn 0.2s ease-out forwards',
-        'slide-up': 'slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-        'radar-sweep': 'radarSweep 4s linear infinite',
-        'blink': 'blink 1.2s ease-in-out infinite',
+        'fade-in': 'fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'slide-up': 'slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
       },
       keyframes: {
         fadeIn: {
@@ -134,17 +126,9 @@ export default {
           '100%': { opacity: '1' },
         },
         slideUp: {
-          '0%': { opacity: '0', transform: 'translateY(8px)' },
+          '0%': { opacity: '0', transform: 'translateY(12px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-        radarSweep: {
-          '0%': { transform: 'rotate(0deg)' },
-          '100%': { transform: 'rotate(360deg)' },
-        },
-        blink: {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0.2' },
-        }
       }
     },
   },

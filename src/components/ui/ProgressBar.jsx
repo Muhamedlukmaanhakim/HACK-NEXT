@@ -5,44 +5,47 @@ export default function ProgressBar({
   max = 100,
   label,
   showValue = false,
-  variant = 'orange',
+  variant = 'ink',
   size = 'md',
   className = '',
 }) {
   const percentage = Math.min(100, Math.max(0, Math.round((value / max) * 100)));
 
   const variants = {
-    coral: 'bg-retro-coral',
-    mint: 'bg-retro-mint',
-    yellow: 'bg-retro-yellow',
-    orange: 'bg-retro-orange',
-    amber: 'bg-retro-amber',
-    teal: 'bg-retro-teal',
-    indigo: 'bg-retro-coral',
-    success: 'bg-retro-mint',
-    warning: 'bg-retro-yellow',
-    danger: 'bg-retro-red',
+    ink: 'bg-ink',
+    black: 'bg-ink',
+    red: 'bg-brutal-red',
+    coral: 'bg-brutal-red',
+    orange: 'bg-brutal-red',
+    yellow: 'bg-brutal-yellow',
+    amber: 'bg-brutal-yellow',
+    green: 'bg-brutal-green',
+    mint: 'bg-brutal-green',
+    teal: 'bg-brutal-green',
+    success: 'bg-brutal-green',
+    warning: 'bg-brutal-yellow',
+    danger: 'bg-brutal-red',
   };
 
   const sizes = {
-    sm: 'h-1.5',
-    md: 'h-2.5',
-    lg: 'h-3.5',
+    sm: 'h-2',
+    md: 'h-3.5',
+    lg: 'h-5',
   };
 
-  const colorClass = variants[variant] || variants.orange;
+  const colorClass = variants[variant] || variants.ink;
   const sizeClass = sizes[size] || sizes.md;
 
   return (
     <div className={`w-full space-y-1 ${className}`}>
       {(label || showValue) && (
-        <div className="flex justify-between items-center text-[11px] font-mono">
-          {label && <span className="text-retro-muted uppercase tracking-wider">{label}</span>}
-          {showValue && <span className="font-bold text-retro-paper">{percentage}%</span>}
+        <div className="flex justify-between items-center text-xs font-mono font-bold">
+          {label && <span className="text-ink uppercase tracking-wider">{label}</span>}
+          {showValue && <span className="text-ink font-bold">{percentage}%</span>}
         </div>
       )}
       <div
-        className={`w-full bg-retro-bg rounded-none border border-retro-border p-0.5 relative overflow-hidden ${sizeClass}`}
+        className={`w-full bg-white border-2 border-ink relative overflow-hidden ${sizeClass}`}
         role="progressbar"
         aria-valuenow={value}
         aria-valuemin={0}
@@ -50,7 +53,7 @@ export default function ProgressBar({
         aria-label={label || 'Progress'}
       >
         <div
-          className={`h-full transition-all duration-500 ease-out ${colorClass}`}
+          className={`h-full transition-all duration-700 ease-out ${colorClass}`}
           style={{ width: `${percentage}%` }}
         />
       </div>

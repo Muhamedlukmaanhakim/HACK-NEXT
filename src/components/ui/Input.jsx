@@ -22,23 +22,23 @@ const Input = forwardRef(function Input(
   const helperId = `${inputId}-helper`;
 
   return (
-    <div className="w-full space-y-1.5 font-sans">
+    <div className="w-full space-y-1 font-sans">
       {label && (
         <label
           htmlFor={inputId}
-          className="flex items-center justify-between text-[11px] font-mono font-semibold uppercase tracking-wider text-text-secondary"
+          className="flex items-center justify-between text-xs font-mono font-bold uppercase tracking-wider text-ink"
         >
           <span>
             {label}
-            {required && <span className="text-accent-orange ml-1">*</span>}
+            {required && <span className="text-brutal-red ml-1">*</span>}
           </span>
-          <span className="text-[10px] text-text-muted select-none">SYS_IN</span>
+          <span className="text-[10px] text-ink/40 select-none">// INPUT</span>
         </label>
       )}
 
-      <div className="relative rounded-sm">
+      <div className="relative">
         {Icon && (
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-text-muted">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-ink/60">
             <Icon className="w-4 h-4" aria-hidden="true" />
           </div>
         )}
@@ -53,14 +53,14 @@ const Input = forwardRef(function Input(
           aria-describedby={
             error ? errorId : helperText ? helperId : undefined
           }
-          className={`w-full bg-surface-elevated text-paper placeholder:text-text-muted text-xs sm:text-sm rounded-sm border transition-all duration-150 outline-none
+          className={`w-full bg-white text-ink placeholder:text-ink/40 text-sm border-2 border-ink rounded-none transition-all duration-150 outline-none
             ${Icon ? 'pl-9' : 'pl-3'}
             ${IconRight ? 'pr-9' : 'pr-3'}
-            py-2 h-10
+            py-2 h-11
             ${
               error
-                ? 'border-status-danger/70 focus:border-status-danger focus:ring-1 focus:ring-status-danger'
-                : 'border-surface-border hover:border-surface-border-hover focus:border-accent-orange focus:ring-1 focus:ring-accent-orange/40'
+                ? 'border-brutal-red bg-brutal-red/5 focus:border-brutal-red'
+                : 'hover:border-black focus:border-brutal-red focus:shadow-brutal-sm'
             }
             disabled:opacity-50 disabled:cursor-not-allowed
             ${className}`}
@@ -68,18 +68,18 @@ const Input = forwardRef(function Input(
         />
 
         {IconRight && (
-          <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-text-muted">
+          <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-ink/60">
             <IconRight className="w-4 h-4" aria-hidden="true" />
           </div>
         )}
       </div>
 
       {error ? (
-        <p id={errorId} className="text-[11px] font-mono text-status-danger flex items-center gap-1 font-medium">
-          [ ERR // {error} ]
+        <p id={errorId} className="text-xs font-mono text-brutal-red font-bold flex items-center gap-1">
+          ERR: {error}
         </p>
       ) : helperText ? (
-        <p id={helperId} className="text-[11px] font-mono text-text-muted">
+        <p id={helperId} className="text-[11px] font-mono text-ink/60">
           // {helperText}
         </p>
       ) : null}

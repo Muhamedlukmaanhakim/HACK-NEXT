@@ -22,14 +22,14 @@ const Select = forwardRef(function Select(
   const helperId = `${selectId}-helper`;
 
   return (
-    <div className="w-full space-y-1.5 font-sans">
+    <div className="w-full space-y-1.5 font-mono">
       {label && (
         <label
           htmlFor={selectId}
-          className="block text-[11px] font-mono font-semibold uppercase tracking-wider text-text-secondary"
+          className="block text-xs font-mono font-bold uppercase tracking-wider text-ink/80"
         >
           {label}
-          {required && <span className="text-accent-orange ml-1">*</span>}
+          {required && <span className="text-brutal-red ml-1">*</span>}
         </label>
       )}
 
@@ -43,42 +43,44 @@ const Select = forwardRef(function Select(
           aria-describedby={
             error ? errorId : helperText ? helperId : undefined
           }
-          className={`w-full bg-surface-elevated text-paper text-xs sm:text-sm rounded-sm border appearance-none px-3 pr-9 py-2 h-10 transition-all duration-150 outline-none
+          className={`w-full bg-white text-ink text-xs sm:text-sm border-2 appearance-none px-3.5 pr-9 py-2.5 h-11 transition-all duration-150 outline-none
             ${
               error
-                ? 'border-status-danger/70 focus:border-status-danger focus:ring-1 focus:ring-status-danger'
-                : 'border-surface-border hover:border-surface-border-hover focus:border-accent-orange focus:ring-1 focus:ring-accent-orange/40'
+                ? 'border-brutal-red focus:border-brutal-red bg-brutal-red/5'
+                : 'border-ink hover:bg-canvas focus:border-brutal-red focus:bg-canvas'
             }
-            disabled:opacity-50 disabled:cursor-not-allowed
+            shadow-brutal-sm disabled:opacity-50 disabled:cursor-not-allowed
             ${className}`}
           {...props}
         >
-          {placeholder && <option value="" disabled className="bg-surface-elevated text-text-muted">{placeholder}</option>}
+          {placeholder && <option value="" disabled className="bg-white text-ink/40">{placeholder}</option>}
           {options.map((opt) => {
             const value = typeof opt === 'object' ? opt.value : opt;
             const labelText = typeof opt === 'object' ? opt.label : opt;
             return (
-              <option key={value} value={value} className="bg-surface-elevated text-paper">
+              <option key={value} value={value} className="bg-white text-ink font-mono font-semibold">
                 {labelText}
               </option>
             );
           })}
         </select>
 
-        <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-text-muted">
-          <ChevronDown className="w-4 h-4" aria-hidden="true" />
+        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-ink">
+          <ChevronDown className="w-4 h-4 stroke-[2.5]" aria-hidden="true" />
         </div>
       </div>
 
-      {error ? (
-        <p id={errorId} className="text-[11px] font-mono text-status-danger font-medium">
-          [ ERR // {error} ]
+      {error && (
+        <p id={errorId} className="text-xs text-brutal-red font-mono font-bold" role="alert">
+          ERROR: {error}
         </p>
-      ) : helperText ? (
-        <p id={helperId} className="text-[11px] font-mono text-text-muted">
-          // {helperText}
+      )}
+
+      {helperText && !error && (
+        <p id={helperId} className="text-[11px] text-ink/60 font-mono">
+          {helperText}
         </p>
-      ) : null}
+      )}
     </div>
   );
 });

@@ -62,12 +62,12 @@ export default function SkillSelector({
   return (
     <div className={`space-y-3 font-mono ${className}`}>
       {label && (
-        <div className="flex justify-between items-center text-[10px] uppercase tracking-wider">
-          <label className="block font-bold text-retro-paper/80">
-            [ FIELD // {label.toUpperCase()} ]
+        <div className="flex justify-between items-center text-xs font-bold uppercase tracking-wider text-ink/70">
+          <label className="block">
+            {label}
           </label>
           {maxSkills && (
-            <span className="text-retro-muted">
+            <span className="text-ink/60">
               {selectedSkills.length}/{maxSkills} SELECTED
             </span>
           )}
@@ -76,7 +76,7 @@ export default function SkillSelector({
 
       {/* Selected Chips */}
       {selectedSkills.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 p-2.5 bg-retro-surface-elevated border border-retro-border rounded-none min-h-[44px]">
+        <div className="flex flex-wrap gap-1.5 p-3 bg-canvas border-2 border-ink">
           {selectedSkills.map((skill) => (
             <SkillBadge
               key={skill}
@@ -89,8 +89,8 @@ export default function SkillSelector({
 
       {/* Search Input */}
       <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-retro-muted">
-          <Search className="w-3.5 h-3.5" />
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-ink">
+          <Search className="w-3.5 h-3.5 stroke-[2.5]" />
         </div>
         <input
           type="text"
@@ -103,30 +103,30 @@ export default function SkillSelector({
               handleCustomAdd();
             }
           }}
-          className="w-full bg-retro-surface text-retro-paper placeholder:text-retro-muted text-xs rounded-none border border-retro-border hover:border-retro-orange/50 focus:border-retro-orange pl-9 pr-20 py-2 transition-colors outline-none tracking-wide"
+          className="w-full bg-white text-ink placeholder:text-ink/40 text-xs border-2 border-ink focus:border-brutal-red pl-9 pr-20 py-2.5 transition-colors outline-none font-mono"
         />
         {searchQuery.trim() && !PRESET_SKILLS.includes(searchQuery.trim()) && (
           <button
             type="button"
             onClick={handleCustomAdd}
-            className="absolute right-1.5 top-1.5 bottom-1.5 px-2 bg-retro-orange text-retro-bg hover:bg-retro-orange/90 rounded-none text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 transition-colors"
+            className="absolute right-1.5 top-1.5 bottom-1.5 px-2.5 bg-brutal-red text-white hover:bg-ink text-[11px] font-bold uppercase tracking-wider flex items-center gap-1 transition-colors border border-ink"
           >
-            <Plus className="w-3 h-3" /> ADD
+            <Plus className="w-3 h-3 stroke-[2.5]" /> ADD
           </button>
         )}
       </div>
 
       {/* Category Pills */}
-      <div className="flex gap-1 overflow-x-auto pb-1 scrollbar-none">
+      <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none">
         {CATEGORIES.map((cat) => (
           <button
             key={cat}
             type="button"
             onClick={() => setActiveCategory(cat)}
-            className={`px-2.5 py-1 rounded-none text-[10px] font-mono uppercase tracking-wider whitespace-nowrap transition-colors border ${
+            className={`px-2.5 py-1 text-[11px] font-mono font-bold uppercase tracking-wider whitespace-nowrap transition-colors border-2 border-ink ${
               activeCategory === cat
-                ? 'bg-retro-orange text-retro-bg font-bold border-retro-orange'
-                : 'bg-retro-surface-elevated text-retro-paper/70 hover:text-retro-paper border-retro-border hover:border-retro-border-strong'
+                ? 'bg-ink text-canvas shadow-brutal-sm'
+                : 'bg-white text-ink hover:bg-canvas'
             }`}
           >
             {cat}
@@ -135,7 +135,7 @@ export default function SkillSelector({
       </div>
 
       {/* Selectable Skill Chips Grid */}
-      <div className="flex flex-wrap gap-1.5 max-h-40 overflow-y-auto p-1 border border-retro-border/40 bg-retro-surface/50 scrollbar-none">
+      <div className="flex flex-wrap gap-1.5 max-h-44 overflow-y-auto p-2 border-2 border-ink bg-canvas scrollbar-none">
         {filteredSkills.map((skill) => {
           const isSelected = selectedSkills.includes(skill);
           return (
@@ -143,13 +143,13 @@ export default function SkillSelector({
               key={skill}
               type="button"
               onClick={() => toggleSkill(skill)}
-              className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-none text-[10px] font-mono border transition-all duration-150 ${
+              className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono font-bold border-2 border-ink transition-all ${
                 isSelected
-                  ? 'bg-retro-orange text-retro-bg font-bold border-retro-orange'
-                  : 'bg-retro-surface-elevated text-retro-paper/80 border-retro-border hover:border-retro-orange/60 hover:text-retro-paper'
+                  ? 'bg-ink text-canvas shadow-brutal-sm'
+                  : 'bg-white text-ink hover:bg-canvas'
               }`}
             >
-              {isSelected ? <Check className="w-2.5 h-2.5" /> : <Plus className="w-2.5 h-2.5 text-retro-muted" />}
+              {isSelected ? <Check className="w-3 h-3 stroke-[3]" /> : <Plus className="w-3 h-3 text-ink/50 stroke-[2.5]" />}
               <span>{skill}</span>
             </button>
           );

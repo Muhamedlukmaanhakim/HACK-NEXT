@@ -5,50 +5,52 @@ export default function RoleSelectCard({
   selected,
   title,
   subtitle,
-  description,
+  bullets = [],
   icon: Icon,
   onSelect,
 }) {
   return (
     <div
       onClick={() => onSelect(roleKey)}
-      className={`p-4 cursor-pointer transition-all border text-left relative ${
+      className={`p-5 cursor-pointer transition-all border-2 border-ink text-left relative ${
         selected
-          ? 'bg-retro-surface-elevated border-retro-coral shadow-panel ring-1 ring-retro-coral/40'
-          : 'bg-retro-surface border-retro-border hover:border-retro-paper/40'
+          ? 'bg-signal-yellow shadow-brutal translate-x-1 -translate-y-1'
+          : 'bg-white hover:bg-canvas shadow-brutal-sm'
       }`}
     >
       <div className="flex items-start justify-between gap-3 mb-2">
         <div className="flex items-center gap-2.5">
           <div
-            className={`p-1.5 border ${
-              selected
-                ? 'border-retro-coral text-retro-coral bg-retro-surface'
-                : 'border-retro-border text-retro-muted'
+            className={`p-2 border-2 border-ink ${
+              selected ? 'bg-white text-ink' : 'bg-canvas text-ink'
             }`}
           >
-            <Icon className="w-4 h-4" />
+            <Icon className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-xs sm:text-sm font-display font-bold text-retro-paper uppercase tracking-wide">
+            <h3 className="text-sm sm:text-base font-display font-extrabold text-ink uppercase tracking-tight">
               {title}
             </h3>
-            <p className="text-[10px] text-retro-muted">{subtitle}</p>
+            <p className="text-xs font-mono text-ink/70">{subtitle}</p>
           </div>
         </div>
         <span
-          className={`text-[10px] font-mono font-bold px-2 py-0.5 border ${
+          className={`text-xs font-mono font-bold px-2.5 py-1 border-2 border-ink ${
             selected
-              ? 'border-retro-coral text-retro-coral bg-retro-coral/10'
-              : 'border-retro-border text-retro-muted'
+              ? 'bg-ink text-white'
+              : 'bg-white text-ink'
           }`}
         >
-          {selected ? '● SELECTED' : '○ SELECT'}
+          {selected ? '● ACTIVE' : '○ CHOOSE'}
         </span>
       </div>
-      <p className="text-xs text-retro-paper/70 font-sans leading-relaxed">
-        {description}
-      </p>
+      <ul className="text-xs text-ink/80 font-sans space-y-1 mt-3 pl-1">
+        {bullets.map((b, i) => (
+          <li key={i} className="flex items-center gap-1.5 font-medium">
+            <span className="text-brutal-red font-bold font-mono">›</span> {b}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

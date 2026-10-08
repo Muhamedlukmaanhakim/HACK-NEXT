@@ -11,6 +11,8 @@ import { useAppData } from '../context/AppDataContext';
 import { useDebounce } from '../hooks/useDebounce';
 import { COLLABORATION_TYPES, AVAILABILITY_OPTIONS } from '../services/taxonomyService';
 
+const QUICK_TYPES = ['ALL', 'HACKATHON', 'STARTUP', 'COURSE PROJECT', 'RESEARCH', 'OPEN SOURCE'];
+
 export default function DiscoverOpportunities() {
   const { opportunities, loading } = useAppData();
   const navigate = useNavigate();
@@ -22,6 +24,19 @@ export default function DiscoverOpportunities() {
     projectType: '',
     availability: '',
   });
+
+  const activeType = filters.projectType ? filters.projectType.toUpperCase() : 'ALL';
+
+  const handleQuickType = (t) => {
+    if (t === 'ALL') {
+      setFilters((prev) => ({ ...prev, projectType: '' }));
+    } else {
+      setFilters((prev) => ({
+        ...prev,
+        projectType: t.charAt(0) + t.slice(1).toLowerCase(),
+      }));
+    }
+  };
 
   const filteredOpportunities = useMemo(() => {
     let result = opportunities || [];
@@ -37,7 +52,9 @@ export default function DiscoverOpportunities() {
     }
 
     if (filters.projectType) {
-      result = result.filter((o) => o.type === filters.projectType);
+      result = result.filter(
+        (o) => o.type.toLowerCase() === filters.projectType.toLowerCase()
+      );
     }
 
     if (filters.availability) {
@@ -57,39 +74,40 @@ export default function DiscoverOpportunities() {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in font-mono">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-retro-border pb-4">
+      <div className="border-b-3 border-ink pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <div className="text-[10px] text-retro-muted uppercase tracking-widest mb-1">
-            [ SECTION 06 // PROJECT FREQUENCY ]
+          <div className="text-xs font-mono font-bold uppercase tracking-wider text-brutal-red mb-1">
+            02 / PROJECT DIRECTORY
           </div>
-          <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper tracking-wide uppercase">
-            PROJECT FREQUENCY <span className="text-retro-orange">//</span> OPPORTUNITIES
+          <h1 className="text-3xl sm:text-5xl font-display font-black text-ink uppercase tracking-tight leading-none">
+            PROJECTS SEEKING TALENT.
           </h1>
-          <p className="text-xs text-retro-muted font-sans mt-0.5">
-            Explore open project postings, hackathon squads, research initiatives, and campus startups.
+          <p className="text-xs sm:text-sm font-mono text-ink/70 font-semibold uppercase mt-2">
+            87 ACTIVE SQUADS, LABS AND STARTUPS ACROSS CAMPUS
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 self-start md:self-auto">
           <Button
-            variant="secondary"
+            variant="outline"
             size="sm"
             icon={Filter}
             onClick={() => setMobileFilterOpen(true)}
-            className="lg:hidden"
+            className="lg:hidden text-xs"
           >
-            Filters
+            FILTERS
           </Button>
 
           <Button
-            variant="primary"
-            size="sm"
+            variant="danger"
+            size="md"
             icon={PlusCircle}
             onClick={() => navigate('/opportunities/create')}
+            className="text-xs font-bold"
           >
-            Create Project
+            POST A PROJECT +
           </Button>
         </div>
       </div>
@@ -98,8 +116,28 @@ export default function DiscoverOpportunities() {
       <SearchBar
         value={search}
         onChange={setSearch}
-        placeholder="QUERY BY PROJECT TITLE, REQUIREMENT (E.G. AI/ML, UI/UX) OR TYPE..."
+        placeholder="SEARCH BY PROJECT TITLE, TECH STACK (AI/ML, REACT), OR TYPE..."
       />
+
+      {/* Quick category pills */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+        {QUICK_TYPES.map((t) => {
+          const isActive = activeType === t;
+          return (
+            <button
+              key={t}
+              onClick={() => handleQuickType(t)}
+              className={`px-3 py-1.5 font-mono text-xs font-bold border-2 border-ink uppercase transition-all whitespace-nowrap ${
+                isActive
+                  ? 'bg-ink text-canvas shadow-brutal-sm'
+                  : 'bg-white text-ink hover:bg-canvas'
+              }`}
+            >
+              [ {t} ]
+            </button>
+          );
+        })}
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
         {/* Filter Panel */}
@@ -116,20 +154,20 @@ export default function DiscoverOpportunities() {
         />
 
         {/* Opportunity Cards Feed */}
-        <div className="lg:col-span-3 space-y-3.5">
-          <div className="flex items-center justify-between text-[10px] text-retro-muted uppercase px-1">
-            <span>[ OPEN_PROJECT_POSTS // {filteredOpportunities.length} LOCATED ]</span>
+        <div className="lg:col-span-3 space-y-4">
+          <div className="flex items-center justify-between text-xs font-mono font-bold text-ink/70 uppercase">
+            <span>{filteredOpportunities.length} OPPORTUNITIES OPEN</span>
           </div>
 
           {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <CardSkeleton />
               <CardSkeleton />
               <CardSkeleton />
               <CardSkeleton />
             </div>
           ) : filteredOpportunities.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {filteredOpportunities.map((opp) => (
                 <OpportunityCard
                   key={opp.id}
@@ -142,9 +180,9 @@ export default function DiscoverOpportunities() {
           ) : (
             <EmptyState
               icon={Compass}
-              title="No opportunities match your filter parameters"
-              description="Adjust filters or initialize your own project post to assemble a new crew."
-              actionLabel="Clear Filter Parameters"
+              title="NO POSTINGS MATCH YOUR CRITERIA"
+              description="Adjust your search terms or filters to discover other active opportunities."
+              actionLabel="RESET FILTERS"
               onAction={handleResetFilters}
             />
           )}

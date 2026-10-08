@@ -10,7 +10,7 @@ export default function Tabs({
     <div
       role="tablist"
       aria-label="Tabs"
-      className={`flex items-center gap-1 p-1 bg-retro-surface border border-retro-border w-fit overflow-x-auto font-mono text-xs ${className}`}
+      className={`flex items-center gap-2 overflow-x-auto font-mono text-xs ${className}`}
     >
       {tabs.map((tab) => {
         const id = typeof tab === 'object' ? tab.id : tab;
@@ -27,22 +27,22 @@ export default function Tabs({
             id={`tab-${id}`}
             type="button"
             onClick={() => onChange(id)}
-            className={`px-3 py-1.5 text-xs font-mono uppercase tracking-wider transition-all duration-150 flex items-center gap-2 whitespace-nowrap focus-visible:outline-none ${
+            className={`px-4 py-2 text-xs font-mono font-bold uppercase tracking-wider border-2 border-ink transition-all flex items-center gap-2 whitespace-nowrap ${
               isActive
-                ? 'bg-retro-orange text-retro-bg font-bold shadow-panel'
-                : 'text-retro-paper/70 hover:text-retro-paper hover:bg-retro-surface-hover'
+                ? 'bg-ink text-canvas shadow-brutal-sm'
+                : 'bg-white text-ink hover:bg-canvas'
             }`}
           >
             <span>{label}</span>
             {count !== undefined && (
               <span
-                className={`px-1 py-0.2 text-[9px] font-mono font-bold ${
+                className={`px-1.5 py-0.5 text-[10px] font-mono font-bold border border-ink ${
                   isActive
-                    ? 'bg-retro-bg text-retro-orange'
-                    : 'bg-retro-surface-elevated text-retro-muted'
+                    ? 'bg-canvas text-ink'
+                    : 'bg-signal-yellow text-ink'
                 }`}
               >
-                [{count}]
+                {count}
               </span>
             )}
           </button>

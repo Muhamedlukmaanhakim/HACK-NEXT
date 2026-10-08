@@ -11,7 +11,6 @@ export default function AppLayout() {
   const { requests, resetToSeedData } = useAppData();
   const { addToast } = useToast();
 
-  // Pending incoming requests count
   const pendingIncomingCount = (requests || []).filter(
     (r) => r.type === 'incoming' && r.status === 'Pending'
   ).length;
@@ -20,13 +19,13 @@ export default function AppLayout() {
     resetToSeedData();
     addToast({
       type: 'info',
-      title: 'Demo Reset',
-      message: 'All application data and state have been restored to initial seed values.',
+      title: 'Demo State Reset',
+      message: 'Initial student and project seed roster restored.',
     });
   };
 
   return (
-    <div className="min-h-screen bg-retro-bg text-retro-paper flex flex-col lg:flex-row bg-retro-grid">
+    <div className="min-h-screen bg-canvas text-ink flex flex-col lg:flex-row">
       {/* Desktop Sidebar */}
       <Sidebar
         user={user}
@@ -43,18 +42,21 @@ export default function AppLayout() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 lg:ml-64 min-h-screen flex flex-col pb-20 lg:pb-8">
-        {/* Top Telemetry Status Strip */}
-        <div className="hidden lg:flex items-center justify-between px-8 py-2 border-b border-retro-border/60 bg-retro-surface/60 text-[10px] font-mono text-retro-muted select-none">
+      <main className="flex-1 lg:ml-64 min-h-screen flex flex-col pb-24 lg:pb-12 bg-canvas">
+        {/* Top Editorial Ticker Strip */}
+        <div className="hidden lg:flex items-center justify-between px-8 py-2.5 border-b-2 border-ink bg-white text-xs font-mono font-bold select-none">
           <div className="flex items-center gap-4">
-            <span className="text-retro-mint font-semibold">● TELEMETRY // ONLINE</span>
-            <span className="opacity-40">|</span>
-            <span>GRID: CAMPUS-ALPHA // TERMINAL #01</span>
+            <span className="flex items-center gap-1.5 text-campus-green font-bold">
+              <span className="w-2 h-2 bg-campus-green inline-block border border-ink" />
+              CAMPUS NETWORK ACTIVE
+            </span>
+            <span className="text-ink/30">|</span>
+            <span className="text-ink/70">STUDENT COLLABORATION SYSTEM</span>
           </div>
-          <div className="flex items-center gap-4">
-            <span>SYNC FREQ: 1420 MHZ</span>
-            <span className="opacity-40">|</span>
-            <span className="text-retro-paper/70">SESSION: ACTIVE</span>
+          <div className="flex items-center gap-4 text-ink/70">
+            <span>PEOPLE → SKILLS → PROJECTS → TEAMS</span>
+            <span className="text-ink/30">|</span>
+            <span className="text-ink font-bold">LUKMAAN HAKIM</span>
           </div>
         </div>
 

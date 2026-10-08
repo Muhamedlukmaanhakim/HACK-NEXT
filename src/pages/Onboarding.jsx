@@ -11,11 +11,11 @@ import { DEPARTMENTS, YEARS, INTEREST_OPTIONS, AVAILABILITY_OPTIONS, COLLABORATI
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 
-function ChipGroup({ label, options, selected, onToggle, activeClass = 'bg-retro-orange text-retro-bg font-bold border-retro-orange' }) {
+function ChipGroup({ label, options, selected, onToggle }) {
   return (
-    <div className="space-y-1.5 font-mono">
-      {label && <label className="text-[10px] font-mono uppercase tracking-wider text-retro-muted">{label}</label>}
-      <div className="flex flex-wrap gap-1.5">
+    <div className="space-y-1.5">
+      {label && <label className="text-[10px] font-mono font-bold uppercase tracking-wider text-ink/70">{label}</label>}
+      <div className="flex flex-wrap gap-2">
         {options.map((opt) => {
           const isSelected = selected.includes(opt);
           return (
@@ -23,13 +23,13 @@ function ChipGroup({ label, options, selected, onToggle, activeClass = 'bg-retro
               key={opt}
               type="button"
               onClick={() => onToggle(opt)}
-              className={`px-2.5 py-1 rounded-none text-xs font-mono uppercase tracking-wider border transition-all ${
+              className={`px-3 py-1.5 text-xs font-mono font-bold uppercase tracking-wider border-2 border-ink transition-all ${
                 isSelected
-                  ? activeClass
-                  : 'bg-retro-surface-elevated text-retro-paper/70 border-retro-border hover:border-retro-orange/60 hover:text-retro-paper'
+                  ? 'bg-ink text-canvas shadow-brutal-sm'
+                  : 'bg-white text-ink hover:bg-canvas'
               }`}
             >
-              {opt}
+              [ {opt} ]
             </button>
           );
         })}
@@ -91,8 +91,8 @@ export default function Onboarding() {
     await completeOnboarding(formData);
     addToast({
       type: 'success',
-      title: 'Profile Calibrated',
-      message: 'Your campus collaboration dossier is now active!',
+      title: 'PROFILE ACTIVATED',
+      message: 'Your campus collaboration dossier is now live!',
     });
     navigate('/dashboard');
   };
@@ -106,48 +106,48 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="min-h-screen bg-retro-bg text-retro-paper py-10 px-4 sm:px-6 lg:px-8 flex items-center justify-center bg-retro-grid font-mono">
-      <div className="max-w-2xl w-full bg-retro-surface border border-retro-border-strong rounded-none p-6 sm:p-9 shadow-terminal space-y-6 animate-fade-in relative">
+    <div className="min-h-screen bg-canvas text-ink py-10 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+      <div className="max-w-2xl w-full bg-white border-3 border-ink p-6 sm:p-9 shadow-brutal-xl space-y-6">
         {/* Step Telemetry */}
-        <div className="space-y-2 border-b border-retro-border pb-4">
-          <div className="flex items-center justify-between text-xs font-mono">
-            <span className="text-retro-orange uppercase tracking-wider font-bold">
-              [ SEQUENCE // STEP 0{step} OF 05 ]
+        <div className="space-y-3 border-b-2 border-ink pb-4">
+          <div className="flex items-center justify-between text-xs font-mono font-bold">
+            <span className="text-brutal-red uppercase tracking-wider">
+              0{step} / 05 // INITIAL ONBOARDING
             </span>
-            <span className="text-retro-muted uppercase">
+            <span className="text-ink/60 uppercase">
               {['Basic Credentials', 'Competency Matrix', 'Domain Vectors', 'Schedule & Protocols', 'Calibrated'][step - 1]}
             </span>
           </div>
-          <ProgressBar value={step} max={5} variant="orange" size="sm" />
+          <ProgressBar value={step} max={5} variant="coral" size="sm" />
         </div>
 
         {stepErrors && (
-          <div className="p-3 rounded-none bg-retro-red/10 border border-retro-red/40 text-xs text-retro-red font-mono">
-            [ERR: {stepErrors}]
+          <div className="p-3 bg-canvas border-2 border-brutal-red text-xs font-mono font-bold text-brutal-red">
+            ERROR: {stepErrors}
           </div>
         )}
 
         {/* Step 1 */}
         {step === 1 && (
-          <div className="space-y-4 animate-slide-up">
-            <div className="text-[10px] text-retro-muted uppercase tracking-widest">// STAGE 01: OPERATOR DETAILS</div>
-            <h2 className="text-lg sm:text-xl font-display font-bold text-retro-paper uppercase">Operator Identity</h2>
+          <div className="space-y-4">
+            <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-brutal-red">STAGE 01: IDENTITY</div>
+            <h2 className="text-2xl font-display font-black text-ink uppercase">Operator Identity</h2>
             <Input
-              label="Full Name"
+              label="FULL NAME"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               required
             />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Select
-                label="Department"
+                label="DEPARTMENT"
                 value={formData.department}
                 onChange={(e) => setFormData({ ...formData, department: e.target.value })}
                 options={DEPARTMENTS}
                 required
               />
               <Select
-                label="Year of Study"
+                label="YEAR OF STUDY"
                 value={formData.year}
                 onChange={(e) => setFormData({ ...formData, year: e.target.value })}
                 options={YEARS}
@@ -155,7 +155,7 @@ export default function Onboarding() {
               />
             </div>
             <Textarea
-              label="Biographical Summary"
+              label="BIOGRAPHICAL SUMMARY"
               rows={3}
               maxLength={200}
               placeholder="What problems excite you? What projects do you want to build?"
@@ -167,9 +167,9 @@ export default function Onboarding() {
 
         {/* Step 2 */}
         {step === 2 && (
-          <div className="space-y-4 animate-slide-up">
-            <div className="text-[10px] text-retro-muted uppercase tracking-widest">// STAGE 02: SKILL CALIBRATION</div>
-            <h2 className="text-lg sm:text-xl font-display font-bold text-retro-paper uppercase">Registered Competencies</h2>
+          <div className="space-y-4">
+            <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-brutal-red">STAGE 02: SKILLS</div>
+            <h2 className="text-2xl font-display font-black text-ink uppercase">Registered Competencies</h2>
             <SkillSelector
               selectedSkills={formData.skills}
               onChange={(newSkills) => setFormData({ ...formData, skills: newSkills })}
@@ -180,9 +180,9 @@ export default function Onboarding() {
 
         {/* Step 3 */}
         {step === 3 && (
-          <div className="space-y-4 animate-slide-up">
-            <div className="text-[10px] text-retro-muted uppercase tracking-widest">// STAGE 03: DOMAIN VECTORS</div>
-            <h2 className="text-lg sm:text-xl font-display font-bold text-retro-paper uppercase">Project Interests</h2>
+          <div className="space-y-4">
+            <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-brutal-red">STAGE 03: DOMAINS</div>
+            <h2 className="text-2xl font-display font-black text-ink uppercase">Project Interests</h2>
             <ChipGroup
               options={INTEREST_OPTIONS}
               selected={formData.interests}
@@ -193,17 +193,17 @@ export default function Onboarding() {
 
         {/* Step 4 */}
         {step === 4 && (
-          <div className="space-y-4 animate-slide-up">
-            <div className="text-[10px] text-retro-muted uppercase tracking-widest">// STAGE 04: SCHEDULE PROTOCOLS</div>
-            <h2 className="text-lg sm:text-xl font-display font-bold text-retro-paper uppercase">Availability & Formats</h2>
+          <div className="space-y-4">
+            <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-brutal-red">STAGE 04: SCHEDULE</div>
+            <h2 className="text-2xl font-display font-black text-ink uppercase">Availability & Formats</h2>
             <ChipGroup
-              label="Collaboration Formats"
+              label="COLLABORATION FORMATS"
               options={COLLABORATION_TYPES}
               selected={formData.preferences}
               onToggle={(item) => toggleArrayItem('preferences', item)}
             />
             <ChipGroup
-              label="Availability Windows"
+              label="AVAILABILITY WINDOWS"
               options={AVAILABILITY_OPTIONS}
               selected={formData.availability}
               onToggle={(item) => toggleArrayItem('availability', item)}
@@ -213,34 +213,33 @@ export default function Onboarding() {
 
         {/* Step 5 */}
         {step === 5 && (
-          <div className="text-center py-6 space-y-4 animate-slide-up">
-            <div className="w-12 h-12 rounded-none bg-retro-teal/15 border border-retro-teal text-retro-teal flex items-center justify-center mx-auto">
-              <CheckSquare className="w-6 h-6" />
+          <div className="text-center py-6 space-y-4">
+            <div className="w-14 h-14 bg-campus-green border-2 border-ink flex items-center justify-center mx-auto shadow-brutal-sm">
+              <CheckSquare className="w-8 h-8 text-ink stroke-[2.5]" />
             </div>
-            <div className="text-[10px] text-retro-muted uppercase tracking-widest">[ SYSTEM // CALIBRATION_COMPLETE ]</div>
-            <h2 className="text-xl sm:text-2xl font-display font-bold text-retro-paper uppercase">
-              CollabMatrix Dossier Initialized
+            <h2 className="text-3xl font-display font-black text-ink uppercase">
+              DOSSIER INITIALIZED
             </h2>
-            <p className="text-xs sm:text-sm text-retro-muted font-sans max-w-md mx-auto leading-relaxed">
-              Your compatibility vector has been registered on the campus collaboration grid. You can now discover matching students, post opportunities, and run team gap analyses.
+            <p className="text-xs sm:text-sm font-sans text-ink/80 max-w-md mx-auto leading-relaxed">
+              Your profile is now registered on the campus collaboration network. You can discover teammates, post projects, and analyze team gaps.
             </p>
           </div>
         )}
 
-        <div className="pt-4 border-t border-retro-border flex items-center justify-between gap-3">
+        <div className="pt-4 border-t-2 border-ink flex items-center justify-between gap-3">
           {step > 1 && step < 5 ? (
-            <Button variant="outline" size="md" icon={ArrowLeft} onClick={handleBack}>
-              Back
+            <Button variant="outline" size="md" icon={ArrowLeft} onClick={handleBack} className="text-xs font-bold">
+              BACK
             </Button>
           ) : <div />}
 
           {step < 5 ? (
-            <Button variant="primary" size="md" icon={ArrowRight} iconPosition="right" onClick={handleNext}>
-              Next Stage
+            <Button variant="primary" size="md" icon={ArrowRight} iconPosition="right" onClick={handleNext} className="text-xs font-bold">
+              NEXT STAGE →
             </Button>
           ) : (
-            <Button variant="primary" size="lg" icon={Cpu} iconPosition="right" onClick={handleFinish} className="w-full sm:w-auto">
-              Access Dashboard Console
+            <Button variant="danger" size="lg" icon={Cpu} iconPosition="right" onClick={handleFinish} className="w-full sm:w-auto text-xs font-bold">
+              ENTER DASHBOARD →
             </Button>
           )}
         </div>

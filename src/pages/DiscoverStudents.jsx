@@ -14,6 +14,16 @@ import { useDebounce } from '../hooks/useDebounce';
 import { DEPARTMENTS, YEARS } from '../services/taxonomyService';
 import { getSkillCategory } from '../components/skills/SkillBadge';
 
+const QUICK_CATEGORIES = [
+  'ALL',
+  'TECHNICAL',
+  'DESIGN',
+  'PRODUCT',
+  'MARKETING',
+  'HARDWARE',
+  'DATA',
+];
+
 export default function DiscoverStudents() {
   const { students, sentConnections, connectStudent, loading: globalLoading } = useAppData();
   const { user } = useAuth();
@@ -30,6 +40,19 @@ export default function DiscoverStudents() {
     category: '',
     availability: '',
   });
+
+  const activeCategory = filters.category ? filters.category.toUpperCase() : 'ALL';
+
+  const handleQuickCategory = (cat) => {
+    if (cat === 'ALL') {
+      setFilters((prev) => ({ ...prev, category: '' }));
+    } else {
+      setFilters((prev) => ({
+        ...prev,
+        category: cat.charAt(0) + cat.slice(1).toLowerCase(),
+      }));
+    }
+  };
 
   // Filter students
   const filteredStudents = useMemo(() => {
@@ -54,7 +77,7 @@ export default function DiscoverStudents() {
     }
     if (filters.category) {
       result = result.filter((s) =>
-        (s.skills || []).some((sk) => getSkillCategory(sk) === filters.category)
+        (s.skills || []).some((sk) => getSkillCategory(sk).toLowerCase() === filters.category.toLowerCase())
       );
     }
     if (filters.availability) {
@@ -65,7 +88,6 @@ export default function DiscoverStudents() {
       );
     }
 
-    // Sort
     if (sortBy === 'match') {
       result.sort((a, b) => (b.matchScore || 80) - (a.matchScore || 80));
     } else if (sortBy === 'name') {
@@ -81,8 +103,8 @@ export default function DiscoverStudents() {
     await connectStudent(student);
     addToast({
       type: 'success',
-      title: 'Collaboration Invitation Dispatched',
-      message: `Invitation transmitted to ${student.name}.`,
+      title: 'INVITATION DISPATCHED',
+      message: `Connection request sent to ${student.name}.`,
     });
   };
 
@@ -97,45 +119,43 @@ export default function DiscoverStudents() {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in font-mono">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-retro-border pb-4">
+      <div className="border-b-3 border-ink pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <div className="text-[10px] text-retro-muted uppercase tracking-widest mb-1">
-            [ SECTION 05 // SCAN THE CAMPUS ]
+          <div className="text-xs font-mono font-bold uppercase tracking-wider text-brutal-red mb-1">
+            01 / STUDENT DIRECTORY
           </div>
-          <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper tracking-wide uppercase">
-            SCAN THE CAMPUS <span className="text-retro-orange">//</span> STUDENT DISCOVERY
+          <h1 className="text-3xl sm:text-5xl font-display font-black text-ink uppercase tracking-tight leading-none">
+            FIND YOUR PEOPLE.
           </h1>
-          <p className="text-xs text-retro-muted font-sans mt-0.5">
-            Locate peer innovators across campus based on verified competencies and availability.
+          <p className="text-xs sm:text-sm font-mono text-ink/70 font-semibold uppercase mt-2">
+            1,240 STUDENTS LOOKING FOR COLLABORATORS ACROSS CAMPUS
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
-          {/* Mobile Filter Toggle */}
+        <div className="flex items-center gap-2 self-start md:self-auto">
           <Button
-            variant="secondary"
+            variant="outline"
             size="sm"
             icon={Filter}
             onClick={() => setMobileFilterOpen(true)}
-            className="lg:hidden"
+            className="lg:hidden text-xs"
           >
-            Filters
+            FILTERS
           </Button>
 
-          {/* Sort Selector */}
-          <div className="flex items-center gap-2 bg-retro-surface-elevated px-3 py-1.5 rounded-none border border-retro-border text-xs">
-            <ArrowUpDown className="w-3.5 h-3.5 text-retro-muted" />
-            <span className="text-retro-muted text-[10px]">RANK:</span>
+          <div className="flex items-center gap-2 bg-white px-3 py-2 border-2 border-ink shadow-brutal-sm text-xs font-mono font-bold">
+            <ArrowUpDown className="w-3.5 h-3.5 text-ink stroke-[2.5]" />
+            <span className="text-ink/60 text-[10px]">RANK:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="bg-transparent text-retro-paper outline-none cursor-pointer font-bold font-mono"
+              className="bg-transparent text-ink outline-none cursor-pointer uppercase font-bold"
             >
-              <option value="match" className="bg-retro-surface">Best Match</option>
-              <option value="name" className="bg-retro-surface">Alphabetical</option>
-              <option value="year" className="bg-retro-surface">Year Level</option>
+              <option value="match">BEST MATCH</option>
+              <option value="name">ALPHABETICAL</option>
+              <option value="year">YEAR LEVEL</option>
             </select>
           </div>
         </div>
@@ -145,8 +165,28 @@ export default function DiscoverStudents() {
       <SearchBar
         value={search}
         onChange={setSearch}
-        placeholder="QUERY BY STUDENT NAME, SKILL (E.G. UI/UX, PYTHON), OR DOMAIN..."
+        placeholder="SEARCH BY SKILL, NAME, DEPARTMENT, OR INTEREST..."
       />
+
+      {/* Quick category pills */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+        {QUICK_CATEGORIES.map((cat) => {
+          const isActive = activeCategory === cat;
+          return (
+            <button
+              key={cat}
+              onClick={() => handleQuickCategory(cat)}
+              className={`px-3 py-1.5 font-mono text-xs font-bold border-2 border-ink uppercase transition-all whitespace-nowrap ${
+                isActive
+                  ? 'bg-ink text-canvas shadow-brutal-sm'
+                  : 'bg-white text-ink hover:bg-canvas'
+              }`}
+            >
+              [ {cat} ]
+            </button>
+          );
+        })}
+      </div>
 
       {/* Main Content Layout with Sidebar Filters */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
@@ -166,20 +206,20 @@ export default function DiscoverStudents() {
         />
 
         {/* Student Cards Grid */}
-        <div className="lg:col-span-3 space-y-3.5">
-          <div className="flex items-center justify-between text-[10px] text-retro-muted uppercase px-1">
-            <span>[ CANDIDATE_NODES // {filteredStudents.length} LOCATED ]</span>
+        <div className="lg:col-span-3 space-y-4">
+          <div className="flex items-center justify-between text-xs font-mono font-bold text-ink/70 uppercase">
+            <span>{filteredStudents.length} CANDIDATES FOUND</span>
           </div>
 
           {globalLoading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <CardSkeleton />
               <CardSkeleton />
               <CardSkeleton />
               <CardSkeleton />
             </div>
           ) : filteredStudents.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {filteredStudents.map((student) => (
                 <StudentCard
                   key={student.id}
@@ -194,9 +234,9 @@ export default function DiscoverStudents() {
           ) : (
             <EmptyState
               icon={Users}
-              title="No candidates match query parameters"
-              description="Adjust your search query, department filter, or competency category to locate peers."
-              actionLabel="Clear Filter Parameters"
+              title="NO STUDENTS MATCH YOUR QUERY"
+              description="Adjust your search query, department, or discipline filter to find more peers."
+              actionLabel="RESET ALL FILTERS"
               onAction={handleResetFilters}
             />
           )}

@@ -1,89 +1,75 @@
 import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
-import { Cpu, Terminal, Users, ShieldCheck } from 'lucide-react';
 
 export default function AuthLayout() {
   return (
-    <div className="min-h-screen grid grid-cols-1 lg:grid-cols-12 bg-retro-bg text-retro-paper bg-retro-grid">
-      {/* Left Form Container */}
-      <div className="lg:col-span-7 flex flex-col justify-between p-6 sm:p-12 lg:p-16 relative">
-        <div className="flex items-center justify-between border-b border-retro-border/60 pb-4 mb-8">
-          <Link to="/" className="inline-flex items-center gap-2.5 group">
-            <div className="w-8 h-8 rounded-sm bg-retro-surface border border-retro-coral flex items-center justify-center text-retro-coral shadow-panel">
-              <Cpu className="w-4 h-4" />
+    <div className="min-h-screen grid grid-cols-1 lg:grid-cols-12 bg-canvas text-ink">
+      {/* Left / Form Section */}
+      <div className="lg:col-span-7 flex flex-col justify-between p-6 sm:p-12 lg:p-16 border-b-2 lg:border-b-0 lg:border-r-2 border-ink bg-canvas">
+        {/* Brand Header */}
+        <div className="flex items-center justify-between border-b-2 border-ink pb-4 mb-8">
+          <Link to="/" className="flex items-center gap-2.5 group select-none">
+            <div className="w-8 h-8 bg-brutal-red border-2 border-ink flex items-center justify-center text-white font-display font-extrabold text-sm shadow-brutal-sm">
+              CM
             </div>
-            <span className="text-base font-display font-extrabold tracking-wider text-retro-paper">
-              COLLAB<span className="text-retro-coral">MATRIX</span>
-            </span>
+            <div className="flex flex-col font-display font-extrabold text-sm sm:text-base leading-none tracking-tight text-ink">
+              <span>COLLAB</span>
+              <span className="text-brutal-red">MATRIX</span>
+            </div>
           </Link>
-          <span className="text-[10px] font-mono text-retro-amber border border-retro-amber/40 px-2 py-0.5 rounded-sm">
-            [ TERMINAL // ACCESS ]
+          <span className="text-[10px] font-mono font-bold border-2 border-ink px-2 py-0.5 bg-signal-yellow text-ink uppercase">
+            CAMPUS ACCESS
           </span>
         </div>
 
-        <div className="max-w-md w-full mx-auto my-auto py-6">
+        {/* Auth Outlet Form Box */}
+        <div className="max-w-md w-full mx-auto my-auto py-4">
           <Outlet />
         </div>
 
-        <div className="text-[10px] font-mono text-retro-muted text-center lg:text-left pt-6 border-t border-retro-border/40">
-          COLLABMATRIX CONSOLE • AUTHENTICATION PROTOCOL 1978.4 • STUDENT COLLABORATION GRID
+        {/* Footer */}
+        <div className="text-[10px] font-mono text-ink/60 text-center lg:text-left pt-6 border-t-2 border-ink">
+          COLLABMATRIX • DIGITAL BRUTALISM × EDITORIAL DESIGN • STUDENT COLLABORATION NETWORK
         </div>
       </div>
 
-      {/* Right Visual Panel (Desktop) */}
-      <div className="hidden lg:flex lg:col-span-5 relative bg-retro-surface border-l border-retro-border p-12 flex-col justify-between overflow-hidden shadow-panel">
-        <div className="relative z-10 space-y-4">
-          <div className="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-retro-coral px-2.5 py-1 rounded-sm bg-retro-surface-elevated border border-retro-border">
-            <span className="w-1.5 h-1.5 rounded-full bg-retro-mint animate-pulse" />
-            TELEMETRY NODE // CAMPUS GRID
+      {/* Right Editorial Manifesto Section (Desktop) */}
+      <div className="hidden lg:flex lg:col-span-5 relative bg-white p-12 flex-col justify-between">
+        <div className="space-y-6">
+          <div className="inline-block px-2.5 py-1 text-[11px] font-mono font-bold uppercase tracking-wider text-white bg-ink border border-ink">
+            THE MANIFESTO / 01
           </div>
-          <h2 className="text-2xl sm:text-3xl font-display font-bold text-retro-paper tracking-tight leading-snug">
-            The network for complementary minds.
+
+          <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-ink uppercase tracking-tight leading-tight">
+            RAW STRUCTURE.
+            <br />
+            <span className="text-brutal-red">HUMAN</span> CONNECTION.
           </h2>
-          <p className="text-xs sm:text-sm text-retro-paper/70 font-sans leading-relaxed">
-            Eliminate chaotic group messaging. Connect with campus builders whose skills, availability, and project commitments directly fulfill team requirements.
+
+          <p className="text-sm text-ink/80 font-sans leading-relaxed">
+            Stop assembling teams from whoever happens to be around in WhatsApp groups. Connect with campus builders whose skills, commitment, and domain experience directly fulfill project requirements.
           </p>
-        </div>
 
-        {/* Feature Highlights on right card */}
-        <div className="relative z-10 space-y-3 my-8 font-mono">
-          <div className="p-3.5 rounded-sm bg-retro-surface-elevated border border-retro-border flex items-start gap-3 shadow-panel">
-            <div className="p-2 rounded-sm bg-retro-surface border border-retro-border text-retro-amber">
-              <Terminal className="w-4 h-4" />
-            </div>
-            <div>
-              <div className="text-[10px] text-retro-muted uppercase tracking-wider">[ SPEC // 01 ]</div>
-              <h4 className="text-xs font-bold text-retro-paper">AI Requirement Simulation</h4>
-              <p className="text-[11px] text-retro-muted font-sans mt-0.5">Parse project descriptions into structured skill vectors.</p>
-            </div>
-          </div>
-
-          <div className="p-3.5 rounded-sm bg-retro-surface-elevated border border-retro-border flex items-start gap-3 shadow-panel">
-            <div className="p-2 rounded-sm bg-retro-surface border border-retro-border text-retro-orange">
-              <Users className="w-4 h-4" />
-            </div>
-            <div>
-              <div className="text-[10px] text-retro-muted uppercase tracking-wider">[ SPEC // 02 ]</div>
-              <h4 className="text-xs font-bold text-retro-paper">Multi-Factor Compatibility</h4>
-              <p className="text-[11px] text-retro-muted font-sans mt-0.5">50% Skills, 20% Interest, 15% Hours, 15% Experience weighting.</p>
-            </div>
-          </div>
-
-          <div className="p-3.5 rounded-sm bg-retro-surface-elevated border border-retro-border flex items-start gap-3 shadow-panel">
-            <div className="p-2 rounded-sm bg-retro-surface border border-retro-border text-retro-teal">
-              <ShieldCheck className="w-4 h-4" />
-            </div>
-            <div>
-              <div className="text-[10px] text-retro-muted uppercase tracking-wider">[ SPEC // 03 ]</div>
-              <h4 className="text-xs font-bold text-retro-paper">Team Skill Gap Analysis</h4>
-              <p className="text-[11px] text-retro-muted font-sans mt-0.5">Identify uncovered project roles and recruit exact matching candidates.</p>
-            </div>
+          <div className="space-y-3 pt-4">
+            {[
+              { num: '01', title: 'VERIFIED SKILLS', desc: 'Discover teammates by proven technical, design, and pitch abilities.' },
+              { num: '02', title: 'COMPLEMENTARY MINDS', desc: 'Pair software developers with stage orators and UX researchers.' },
+              { num: '03', title: 'TEAM GAP ANALYSIS', desc: 'Audit missing competencies before entering hackathon deadlines.' },
+            ].map((spec) => (
+              <div key={spec.num} className="p-3.5 border-2 border-ink bg-canvas shadow-brutal-sm">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-[10px] font-mono font-bold text-brutal-red">[{spec.num}]</span>
+                  <h4 className="text-xs font-display font-bold text-ink uppercase tracking-wide">{spec.title}</h4>
+                </div>
+                <p className="text-xs text-ink/70 font-sans">{spec.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
 
-        <div className="relative z-10 flex items-center justify-between text-[10px] font-mono text-retro-muted pt-6 border-t border-retro-border/60">
-          <span>// CAMPUS HACKATHONS</span>
-          <span>// CROSS-DEPARTMENT TEAMS</span>
+        <div className="pt-6 border-t-2 border-ink flex items-center justify-between text-[10px] font-mono font-bold text-ink/60">
+          <span>PEOPLE → SKILLS</span>
+          <span>PROJECTS → TEAMS</span>
         </div>
       </div>
     </div>

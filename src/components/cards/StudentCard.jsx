@@ -2,7 +2,7 @@ import React from 'react';
 import Avatar from '../ui/Avatar';
 import SkillBadge from '../skills/SkillBadge';
 import Button from '../ui/Button';
-import { UserCheck, UserPlus, Clock } from 'lucide-react';
+import { UserCheck, UserPlus, Clock, ArrowUpRight } from 'lucide-react';
 
 export default function StudentCard({
   student,
@@ -23,52 +23,48 @@ export default function StudentCard({
   } = student;
 
   return (
-    <div className={`p-4 sm:p-5 rounded-none bg-retro-surface border border-retro-border hover:border-retro-orange/60 transition-all duration-150 flex flex-col justify-between group shadow-panel relative font-mono ${className}`}>
-      {/* Corner crosshairs */}
-      <div className="absolute top-1 left-1 text-[8px] text-retro-muted/40 leading-none select-none">+</div>
-      <div className="absolute top-1 right-1 text-[8px] text-retro-muted/40 leading-none select-none">+</div>
-
+    <div className={`p-5 bg-white border-2 border-ink shadow-brutal hover:shadow-brutal-lg hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-150 flex flex-col justify-between group ${className}`}>
       <div>
         {/* Top Header */}
         <div className="flex items-start justify-between gap-3 mb-3">
-          <div className="flex items-center gap-2.5">
-            <Avatar name={name} size="md" />
+          <div className="flex items-start gap-3">
+            <Avatar name={name} size="md" className="border-2 border-ink" />
             <div>
-              <div className="text-[9px] text-retro-muted tracking-widest uppercase">
-                [ NODE // {id?.toUpperCase() || 'STU'} ]
+              <div className="text-[10px] font-mono text-ink/50 uppercase tracking-wider font-semibold">
+                NODE // {id?.toUpperCase() || 'STU'}
               </div>
-              <h3 className="text-xs sm:text-sm font-bold text-retro-paper group-hover:text-retro-amber transition-colors">
+              <h3 className="font-display font-bold text-base sm:text-lg text-ink uppercase tracking-tight leading-tight group-hover:text-brutal-red transition-colors">
                 {name}
               </h3>
-              <p className="text-[10px] text-retro-muted">
-                {department} // {year}
+              <p className="text-[11px] font-mono text-ink/70 font-semibold uppercase mt-0.5">
+                {department} · {year}
               </p>
             </div>
           </div>
           {matchScore !== undefined && (
-            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-none tracking-wider ${
+            <span className={`text-[11px] font-mono font-bold px-2 py-0.5 border-2 border-ink whitespace-nowrap ${
               matchScore >= 90
-                ? 'bg-retro-coral/15 text-retro-coral border border-retro-coral/50'
-                : 'bg-retro-surface-elevated text-retro-paper/80 border border-retro-border'
+                ? 'bg-signal-yellow text-ink shadow-brutal-sm'
+                : 'bg-canvas text-ink'
             }`}>
-              {matchScore >= 90 ? `${matchScore}% STRONG MATCH` : `${matchScore}% MATCH`}
+              {matchScore}% MATCH
             </span>
           )}
         </div>
 
         {/* Bio */}
-        <p className="text-xs text-retro-paper/70 font-sans line-clamp-2 mb-3 leading-relaxed">
-          {bio || 'Enthusiastic collaborator looking to build impactful projects with like-minded peers.'}
+        <p className="text-xs text-ink/80 font-sans line-clamp-2 mb-4 leading-relaxed font-normal">
+          {bio || 'Ambitious builder looking to collaborate on high-impact projects.'}
         </p>
 
         {/* Skills */}
         <div className="mb-4">
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-1.5">
             {skills.slice(0, 4).map((skill) => (
               <SkillBadge key={skill} skill={skill} size="xs" />
             ))}
             {skills.length > 4 && (
-              <span className="text-[9px] font-mono text-retro-muted px-1.5 py-0.5 bg-retro-surface-elevated border border-retro-border">
+              <span className="text-[10px] font-mono font-bold text-ink px-1.5 py-0.5 bg-canvas border border-ink">
                 +{skills.length - 4} MORE
               </span>
             )}
@@ -77,20 +73,21 @@ export default function StudentCard({
       </div>
 
       {/* Footer / Actions */}
-      <div className="pt-2.5 border-t border-retro-border/60 flex items-center justify-between gap-2 text-xs">
-        <div className="flex items-center gap-1 text-[10px] text-retro-muted">
-          <Clock className="w-3 h-3 flex-shrink-0" />
-          <span className="truncate max-w-[100px]">{availability[0] || 'Flexible'}</span>
+      <div className="pt-3 border-t-2 border-ink flex items-center justify-between gap-2">
+        <div className="flex items-center gap-1.5 text-[11px] font-mono text-ink/70 font-semibold">
+          <Clock className="w-3.5 h-3.5 flex-shrink-0 text-ink" />
+          <span className="truncate max-w-[110px] uppercase">{availability[0] || 'Flexible'}</span>
         </div>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           {onViewProfile && (
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
               onClick={() => onViewProfile(student)}
+              className="text-xs px-2.5 py-1"
             >
-              [ PROFILE ]
+              PROFILE
             </Button>
           )}
 
@@ -100,8 +97,9 @@ export default function StudentCard({
             disabled={isRequested}
             icon={isRequested ? UserCheck : UserPlus}
             onClick={() => !isRequested && onConnect && onConnect(student)}
+            className="text-xs px-3 py-1"
           >
-            {isRequested ? '[ SENT ]' : '[ CONNECT ]'}
+            {isRequested ? 'SENT' : 'CONNECT →'}
           </Button>
         </div>
       </div>

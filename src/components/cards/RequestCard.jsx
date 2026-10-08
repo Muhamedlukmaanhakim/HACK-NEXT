@@ -1,7 +1,7 @@
 import React from 'react';
 import Avatar from '../ui/Avatar';
-import Badge from '../ui/Badge';
 import Button from '../ui/Button';
+import SkillBadge from '../skills/SkillBadge';
 import { Check, X, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
 
 export default function RequestCard({
@@ -19,69 +19,80 @@ export default function RequestCard({
     message,
     matchScore,
     status = 'Pending',
-    createdAt,
   } = request;
 
-  const statusVariants = {
-    Pending: 'warning',
-    Accepted: 'success',
-    Declined: 'danger',
-  };
-
   return (
-    <div className={`p-4 sm:p-5 rounded-none bg-retro-surface border border-retro-border hover:border-retro-orange/60 transition-all duration-150 shadow-panel relative font-mono ${className}`}>
-      {/* Corner crosshairs */}
-      <div className="absolute top-1 left-1 text-[8px] text-retro-muted/40 leading-none select-none">+</div>
-      <div className="absolute top-1 right-1 text-[8px] text-retro-muted/40 leading-none select-none">+</div>
-
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-3">
-        <div className="flex items-start gap-3">
-          <Avatar name={student?.name || 'Peer'} size="md" />
-          <div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <h4 className="text-xs sm:text-sm font-bold text-retro-paper">
-                {student?.name}
-              </h4>
-              <span className="text-[10px] text-retro-muted">
-                ({student?.department} // {student?.year})
-              </span>
-              {matchScore !== undefined && (
-                <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-none bg-retro-orange/15 text-retro-orange border border-retro-orange/40">
-                  {matchScore}% MATCH
-                </span>
-              )}
-            </div>
-
-            <p className="text-[11px] text-retro-muted mt-1 flex items-center gap-1.5">
-              {type === 'incoming' ? (
-                <>
-                  <ArrowDownLeft className="w-3.5 h-3.5 text-retro-teal" />
-                  <span>WANTS TO JOIN: <strong className="text-retro-paper font-semibold">{opportunityTitle}</strong></span>
-                </>
-              ) : (
-                <>
-                  <ArrowUpRight className="w-3.5 h-3.5 text-retro-orange" />
-                  <span>TRANSMITTED TO: <strong className="text-retro-paper font-semibold">{opportunityTitle}</strong></span>
-                </>
-              )}
-            </p>
-          </div>
+    <div className={`p-6 bg-white border-2 border-ink shadow-brutal transition-all ${className}`}>
+      {/* Top Meta Bar */}
+      <div className="flex items-center justify-between pb-3 mb-4 border-b-2 border-ink">
+        <span className="font-mono text-[10px] font-bold text-ink/70 uppercase tracking-wider">
+          REQUEST // {id ? `0${id}`.slice(-3) : '018'}
+        </span>
+        <div className="flex items-center gap-2">
+          {matchScore !== undefined && (
+            <span className="font-mono text-[10px] font-bold bg-signal-yellow text-ink px-2 py-0.5 border border-ink">
+              {matchScore}% MATCH
+            </span>
+          )}
+          <span className={`font-mono text-[10px] font-bold uppercase px-2 py-0.5 border border-ink ${
+            status === 'Accepted'
+              ? 'bg-campus-green text-ink'
+              : status === 'Declined'
+              ? 'bg-ink text-white'
+              : 'bg-canvas text-ink'
+          }`}>
+            {status.toUpperCase()}
+          </span>
         </div>
+      </div>
 
-        <Badge variant={statusVariants[status] || 'default'} size="sm">
-          {status}
-        </Badge>
+      {/* Main Student Header */}
+      <div className="flex items-start gap-3.5 mb-4">
+        <Avatar name={student?.name || 'Peer'} size="md" className="border-2 border-ink" />
+        <div>
+          <div className="flex items-center gap-2 flex-wrap">
+            <h4 className="font-display font-black text-base sm:text-lg text-ink uppercase tracking-tight">
+              {student?.name} {type === 'incoming' ? 'WANTS TO JOIN' : 'INVITED'}
+            </h4>
+            <span className="font-mono text-[11px] text-ink/70 uppercase">
+              ({student?.department} · {student?.year})
+            </span>
+          </div>
+
+          <p className="font-mono text-xs text-ink/80 mt-1 flex items-center gap-1.5 font-bold uppercase">
+            {type === 'incoming' ? (
+              <>
+                <ArrowDownLeft className="w-3.5 h-3.5 text-brutal-red stroke-[2.5]" />
+                <span>FOR: <strong className="text-ink">{opportunityTitle}</strong></span>
+              </>
+            ) : (
+              <>
+                <ArrowUpRight className="w-3.5 h-3.5 text-campus-green stroke-[2.5]" />
+                <span>PROJECT: <strong className="text-ink">{opportunityTitle}</strong></span>
+              </>
+            )}
+          </p>
+        </div>
       </div>
 
       {/* Message Body */}
       {message && (
-        <div className="p-3 rounded-none bg-retro-surface-elevated border border-retro-border/80 text-xs text-retro-paper/80 font-sans leading-relaxed mb-3">
+        <div className="p-3.5 bg-canvas border-2 border-ink text-xs font-sans text-ink leading-relaxed mb-4 font-normal">
           &ldquo;{message}&rdquo;
         </div>
       )}
 
+      {/* Student Skills if present */}
+      {student?.skills && student.skills.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 mb-4">
+          {student.skills.slice(0, 4).map((sk) => (
+            <SkillBadge key={sk} skill={sk} size="xs" />
+          ))}
+        </div>
+      )}
+
       {/* Action Footer */}
-      <div className="pt-2.5 border-t border-retro-border/60 flex items-center justify-end gap-2 text-xs">
+      <div className="pt-3 border-t-2 border-ink flex items-center justify-end gap-2.5">
         {type === 'incoming' && status === 'Pending' && (
           <>
             <Button
@@ -89,40 +100,42 @@ export default function RequestCard({
               size="sm"
               icon={X}
               onClick={() => onDecline && onDecline(request)}
-              className="text-retro-muted hover:text-retro-red hover:border-retro-red/60"
+              className="text-xs"
             >
-              Decline
+              DECLINE
             </Button>
             <Button
-              variant="primary"
+              variant="danger"
               size="sm"
               icon={Check}
               onClick={() => onAccept && onAccept(request)}
+              className="text-xs font-bold"
             >
-              Accept Roster
+              ACCEPT & ADD TO TEAM →
             </Button>
           </>
         )}
 
         {type === 'sent' && status === 'Pending' && onWithdraw && (
           <Button
-            variant="ghost"
+            variant="outline"
             size="sm"
             onClick={() => onWithdraw(request)}
-            className="text-retro-muted hover:text-retro-red"
+            className="text-xs"
           >
-            Withdraw Request
+            WITHDRAW INVITATION
           </Button>
         )}
 
         {status === 'Accepted' && (
-          <span className="text-xs text-retro-teal font-mono font-bold flex items-center gap-1">
-            <Check className="w-3.5 h-3.5" /> COLLABORATION CONFIRMED
-          </span>
+          <div className="w-full p-2 bg-campus-green border-2 border-ink flex items-center justify-center gap-2 font-mono text-xs font-bold text-ink uppercase">
+            <Check className="w-4 h-4 stroke-[3]" />
+            <span>CONNECTED ✓ {student?.name?.toUpperCase()} IS NOW ON YOUR TEAM</span>
+          </div>
         )}
 
         {status === 'Declined' && (
-          <span className="text-xs text-retro-muted font-mono">
+          <span className="font-mono text-xs font-bold text-ink/60 uppercase">
             REQUEST ARCHIVED / DECLINED
           </span>
         )}

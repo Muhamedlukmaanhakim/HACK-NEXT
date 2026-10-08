@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { X, Terminal } from 'lucide-react';
+import { X } from 'lucide-react';
 
 export default function Modal({
   isOpen,
@@ -43,7 +43,7 @@ export default function Modal({
     >
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-retro-bg/85 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-ink/70 transition-opacity"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -51,19 +51,25 @@ export default function Modal({
       {/* Modal Dialog Content */}
       <div
         ref={modalRef}
-        className={`relative w-full ${maxWidth} bg-retro-surface border border-retro-border-strong rounded-none shadow-terminal z-10 overflow-hidden transform animate-slide-up ${className}`}
+        className={`relative w-full ${maxWidth} bg-white border-2 border-ink rounded-none shadow-brutal-lg z-10 overflow-hidden transform animate-slide-up ${className}`}
       >
-        {/* Terminal Header Bar */}
-        <div className="flex items-center justify-between px-4 py-3 bg-retro-surface-elevated border-b border-retro-border font-mono">
-          <div className="flex items-center gap-2 text-xs text-retro-amber">
-            <Terminal className="w-3.5 h-3.5" />
-            <span className="tracking-wider text-[11px]">[ SYS // DIALOG_WINDOW ]</span>
+        {/* Header Bar */}
+        <div className="flex items-center justify-between px-5 py-3.5 bg-canvas border-b-2 border-ink">
+          <div>
+            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-ink/60">
+              [ COLLABMATRIX // ACTION ]
+            </span>
+            {title && (
+              <h3 id="modal-title" className="text-base sm:text-lg font-display font-bold uppercase text-ink tracking-tight mt-0.5">
+                {title}
+              </h3>
+            )}
           </div>
           {onClose && (
             <button
               type="button"
               onClick={onClose}
-              className="p-1 text-retro-muted hover:text-retro-paper transition-colors focus-visible:outline-none"
+              className="p-1.5 border-2 border-ink bg-white text-ink hover:bg-brutal-red hover:text-white transition-colors focus-visible:outline-none"
               aria-label="Close modal"
             >
               <X className="w-4 h-4" />
@@ -71,30 +77,20 @@ export default function Modal({
           )}
         </div>
 
-        {/* Title & Subtitle Banner */}
-        {(title || description) && (
-          <div className="px-5 pt-4 pb-2 border-b border-retro-border/40">
-            {title && (
-              <h3 id="modal-title" className="text-base font-display font-bold text-retro-paper tracking-tight">
-                {title}
-              </h3>
-            )}
-            {description && (
-              <p id="modal-description" className="text-xs text-retro-muted mt-1 font-sans">
-                {description}
-              </p>
-            )}
+        {description && (
+          <div className="px-5 pt-3 pb-1 text-xs text-ink/70 font-sans border-b border-ink/20">
+            {description}
           </div>
         )}
 
         {/* Body */}
-        <div className="p-5 max-h-[calc(85vh-130px)] overflow-y-auto">
+        <div className="p-5 max-h-[calc(85vh-130px)] overflow-y-auto bg-white">
           {children}
         </div>
 
         {/* Footer */}
         {footer && (
-          <div className="p-4 bg-retro-surface-elevated/60 border-t border-retro-border flex items-center justify-end gap-3 font-mono">
+          <div className="p-4 bg-canvas border-t-2 border-ink flex items-center justify-end gap-3 font-display">
             {footer}
           </div>
         )}
