@@ -64,11 +64,11 @@ export default function TeamGapAnalysis() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-retro-border pb-4">
         <div>
           <div className="text-[10px] text-retro-muted uppercase tracking-widest mb-1">
-            [ SUBROUTINE // TEAM_GAP_AUDIT ]
+            [ SECTION 11 // TEAM DIAGNOSTICS ]
           </div>
           <div className="flex items-center gap-2">
             <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper tracking-wide uppercase">
-              Team Gap Analysis
+              TEAM DIAGNOSTICS <span className="text-retro-orange">//</span> GAP ANALYSIS
             </h1>
             <span className="p-1 rounded-none bg-retro-surface-elevated text-retro-teal border border-retro-teal/40">
               <PieChart className="w-4 h-4" />
@@ -116,11 +116,11 @@ export default function TeamGapAnalysis() {
             <div>
               <div className="text-[10px] text-retro-muted uppercase tracking-widest">[ DISPATCH // CANDIDATE_RECOMMENDATIONS ]</div>
               <h3 className="text-sm font-bold text-retro-paper tracking-wider uppercase">
-                Candidates to Fill Critical Gaps
+                RECOMMENDED COLLABORATORS
               </h3>
             </div>
-            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-none bg-retro-amber/20 text-retro-amber border border-retro-amber/40 uppercase">
-              {missingSkills.length} GAPS DETECTED
+            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-none bg-retro-red/20 text-retro-red border border-retro-red/40 uppercase">
+              GAPS DETECTED: {missingSkills.join(', ')}
             </span>
           </div>
 

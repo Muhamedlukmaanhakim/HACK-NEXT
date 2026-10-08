@@ -62,10 +62,10 @@ export default function DiscoverOpportunities() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-retro-border pb-4">
         <div>
           <div className="text-[10px] text-retro-muted uppercase tracking-widest mb-1">
-            [ DIRECTORY // CAMPUS_PROJECT_LOG ]
+            [ SECTION 06 // PROJECT FREQUENCY ]
           </div>
           <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper tracking-wide uppercase">
-            Discover Opportunities
+            PROJECT FREQUENCY <span className="text-retro-orange">//</span> OPPORTUNITIES
           </h1>
           <p className="text-xs text-retro-muted font-sans mt-0.5">
             Explore open project postings, hackathon squads, research initiatives, and campus startups.

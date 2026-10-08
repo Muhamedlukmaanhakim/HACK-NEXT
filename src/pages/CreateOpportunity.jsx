@@ -146,13 +146,13 @@ export default function CreateOpportunity() {
     <div className="space-y-6 sm:space-y-8 animate-fade-in font-mono">
       <div className="border-b border-retro-border pb-4">
         <div className="text-[10px] text-retro-muted uppercase tracking-widest mb-1">
-          [ SUBROUTINE // INITIALIZE_PROJECT_SPEC ]
+          [ SECTION 07 // PROJECT DESCRIPTION → REQUIRED SKILLS ]
         </div>
         <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper tracking-wide uppercase">
-          Create Collaboration Opportunity
+          PROJECT DESCRIPTION → REQUIRED SKILLS
         </h1>
         <p className="text-xs text-retro-muted font-sans mt-0.5">
-          Post project parameters to initiate multi-factor matching across registered campus peers.
+          Define project requirements or use natural language parsing to extract competencies.
         </p>
       </div>
 

@@ -47,7 +47,7 @@ export default function StudentCard({
           </div>
           {matchScore !== undefined && (
             <span className="text-[10px] font-bold px-2 py-0.5 rounded-none bg-retro-orange/15 text-retro-orange border border-retro-orange/40 tracking-wider">
-              {matchScore}% MATCH
+              {matchScore >= 90 ? `${matchScore}% — STRONG MATCH` : `${matchScore}% MATCH`}
             </span>
           )}
         </div>

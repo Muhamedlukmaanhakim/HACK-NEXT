@@ -88,11 +88,11 @@ export default function MyTeam() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-retro-border pb-4">
         <div>
           <div className="text-[10px] text-retro-muted uppercase tracking-widest mb-1">
-            [ CREW // ACTIVE_ROSTER_MANIFEST ]
+            [ SECTION 10 // MISSION CONTROL BOARD ]
           </div>
           <div className="flex items-center gap-2">
             <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper tracking-wide uppercase">
-              {activeTeam.name}
+              MISSION CONTROL BOARD <span className="text-retro-orange">//</span> {activeTeam.name}
             </h1>
             <span className="text-[9px] font-bold px-2 py-0.5 rounded-none bg-retro-teal/20 text-retro-teal border border-retro-teal/40 uppercase">
               {activeTeam.type}

@@ -102,10 +102,10 @@ export default function DiscoverStudents() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-retro-border pb-4">
         <div>
           <div className="text-[10px] text-retro-muted uppercase tracking-widest mb-1">
-            [ DIRECTORY // CAMPUS_CANDIDATE_INDEX ]
+            [ SECTION 05 // SCAN THE CAMPUS ]
           </div>
           <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper tracking-wide uppercase">
-            Discover Campus Collaborators
+            SCAN THE CAMPUS <span className="text-retro-orange">//</span> STUDENT DISCOVERY
           </h1>
           <p className="text-xs text-retro-muted font-sans mt-0.5">
             Locate peer innovators across campus based on verified competencies and availability.

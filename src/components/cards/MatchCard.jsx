@@ -46,7 +46,12 @@ export default function MatchCard({
               </p>
             </div>
           </div>
-          <MatchScore score={score} size="md" />
+          <div className="flex flex-col items-end gap-1 flex-shrink-0">
+            <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-none bg-retro-orange/20 text-retro-orange border border-retro-orange/50 uppercase tracking-wider">
+              {score >= 90 ? `${Math.round(score)}% — STRONG MATCH` : `${Math.round(score)}% — MATCH SIGNAL`}
+            </span>
+            <MatchScore score={score} size="md" />
+          </div>
         </div>
 
         {/* Sub-scores Grid (50%, 20%, 15%, 15%) */}

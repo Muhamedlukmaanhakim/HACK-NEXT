@@ -46,10 +46,10 @@ export default function Requests() {
       {/* Header */}
       <div className="border-b border-retro-border pb-4">
         <div className="text-[10px] text-retro-muted uppercase tracking-widest mb-1">
-          [ COMMUNICATIONS // COLLABORATION_DISPATCH ]
+          [ SECTION 09 // ESTABLISH CONNECTION ]
         </div>
         <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper tracking-wide uppercase">
-          Collaboration Inquiries
+          ESTABLISH CONNECTION <span className="text-retro-orange">//</span> REQUESTS
         </h1>
         <p className="text-xs text-retro-muted font-sans mt-0.5">
           Review inbound applications to join your projects and monitor outgoing team invitations.

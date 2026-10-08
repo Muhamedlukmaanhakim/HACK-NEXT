@@ -63,11 +63,11 @@ export default function MatchResults() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-retro-border pb-4">
         <div>
           <div className="text-[10px] text-retro-muted uppercase tracking-widest mb-1">
-            [ SUBROUTINE // MATCHING_ENGINE ]
+            [ SECTION 08 // MATCH SIGNALS ]
           </div>
           <div className="flex items-center gap-2">
             <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper tracking-wide uppercase">
-              AI-Powered Match Results
+              MATCH SIGNALS <span className="text-retro-orange">//</span> SMART COMPATIBILITY
             </h1>
             <span className="p-1 rounded-none bg-retro-surface-elevated text-retro-orange border border-retro-orange/40">
               <Cpu className="w-4 h-4" />
