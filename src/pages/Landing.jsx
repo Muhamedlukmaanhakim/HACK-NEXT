@@ -55,8 +55,8 @@ export default function Landing() {
               <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center text-white mb-2 shadow-sm">
                 <Sparkles className="w-5 h-5" />
               </div>
-              <span className="text-xs font-bold text-text-primary">AI Healthcare Assistant</span>
-              <span className="text-[10px] text-accent-teal font-medium">94% Skill Match Matrix</span>
+              <span className="text-xs font-bold text-text-primary">AI Innovation Project</span>
+              <span className="text-[10px] text-accent-teal font-medium">94% Team Match</span>
             </div>
             {[
               { pos: 'top-4 left-1/4 -translate-x-1/2', name: 'Sarah Rahman', label: 'Sarah R.', skill: 'UI/UX' },
