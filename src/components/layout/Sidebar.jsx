@@ -111,25 +111,29 @@ export default function Sidebar({
                       className={({ isActive }) =>
                         `flex items-center justify-between px-2.5 py-2 rounded-sm text-xs font-mono transition-all duration-150 border ${
                           isActive
-                            ? 'bg-retro-surface-elevated border-retro-orange text-retro-paper shadow-panel font-semibold'
+                            ? 'bg-retro-surface-elevated border-retro-coral text-retro-paper shadow-panel font-semibold'
                             : 'border-transparent text-retro-paper/70 hover:text-retro-paper hover:bg-retro-surface-hover hover:border-retro-border'
                         }`
                       }
                     >
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <Icon className="w-3.5 h-3.5 text-retro-amber flex-shrink-0" />
-                        <span className="truncate tracking-wide">{item.label}</span>
-                      </div>
-                      <div className="flex items-center gap-1.5 flex-shrink-0">
-                        {item.badge && (
-                          <span className="px-1.5 py-0.2 rounded-none text-[9px] font-mono font-bold bg-retro-orange text-retro-bg">
-                            {item.badge}
-                          </span>
-                        )}
-                        <span className="text-[9px] font-mono text-retro-muted opacity-50">
-                          .{item.num}
-                        </span>
-                      </div>
+                      {({ isActive }) => (
+                        <>
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <Icon className={`w-3.5 h-3.5 flex-shrink-0 ${isActive ? 'text-retro-coral' : 'text-retro-amber'}`} />
+                            <span className="truncate tracking-wide">{item.label}</span>
+                          </div>
+                          <div className="flex items-center gap-1.5 flex-shrink-0">
+                            {item.badge && (
+                              <span className="px-1.5 py-0.2 rounded-none text-[9px] font-mono font-bold bg-retro-coral text-retro-bg">
+                                {item.badge}
+                              </span>
+                            )}
+                            <span className={`text-[9px] font-mono ${isActive ? 'text-retro-coral font-bold' : 'text-retro-muted opacity-50'}`}>
+                              .{item.num}
+                            </span>
+                          </div>
+                        </>
+                      )}
                     </NavLink>
                   );
                 })}

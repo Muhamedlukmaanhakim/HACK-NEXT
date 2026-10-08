@@ -196,15 +196,15 @@ export default function MobileNavigation({
               className={({ isActive }) =>
                 `flex flex-col items-center justify-center p-1.5 transition-colors relative min-w-[50px] ${
                   isActive
-                    ? 'text-retro-orange font-bold'
+                    ? 'text-retro-coral font-bold'
                     : 'text-retro-muted hover:text-retro-paper'
-                } ${item.isHighlight ? 'text-retro-amber' : ''}`
+                } ${item.isHighlight ? 'text-retro-coral font-semibold' : ''}`
               }
             >
               <div className="relative">
-                <Icon className={`w-4 h-4 ${item.isHighlight ? 'scale-110 text-retro-orange' : ''}`} />
+                <Icon className={`w-4 h-4 ${item.isHighlight ? 'scale-110 text-retro-coral' : ''}`} />
                 {item.badge && (
-                  <span className="absolute -top-1.5 -right-2 px-1 py-0.2 text-[8px] font-bold bg-retro-orange text-retro-bg">
+                  <span className="absolute -top-1.5 -right-2 px-1 py-0.2 text-[8px] font-bold bg-retro-coral text-retro-bg">
                     {item.badge}
                   </span>
                 )}

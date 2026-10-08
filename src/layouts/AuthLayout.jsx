@@ -9,11 +9,11 @@ export default function AuthLayout() {
       <div className="lg:col-span-7 flex flex-col justify-between p-6 sm:p-12 lg:p-16 relative">
         <div className="flex items-center justify-between border-b border-retro-border/60 pb-4 mb-8">
           <Link to="/" className="inline-flex items-center gap-2.5 group">
-            <div className="w-8 h-8 rounded-sm bg-retro-surface border border-retro-orange flex items-center justify-center text-retro-orange shadow-panel">
+            <div className="w-8 h-8 rounded-sm bg-retro-surface border border-retro-coral flex items-center justify-center text-retro-coral shadow-panel">
               <Cpu className="w-4 h-4" />
             </div>
             <span className="text-base font-display font-extrabold tracking-wider text-retro-paper">
-              COLLAB<span className="text-retro-orange">MATRIX</span>
+              COLLAB<span className="text-retro-coral">MATRIX</span>
             </span>
           </Link>
           <span className="text-[10px] font-mono text-retro-amber border border-retro-amber/40 px-2 py-0.5 rounded-sm">
@@ -33,8 +33,8 @@ export default function AuthLayout() {
       {/* Right Visual Panel (Desktop) */}
       <div className="hidden lg:flex lg:col-span-5 relative bg-retro-surface border-l border-retro-border p-12 flex-col justify-between overflow-hidden shadow-panel">
         <div className="relative z-10 space-y-4">
-          <div className="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-retro-orange px-2.5 py-1 rounded-sm bg-retro-surface-elevated border border-retro-border">
-            <span className="w-1.5 h-1.5 rounded-full bg-retro-orange animate-pulse" />
+          <div className="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-retro-coral px-2.5 py-1 rounded-sm bg-retro-surface-elevated border border-retro-border">
+            <span className="w-1.5 h-1.5 rounded-full bg-retro-mint animate-pulse" />
             TELEMETRY NODE // CAMPUS GRID
           </div>
           <h2 className="text-2xl sm:text-3xl font-display font-bold text-retro-paper tracking-tight leading-snug">

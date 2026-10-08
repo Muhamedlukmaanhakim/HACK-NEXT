@@ -16,10 +16,10 @@ export default function MatchScore({
 
   const colorStroke =
     rounded >= 90
-      ? '#F26A2E' // Retro Orange
+      ? '#F05A47' // Coral
       : rounded >= 80
-      ? '#F5B544' // Retro Amber
-      : '#4D8B83'; // Retro Teal
+      ? '#D8A94A' // Yellow / Gold
+      : '#79B8A5'; // Mint
 
   const dimensions = {
     sm: 'w-10 h-10',
@@ -43,8 +43,8 @@ export default function MatchScore({
       >
         {/* Outer Scope Border Ring */}
         <circle
-          stroke="rgba(233, 223, 201, 0.12)"
-          fill="#1B1915"
+          stroke="rgba(241, 232, 211, 0.14)"
+          fill="#17232B"
           strokeWidth={stroke}
           r={normalizedRadius}
           cx={radius}

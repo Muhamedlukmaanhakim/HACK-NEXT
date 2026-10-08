@@ -5,17 +5,20 @@
 @tailwind utilities;
 
 :root {
-  --bg-main: #11100E;
-  --bg-surface: #1B1915;
-  --bg-elevated: #24211C;
-  --border-subtle: rgba(233, 223, 201, 0.12);
-  --color-text-primary: #E9DFC9;
-  --color-text-secondary: #A8A08E;
-  --color-text-muted: #706B5E;
-  --accent-orange: #F26A2E;
-  --accent-amber: #F5B544;
-  --accent-teal: #4D8B83;
-  --accent-red: #B94A3A;
+  --bg-main: #101820;
+  --bg-surface: #17232B;
+  --bg-elevated: #1D2A31;
+  --border-subtle: rgba(241, 232, 211, 0.14);
+  --color-text-primary: #F1E8D3;
+  --color-text-secondary: #D8CCB5;
+  --color-text-muted: #75848C;
+  --accent-coral: #F05A47;
+  --accent-mint: #79B8A5;
+  --accent-yellow: #D8A94A;
+  --accent-orange: #F05A47;
+  --accent-amber: #D8A94A;
+  --accent-teal: #79B8A5;
+  --accent-red: #D9534F;
 }
 
 @layer base {
@@ -23,25 +26,30 @@
     border-color: var(--border-subtle);
   }
 
+  ::selection {
+    background-color: #F05A47;
+    color: #101820;
+  }
+
   body {
-    background-color: #11100E;
-    color: #E9DFC9;
+    background-color: #101820;
+    color: #F1E8D3;
     font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     min-height: 100vh;
     overflow-x: hidden;
-    /* Subtle retro coordinate grid background */
+    /* Subtle retro coordinate grid background with parchment line */
     background-image: 
-      linear-gradient(to right, rgba(233, 223, 201, 0.025) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(233, 223, 201, 0.025) 1px, transparent 1px);
+      linear-gradient(to right, rgba(241, 232, 211, 0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(241, 232, 211, 0.035) 1px, transparent 1px);
     background-size: 36px 36px;
     background-attachment: fixed;
   }
 
   /* Accessible retro focus ring */
   :focus-visible {
-    outline: 2px solid #F26A2E;
+    outline: 2px solid #F05A47;
     outline-offset: 2px;
   }
 
@@ -51,34 +59,42 @@
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #11100E;
+    background: #101820;
   }
   ::-webkit-scrollbar-thumb {
-    background: #2D2923;
+    background: #1D2A31;
     border-radius: 0px;
-    border: 1px solid rgba(233, 223, 201, 0.1);
+    border: 1px solid rgba(241, 232, 211, 0.1);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #F26A2E;
+    background: #F05A47;
   }
 }
 
 /* Retro Technical Panel */
 .retro-panel {
-  background-color: #1B1915;
-  border: 1px solid rgba(233, 223, 201, 0.14);
+  background-color: #17232B;
+  border: 1px solid rgba(241, 232, 211, 0.14);
   box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.7);
   position: relative;
 }
 
 /* Subtle Instrument Panel Header */
 .retro-panel-header {
-  border-bottom: 1px solid rgba(233, 223, 201, 0.12);
-  background-color: rgba(36, 33, 28, 0.5);
+  border-bottom: 1px solid rgba(241, 232, 211, 0.12);
+  background-color: rgba(29, 42, 49, 0.6);
   font-family: 'Space Mono', monospace;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+}
+
+/* Background coordinate grid */
+.bg-retro-grid {
+  background-image: 
+    linear-gradient(to right, rgba(241, 232, 211, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(241, 232, 211, 0.035) 1px, transparent 1px);
+  background-size: 36px 36px;
 }
 
 /* Corner Bracket Accents */
@@ -91,7 +107,7 @@
   position: absolute;
   width: 6px;
   height: 6px;
-  border-color: rgba(242, 106, 46, 0.6);
+  border-color: rgba(240, 90, 71, 0.6);
   pointer-events: none;
 }
 .corner-brackets::before {
@@ -110,25 +126,25 @@
 /* CRT Scanlines subtle overlay */
 .retro-scanlines {
   background: linear-gradient(
-    rgba(18, 16, 14, 0) 50%, 
+    rgba(16, 24, 32, 0) 50%, 
     rgba(0, 0, 0, 0.25) 50%
   );
   background-size: 100% 4px;
 }
 
-/* Glass nav modernized with dark warm graphite opacity */
+/* Glass nav modernized with dark ink opacity */
 .glass-nav {
-  background: rgba(17, 16, 14, 0.92);
+  background: rgba(16, 24, 32, 0.94);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(233, 223, 201, 0.12);
+  border-bottom: 1px solid rgba(241, 232, 211, 0.12);
 }
 
 .glass-panel {
-  background: rgba(27, 25, 21, 0.9);
+  background: rgba(23, 35, 43, 0.92);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(233, 223, 201, 0.14);
+  border: 1px solid rgba(241, 232, 211, 0.14);
 }
 
 /* Monospace technical tag */

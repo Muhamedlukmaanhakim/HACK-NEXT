@@ -46,8 +46,12 @@ export default function StudentCard({
             </div>
           </div>
           {matchScore !== undefined && (
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-none bg-retro-orange/15 text-retro-orange border border-retro-orange/40 tracking-wider">
-              {matchScore >= 90 ? `${matchScore}% — STRONG MATCH` : `${matchScore}% MATCH`}
+            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-none tracking-wider ${
+              matchScore >= 90
+                ? 'bg-retro-coral/15 text-retro-coral border border-retro-coral/50'
+                : 'bg-retro-surface-elevated text-retro-paper/80 border border-retro-border'
+            }`}>
+              {matchScore >= 90 ? `${matchScore}% STRONG MATCH` : `${matchScore}% MATCH`}
             </span>
           )}
         </div>
@@ -86,7 +90,7 @@ export default function StudentCard({
               size="sm"
               onClick={() => onViewProfile(student)}
             >
-              Profile
+              [ PROFILE ]
             </Button>
           )}
 
@@ -97,7 +101,7 @@ export default function StudentCard({
             icon={isRequested ? UserCheck : UserPlus}
             onClick={() => !isRequested && onConnect && onConnect(student)}
           >
-            {isRequested ? 'Sent' : 'Connect'}
+            {isRequested ? '[ SENT ]' : '[ CONNECT ]'}
           </Button>
         </div>
       </div>

@@ -95,7 +95,7 @@ export default function Navbar({ isAuthenticated = false }) {
                 size="sm"
                 onClick={() => navigate('/login')}
               >
-                Sign In
+                [ SIGN IN ]
               </Button>
               <Button
                 variant="primary"
@@ -104,7 +104,7 @@ export default function Navbar({ isAuthenticated = false }) {
                 iconPosition="right"
                 onClick={() => navigate('/register')}
               >
-                Enter Network
+                [ ENTER NETWORK → ]
               </Button>
             </>
           )}

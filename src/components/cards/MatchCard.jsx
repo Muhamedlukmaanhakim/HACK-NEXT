@@ -47,8 +47,12 @@ export default function MatchCard({
             </div>
           </div>
           <div className="flex flex-col items-end gap-1 flex-shrink-0">
-            <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-none bg-retro-orange/20 text-retro-orange border border-retro-orange/50 uppercase tracking-wider">
-              {score >= 90 ? `${Math.round(score)}% — STRONG MATCH` : `${Math.round(score)}% — MATCH SIGNAL`}
+            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-none uppercase tracking-wider ${
+              score >= 90
+                ? 'bg-retro-coral/15 text-retro-coral border border-retro-coral/50'
+                : 'bg-retro-surface-elevated text-retro-paper/80 border border-retro-border'
+            }`}>
+              {score >= 90 ? `${Math.round(score)}% STRONG MATCH` : `${Math.round(score)}% MATCH SIGNAL`}
             </span>
             <MatchScore score={score} size="md" />
           </div>
@@ -57,24 +61,24 @@ export default function MatchCard({
         {/* Sub-scores Grid (50%, 20%, 15%, 15%) */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 p-3 rounded-none bg-retro-surface-elevated border border-retro-border mb-3.5">
           <div>
-            <div className="text-[9px] text-retro-muted uppercase font-bold tracking-wider">Skill (50%)</div>
+            <div className="text-[9px] text-retro-muted uppercase font-bold tracking-wider">SKILL 50%</div>
             <div className="text-xs font-bold text-retro-paper mt-0.5">{subScores.skill || 90}%</div>
-            <ProgressBar value={subScores.skill || 90} size="sm" variant="orange" />
+            <ProgressBar value={subScores.skill || 90} size="sm" variant="coral" />
           </div>
           <div>
-            <div className="text-[9px] text-retro-muted uppercase font-bold tracking-wider">Interest (20%)</div>
+            <div className="text-[9px] text-retro-muted uppercase font-bold tracking-wider">INTEREST 20%</div>
             <div className="text-xs font-bold text-retro-paper mt-0.5">{subScores.interest || 85}%</div>
-            <ProgressBar value={subScores.interest || 85} size="sm" variant="amber" />
+            <ProgressBar value={subScores.interest || 85} size="sm" variant="yellow" />
           </div>
           <div>
-            <div className="text-[9px] text-retro-muted uppercase font-bold tracking-wider">Availability (15%)</div>
+            <div className="text-[9px] text-retro-muted uppercase font-bold tracking-wider">AVAILABILITY 15%</div>
             <div className="text-xs font-bold text-retro-paper mt-0.5">{subScores.availability || 80}%</div>
-            <ProgressBar value={subScores.availability || 80} size="sm" variant="teal" />
+            <ProgressBar value={subScores.availability || 80} size="sm" variant="mint" />
           </div>
           <div>
-            <div className="text-[9px] text-retro-muted uppercase font-bold tracking-wider">Experience (15%)</div>
+            <div className="text-[9px] text-retro-muted uppercase font-bold tracking-wider">EXPERIENCE 15%</div>
             <div className="text-xs font-bold text-retro-paper mt-0.5">{subScores.experience || 85}%</div>
-            <ProgressBar value={subScores.experience || 85} size="sm" variant="orange" />
+            <ProgressBar value={subScores.experience || 85} size="sm" variant="coral" />
           </div>
         </div>
 
@@ -87,7 +91,7 @@ export default function MatchCard({
             {matchedSkills.map((skill) => (
               <span
                 key={skill}
-                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-none text-[10px] font-mono font-medium bg-retro-teal/15 text-retro-teal border border-retro-teal/40"
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-none text-[10px] font-mono font-medium bg-retro-mint/15 text-retro-mint border border-retro-mint/40"
               >
                 <Check className="w-2.5 h-2.5" />
                 <span>{skill}</span>
@@ -116,7 +120,7 @@ export default function MatchCard({
             size="sm"
             onClick={() => onViewProfile(student)}
           >
-            Full Profile
+            [ FULL PROFILE ]
           </Button>
         )}
         <Button
@@ -127,7 +131,7 @@ export default function MatchCard({
           onClick={() => !isRequested && onConnect && onConnect(student)}
           className="ml-auto"
         >
-          {isRequested ? 'Request Sent' : 'Connect'}
+          {isRequested ? '[ REQUEST SENT ]' : '[ ESTABLISH CONNECTION ]'}
         </Button>
       </div>
     </div>

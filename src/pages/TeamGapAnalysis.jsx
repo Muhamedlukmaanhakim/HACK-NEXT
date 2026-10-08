@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PieChart, ShieldCheck, Send, ArrowRight, Info, Check } from 'lucide-react';
 import GapAnalysis from '../components/features/GapAnalysis';
+import CollaborationMatrix from '../components/features/CollaborationMatrix';
 import Avatar from '../components/ui/Avatar';
 import Button from '../components/ui/Button';
 import Modal from '../components/ui/Modal';
@@ -90,6 +91,12 @@ export default function TeamGapAnalysis() {
         coveragePercentage={coveragePercentage}
         coveredCount={coveredCount}
         totalCount={totalCount}
+      />
+
+      {/* Collaboration Matrix Dot Grid */}
+      <CollaborationMatrix
+        requirements={requirements}
+        members={activeTeam.members || []}
       />
 
       {isFullCoverage ? (

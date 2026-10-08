@@ -110,7 +110,7 @@ export default function OpportunityCard({
           iconPosition="right"
           onClick={() => onView && onView(opportunity)}
         >
-          Inspect
+          [ INSPECT → ]
         </Button>
       </div>
     </div>

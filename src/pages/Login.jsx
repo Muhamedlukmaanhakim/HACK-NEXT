@@ -195,7 +195,7 @@ export default function Login() {
           icon={LogIn}
           isLoading={isSubmitting}
         >
-          Sign In
+          [ SIGN IN → ]
         </Button>
       </form>
 
@@ -214,7 +214,7 @@ export default function Login() {
         className="w-full font-mono text-xs"
         onClick={handleGoogleLogin}
       >
-        Continue with Campus Google
+        Continue with your Google account
       </Button>
 
       {/* Register redirect */}

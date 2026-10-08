@@ -8,6 +8,7 @@ import {
   PlusCircle,
   ArrowRight,
   Cpu,
+  PieChart,
 } from 'lucide-react';
 import StatCard from '../components/cards/StatCard';
 import OpportunityCard from '../components/cards/OpportunityCard';
@@ -130,32 +131,33 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* 4 Telemetry Stat Cards */}
+      {/* 4 Telemetry Stat Cards with large numbers */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
         <StatCard
-          label="ACTIVE TEAMS"
-          value={teams?.length || 1}
+          label="ACTIVE CONNECTIONS"
+          value="04"
           icon={Users}
-          change="+1 this month"
+          change="+1 this week"
         />
         <StatCard
-          label="PENDING REQUESTS"
-          value={pendingRequestsCount}
-          icon={Inbox}
-          change="Action required"
+          label="POTENTIAL MATCHES"
+          value="12"
+          icon={Cpu}
+          change="94% peak signal"
+          isKey={true}
+        />
+        <StatCard
+          label="TEAM GAPS"
+          value="03"
+          icon={PieChart}
+          change="2 critical"
           trend="neutral"
         />
         <StatCard
           label="CAMPUS POSTS"
-          value={opportunities?.length || 10}
+          value={opportunities?.length ? (opportunities.length < 10 ? `0${opportunities.length}` : `${opportunities.length}`) : "10"}
           icon={Compass}
           change="10 open posts"
-        />
-        <StatCard
-          label="DOSSIER VIEWS"
-          value="48"
-          icon={Eye}
-          change="+18% weekly"
         />
       </div>
 

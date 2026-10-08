@@ -43,7 +43,7 @@ export default function Landing() {
               onClick={() => navigate(isAuthenticated ? '/dashboard' : '/register')}
               className="w-full sm:w-auto"
             >
-              Enter Network
+              [ ENTER THE NETWORK → ]
             </Button>
             <Button
               variant="secondary"
@@ -51,7 +51,7 @@ export default function Landing() {
               onClick={() => navigate(isAuthenticated ? '/discover/students' : '/login')}
               className="w-full sm:w-auto"
             >
-              Inspect Collaborators
+              [ INSPECT COLLABORATORS ]
             </Button>
           </div>
         </div>

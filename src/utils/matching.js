@@ -12,7 +12,7 @@ const DEMO_OVERRIDES = {
   'student-2': {
     // Sarah Rahman
     score: 94,
-    subScores: { skill: 96, interest: 92, availability: 95, experience: 90 },
+    subScores: { skill: 98, interest: 91, availability: 90, experience: 86 },
     reason: 'Exceptional UI/UX and presentation alignment with active weekend sprint availability.',
   },
   'student-3': {

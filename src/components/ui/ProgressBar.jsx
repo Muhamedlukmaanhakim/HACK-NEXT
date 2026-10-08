@@ -12,12 +12,15 @@ export default function ProgressBar({
   const percentage = Math.min(100, Math.max(0, Math.round((value / max) * 100)));
 
   const variants = {
+    coral: 'bg-retro-coral',
+    mint: 'bg-retro-mint',
+    yellow: 'bg-retro-yellow',
     orange: 'bg-retro-orange',
     amber: 'bg-retro-amber',
     teal: 'bg-retro-teal',
-    indigo: 'bg-retro-orange', // map legacy indigo to retro-orange
-    success: 'bg-retro-teal',
-    warning: 'bg-retro-amber',
+    indigo: 'bg-retro-coral',
+    success: 'bg-retro-mint',
+    warning: 'bg-retro-yellow',
     danger: 'bg-retro-red',
   };
 

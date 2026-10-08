@@ -8,51 +8,97 @@ export default {
   theme: {
     extend: {
       colors: {
+        retro: {
+          bg: '#101820',
+          surface: '#17232B',
+          'surface-elevated': '#1D2A31',
+          'surface-hover': '#24333B',
+          border: 'rgba(241, 232, 211, 0.14)',
+          paper: '#F1E8D3',
+          'paper-dim': '#D8CCB5',
+          muted: '#75848C',
+          orange: '#F05A47', // Muted Coral
+          coral: '#F05A47',
+          amber: '#D8A94A',  // Muted Yellow / NASA Gold
+          yellow: '#D8A94A',
+          teal: '#79B8A5',   // Muted Analog Mint
+          mint: '#79B8A5',
+          red: '#D9534F',
+        },
+        ink: {
+          DEFAULT: '#101820',
+          dark: '#0B1117',
+          surface: '#17232B',
+          elevated: '#1D2A31',
+          hover: '#24333B',
+        },
+        sand: {
+          DEFAULT: '#F1E8D3',
+          muted: '#D8CCB5',
+          dim: '#75848C',
+          border: 'rgba(241, 232, 211, 0.14)',
+        },
+        coral: {
+          DEFAULT: '#F05A47',
+          hover: '#D94D3B',
+          glow: 'rgba(240, 90, 71, 0.25)',
+        },
+        mint: {
+          DEFAULT: '#79B8A5',
+          glow: 'rgba(121, 184, 165, 0.25)',
+        },
+        yellow: {
+          DEFAULT: '#D8A94A',
+          glow: 'rgba(216, 169, 74, 0.25)',
+        },
         background: {
-          DEFAULT: '#11100E', // Deep charcoal / warm black
-          subtle: '#161411',
-          pure: '#0C0B0A',
+          DEFAULT: '#101820', // Deep ink / blue-black
+          subtle: '#0D141B',
+          pure: '#080D11',
         },
         surface: {
-          DEFAULT: '#1B1915', // Dark graphite / warm dark surface
-          elevated: '#24211C', // Elevated instrument panel
-          hover: '#2D2923',
-          border: 'rgba(233, 223, 201, 0.12)', // Subtle warm paper line
-          'border-subtle': 'rgba(233, 223, 201, 0.06)',
-          'border-hover': 'rgba(242, 106, 46, 0.35)',
-          'border-active': 'rgba(242, 106, 46, 0.65)',
+          DEFAULT: '#17232B', // Deep ink secondary surface
+          elevated: '#1D2A31', // Elevated instrument panel
+          hover: '#24333B',
+          border: 'rgba(241, 232, 211, 0.14)', // Warm parchment line
+          'border-subtle': 'rgba(241, 232, 211, 0.07)',
+          'border-hover': 'rgba(240, 90, 71, 0.4)',
+          'border-active': 'rgba(240, 90, 71, 0.7)',
         },
         paper: {
-          DEFAULT: '#E9DFC9', // Warm Ivory / Cream paper
-          dim: '#CFC3AA',
-          muted: '#8A8270',
+          DEFAULT: '#F1E8D3', // Warm Sand / Ivory paper
+          dim: '#D8CCB5',
+          muted: '#75848C',
         },
         accent: {
-          DEFAULT: '#F26A2E', // Primary Retro Orange
-          orange: '#F26A2E',  // Burnt/Retro Orange
-          amber: '#F5B544',   // Warm Amber / NASA Gold
-          red: '#B94A3A',     // Muted Vintage Red
-          teal: '#4D8B83',    // Desaturated Analog Teal
-          ochre: '#D97736',
+          DEFAULT: '#F05A47', // Primary Retro Coral
+          coral: '#F05A47',
+          orange: '#F05A47',  // Muted Coral
+          amber: '#D8A94A',   // Warm Yellow / NASA Gold
+          yellow: '#D8A94A',
+          red: '#D9534F',     // Muted Vintage Red
+          teal: '#79B8A5',    // Desaturated Analog Mint
+          mint: '#79B8A5',
+          ochre: '#D8A94A',
         },
         text: {
-          primary: '#E9DFC9',   // Warm ivory
-          secondary: '#A8A08E', // Warm muted grey
-          muted: '#706B5E',     // Dim warm graphite
+          primary: '#F1E8D3',   // Warm Sand
+          secondary: '#D8CCB5', // Warm muted sand
+          muted: '#75848C',     // Dim ink graphite
         },
         status: {
-          success: '#4D8B83',   // Analog Teal Green
-          warning: '#F5B544',   // Vintage Amber
-          danger: '#B94A3A',    // Muted Red
-          info: '#F26A2E',      // Retro Orange
+          success: '#79B8A5',   // Analog Mint
+          warning: '#D8A94A',   // Vintage Yellow
+          danger: '#D9534F',    // Muted Red
+          info: '#F05A47',      // Muted Coral
         },
         category: {
-          technical: '#F26A2E',    // Orange
-          creative: '#F5B544',     // Amber
-          communication: '#4D8B83',// Teal
-          research: '#B94A3A',     // Red
-          business: '#D97736',     // Ochre
-          leadership: '#B57048',   // Terracotta
+          technical: '#F05A47',    // Coral
+          creative: '#D8A94A',     // Yellow
+          communication: '#79B8A5',// Mint
+          research: '#D9534F',     // Red
+          business: '#D8A94A',     // Yellow
+          leadership: '#79B8A5',   // Mint
         }
       },
       fontFamily: {

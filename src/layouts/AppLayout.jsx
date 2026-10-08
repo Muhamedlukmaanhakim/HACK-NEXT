@@ -47,7 +47,7 @@ export default function AppLayout() {
         {/* Top Telemetry Status Strip */}
         <div className="hidden lg:flex items-center justify-between px-8 py-2 border-b border-retro-border/60 bg-retro-surface/60 text-[10px] font-mono text-retro-muted select-none">
           <div className="flex items-center gap-4">
-            <span className="text-retro-amber font-semibold">● TELEMETRY // ONLINE</span>
+            <span className="text-retro-mint font-semibold">● TELEMETRY // ONLINE</span>
             <span className="opacity-40">|</span>
             <span>GRID: CAMPUS-ALPHA // TERMINAL #01</span>
           </div>
