@@ -23,42 +23,49 @@ export default function StudentCard({
   } = student;
 
   return (
-    <div className={`p-5 rounded-2xl bg-surface border border-surface-border hover:border-surface-border-hover transition-all duration-200 flex flex-col justify-between group ${className}`}>
+    <div className={`p-4 sm:p-5 rounded-none bg-retro-surface border border-retro-border hover:border-retro-orange/60 transition-all duration-150 flex flex-col justify-between group shadow-panel relative font-mono ${className}`}>
+      {/* Corner crosshairs */}
+      <div className="absolute top-1 left-1 text-[8px] text-retro-muted/40 leading-none select-none">+</div>
+      <div className="absolute top-1 right-1 text-[8px] text-retro-muted/40 leading-none select-none">+</div>
+
       <div>
         {/* Top Header */}
         <div className="flex items-start justify-between gap-3 mb-3">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             <Avatar name={name} size="md" />
             <div>
-              <h3 className="text-sm font-semibold text-text-primary group-hover:text-accent-teal transition-colors">
+              <div className="text-[9px] text-retro-muted tracking-widest uppercase">
+                [ NODE // {id?.toUpperCase() || 'STU'} ]
+              </div>
+              <h3 className="text-xs sm:text-sm font-bold text-retro-paper group-hover:text-retro-amber transition-colors">
                 {name}
               </h3>
-              <p className="text-xs text-text-secondary">
-                {department} • {year}
+              <p className="text-[10px] text-retro-muted">
+                {department} // {year}
               </p>
             </div>
           </div>
           {matchScore !== undefined && (
-            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-accent-teal/15 text-accent-teal border border-accent-teal/30">
-              {matchScore}% Match
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-none bg-retro-orange/15 text-retro-orange border border-retro-orange/40 tracking-wider">
+              {matchScore}% MATCH
             </span>
           )}
         </div>
 
         {/* Bio */}
-        <p className="text-xs text-text-secondary line-clamp-2 mb-4 leading-relaxed">
+        <p className="text-xs text-retro-paper/70 font-sans line-clamp-2 mb-3 leading-relaxed">
           {bio || 'Enthusiastic collaborator looking to build impactful projects with like-minded peers.'}
         </p>
 
         {/* Skills */}
         <div className="mb-4">
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-1">
             {skills.slice(0, 4).map((skill) => (
-              <SkillBadge key={skill} skill={skill} size="sm" />
+              <SkillBadge key={skill} skill={skill} size="xs" />
             ))}
             {skills.length > 4 && (
-              <span className="text-[11px] text-text-muted px-2 py-0.5 rounded-full bg-surface-elevated border border-surface-border">
-                +{skills.length - 4} more
+              <span className="text-[9px] font-mono text-retro-muted px-1.5 py-0.5 bg-retro-surface-elevated border border-retro-border">
+                +{skills.length - 4} MORE
               </span>
             )}
           </div>
@@ -66,13 +73,13 @@ export default function StudentCard({
       </div>
 
       {/* Footer / Actions */}
-      <div className="pt-3 border-t border-surface-border/60 flex items-center justify-between gap-2">
-        <div className="flex items-center gap-1 text-[11px] text-text-muted">
+      <div className="pt-2.5 border-t border-retro-border/60 flex items-center justify-between gap-2 text-xs">
+        <div className="flex items-center gap-1 text-[10px] text-retro-muted">
           <Clock className="w-3 h-3 flex-shrink-0" />
-          <span className="truncate max-w-[110px]">{availability[0] || 'Flexible'}</span>
+          <span className="truncate max-w-[100px]">{availability[0] || 'Flexible'}</span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           {onViewProfile && (
             <Button
               variant="ghost"
@@ -90,7 +97,7 @@ export default function StudentCard({
             icon={isRequested ? UserCheck : UserPlus}
             onClick={() => !isRequested && onConnect && onConnect(student)}
           >
-            {isRequested ? 'Request Sent' : 'Connect'}
+            {isRequested ? 'Sent' : 'Connect'}
           </Button>
         </div>
       </div>

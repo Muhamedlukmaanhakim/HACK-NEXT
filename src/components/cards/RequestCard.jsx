@@ -29,35 +29,39 @@ export default function RequestCard({
   };
 
   return (
-    <div className={`p-5 rounded-2xl bg-surface border border-surface-border hover:border-surface-border-hover transition-all duration-200 ${className}`}>
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
-        <div className="flex items-start gap-3.5">
+    <div className={`p-4 sm:p-5 rounded-none bg-retro-surface border border-retro-border hover:border-retro-orange/60 transition-all duration-150 shadow-panel relative font-mono ${className}`}>
+      {/* Corner crosshairs */}
+      <div className="absolute top-1 left-1 text-[8px] text-retro-muted/40 leading-none select-none">+</div>
+      <div className="absolute top-1 right-1 text-[8px] text-retro-muted/40 leading-none select-none">+</div>
+
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-3">
+        <div className="flex items-start gap-3">
           <Avatar name={student?.name || 'Peer'} size="md" />
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <h4 className="text-sm font-semibold text-text-primary">
+              <h4 className="text-xs sm:text-sm font-bold text-retro-paper">
                 {student?.name}
               </h4>
-              <span className="text-xs text-text-secondary">
-                ({student?.department} • {student?.year})
+              <span className="text-[10px] text-retro-muted">
+                ({student?.department} // {student?.year})
               </span>
               {matchScore !== undefined && (
-                <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-accent-teal/15 text-accent-teal border border-accent-teal/30">
-                  {matchScore}% Match
+                <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-none bg-retro-orange/15 text-retro-orange border border-retro-orange/40">
+                  {matchScore}% MATCH
                 </span>
               )}
             </div>
 
-            <p className="text-xs text-text-muted mt-1 flex items-center gap-1.5">
+            <p className="text-[11px] text-retro-muted mt-1 flex items-center gap-1.5">
               {type === 'incoming' ? (
                 <>
-                  <ArrowDownLeft className="w-3.5 h-3.5 text-accent-teal" />
-                  <span>Wants to join: <strong className="text-text-primary">{opportunityTitle}</strong></span>
+                  <ArrowDownLeft className="w-3.5 h-3.5 text-retro-teal" />
+                  <span>WANTS TO JOIN: <strong className="text-retro-paper font-semibold">{opportunityTitle}</strong></span>
                 </>
               ) : (
                 <>
-                  <ArrowUpRight className="w-3.5 h-3.5 text-accent-indigo" />
-                  <span>Request to join: <strong className="text-text-primary">{opportunityTitle}</strong></span>
+                  <ArrowUpRight className="w-3.5 h-3.5 text-retro-orange" />
+                  <span>TRANSMITTED TO: <strong className="text-retro-paper font-semibold">{opportunityTitle}</strong></span>
                 </>
               )}
             </p>
@@ -71,13 +75,13 @@ export default function RequestCard({
 
       {/* Message Body */}
       {message && (
-        <div className="p-3.5 rounded-xl bg-surface-elevated/80 border border-surface-border text-xs text-text-secondary leading-relaxed mb-4">
+        <div className="p-3 rounded-none bg-retro-surface-elevated border border-retro-border/80 text-xs text-retro-paper/80 font-sans leading-relaxed mb-3">
           &ldquo;{message}&rdquo;
         </div>
       )}
 
       {/* Action Footer */}
-      <div className="pt-3 border-t border-surface-border/60 flex items-center justify-end gap-2.5">
+      <div className="pt-2.5 border-t border-retro-border/60 flex items-center justify-end gap-2 text-xs">
         {type === 'incoming' && status === 'Pending' && (
           <>
             <Button
@@ -85,7 +89,7 @@ export default function RequestCard({
               size="sm"
               icon={X}
               onClick={() => onDecline && onDecline(request)}
-              className="text-text-muted hover:text-status-danger hover:border-status-danger/40"
+              className="text-retro-muted hover:text-retro-red hover:border-retro-red/60"
             >
               Decline
             </Button>
@@ -95,7 +99,7 @@ export default function RequestCard({
               icon={Check}
               onClick={() => onAccept && onAccept(request)}
             >
-              Accept into Team
+              Accept Roster
             </Button>
           </>
         )}
@@ -105,21 +109,21 @@ export default function RequestCard({
             variant="ghost"
             size="sm"
             onClick={() => onWithdraw(request)}
-            className="text-text-muted hover:text-status-danger"
+            className="text-retro-muted hover:text-retro-red"
           >
             Withdraw Request
           </Button>
         )}
 
         {status === 'Accepted' && (
-          <span className="text-xs text-status-success font-medium flex items-center gap-1">
-            <Check className="w-3.5 h-3.5" /> Collaboration Confirmed
+          <span className="text-xs text-retro-teal font-mono font-bold flex items-center gap-1">
+            <Check className="w-3.5 h-3.5" /> COLLABORATION CONFIRMED
           </span>
         )}
 
         {status === 'Declined' && (
-          <span className="text-xs text-text-muted font-medium">
-            Request Declined
+          <span className="text-xs text-retro-muted font-mono">
+            REQUEST ARCHIVED / DECLINED
           </span>
         )}
       </div>

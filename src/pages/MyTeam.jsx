@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Users, UserPlus, PieChart, ShieldAlert, Sparkles, ArrowRight } from 'lucide-react';
+import { Users, UserPlus, PieChart, Sparkles, ArrowRight } from 'lucide-react';
 import TeamMemberCard from '../components/cards/TeamMemberCard';
 import SkillCoverage from '../components/skills/SkillCoverage';
 import Button from '../components/ui/Button';
@@ -67,8 +67,8 @@ export default function MyTeam() {
     return (
       <EmptyState
         icon={Users}
-        title="No active teams"
-        description="You are not part of an active team yet. Create an opportunity or accept join requests to form a squad."
+        title="No active project rosters"
+        description="You are not part of an active project crew. Create an opportunity or accept join requests to form a team."
         actionLabel="Create Opportunity"
         onAction={() => navigate('/opportunities/create')}
       />
@@ -78,29 +78,32 @@ export default function MyTeam() {
   const memberCount = activeTeam.members?.length || 0;
   const isFull = memberCount >= activeTeam.maxSize;
 
-  // Candidates for add member modal (exclude current members)
+  // Candidates for add member modal
   const currentMemberIds = new Set((activeTeam.members || []).map((m) => m.id));
   const availableCandidates = (students || []).filter((s) => !currentMemberIds.has(s.id));
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-6 sm:space-y-8 animate-fade-in font-mono">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-retro-border pb-4">
         <div>
+          <div className="text-[10px] text-retro-muted uppercase tracking-widest mb-1">
+            [ CREW // ACTIVE_ROSTER_MANIFEST ]
+          </div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl sm:text-3xl font-bold text-text-primary tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper tracking-wide uppercase">
               {activeTeam.name}
             </h1>
-            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-accent-teal/15 text-accent-teal border border-accent-teal/30">
+            <span className="text-[9px] font-bold px-2 py-0.5 rounded-none bg-retro-teal/20 text-retro-teal border border-retro-teal/40 uppercase">
               {activeTeam.type}
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-text-secondary mt-1">
-            Manage your project roster, track domain skill coverage, and identify team gaps.
+          <p className="text-xs text-retro-muted font-sans mt-0.5">
+            Manage your project roster, track domain skill coverage, and identify uncovered disciplines.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <Button
             variant="secondary"
             size="md"
@@ -108,7 +111,7 @@ export default function MyTeam() {
             disabled={isFull}
             onClick={() => setAddMemberModalOpen(true)}
           >
-            {isFull ? 'Roster Full' : 'Add Member'}
+            {isFull ? 'Roster Full' : 'Recruit Member'}
           </Button>
 
           <Button
@@ -117,7 +120,7 @@ export default function MyTeam() {
             icon={PieChart}
             onClick={() => navigate('/team/gap-analysis')}
           >
-            Analyze Team Gaps
+            Team Gap Analysis
           </Button>
         </div>
       </div>
@@ -125,15 +128,15 @@ export default function MyTeam() {
       {/* Roster Progress & Skill Coverage Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Members Cards (8 cols) */}
-        <div className="lg:col-span-8 space-y-4">
-          <div className="flex items-center justify-between text-xs text-text-muted px-1">
-            <span className="font-semibold uppercase tracking-wider">
-              Active Members ({memberCount}/{activeTeam.maxSize})
+        <div className="lg:col-span-8 space-y-3.5">
+          <div className="flex items-center justify-between text-[10px] text-retro-muted uppercase px-1">
+            <span>
+              [ ACTIVE_CREW // {memberCount} OF {activeTeam.maxSize} ROLES ]
             </span>
-            <span>{activeTeam.maxSize - memberCount} openings available</span>
+            <span>{activeTeam.maxSize - memberCount} OPENINGS AVAILABLE</span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             {activeTeam.members?.map((member) => (
               <TeamMemberCard
                 key={member.id}
@@ -147,13 +150,13 @@ export default function MyTeam() {
             {!isFull && (
               <div
                 onClick={() => setAddMemberModalOpen(true)}
-                className="p-6 rounded-2xl border-2 border-dashed border-surface-border hover:border-accent-indigo/50 bg-surface/30 cursor-pointer flex flex-col items-center justify-center text-center transition-all group min-h-[160px]"
+                className="p-6 rounded-none border border-dashed border-retro-border hover:border-retro-orange bg-retro-surface/40 cursor-pointer flex flex-col items-center justify-center text-center transition-all group min-h-[160px]"
               >
-                <div className="w-10 h-10 rounded-xl bg-surface-elevated text-text-muted group-hover:text-accent-indigo flex items-center justify-center mb-2 transition-colors">
-                  <UserPlus className="w-5 h-5" />
+                <div className="w-8 h-8 rounded-none bg-retro-surface-elevated text-retro-muted group-hover:text-retro-orange border border-retro-border flex items-center justify-center mb-2 transition-colors">
+                  <UserPlus className="w-4 h-4" />
                 </div>
-                <span className="text-xs font-semibold text-text-primary">Recruit Open Slot</span>
-                <span className="text-[11px] text-text-muted mt-0.5">Click to invite a specialist</span>
+                <span className="text-xs font-bold text-retro-paper">[ RECRUIT OPEN SLOT ]</span>
+                <span className="text-[10px] text-retro-muted mt-0.5">Click to invite specialist</span>
               </div>
             )}
           </div>
@@ -164,13 +167,13 @@ export default function MyTeam() {
           <SkillCoverage coverage={gapAnalysisResult?.categoryCoverage} />
 
           {/* Quick Gap Teaser Box */}
-          <div className="p-5 rounded-2xl bg-surface-elevated/80 border border-surface-border space-y-3">
-            <div className="flex items-center gap-2 text-xs font-semibold text-text-primary">
-              <Sparkles className="w-4 h-4 text-accent-teal" />
-              <span>Team Competency Readiness</span>
+          <div className="p-4 rounded-none bg-retro-surface border border-retro-border space-y-2.5 shadow-panel">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-retro-amber uppercase">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Competency Readiness</span>
             </div>
-            <p className="text-xs text-text-secondary leading-relaxed">
-              Your team currently covers <strong>{gapAnalysisResult?.coveredCount} of {gapAnalysisResult?.totalCount}</strong> required competencies ({gapAnalysisResult?.coveragePercentage}%).
+            <p className="text-xs text-retro-muted font-sans leading-relaxed">
+              Your roster currently covers <strong>{gapAnalysisResult?.coveredCount} of {gapAnalysisResult?.totalCount}</strong> required competencies ({gapAnalysisResult?.coveragePercentage}%).
             </p>
             <Button
               variant="outline"
@@ -191,7 +194,7 @@ export default function MyTeam() {
         isOpen={removeModalState.isOpen}
         onClose={() => setRemoveModalState({ isOpen: false, member: null })}
         title="Remove Team Member?"
-        description={`Are you sure you want to remove ${removeModalState.member?.name} from ${activeTeam.name}?`}
+        description={`Confirm removal of ${removeModalState.member?.name} from ${activeTeam.name}.`}
         footer={
           <>
             <Button
@@ -206,13 +209,13 @@ export default function MyTeam() {
               size="sm"
               onClick={handleConfirmRemove}
             >
-              Confirm Remove
+              Confirm Removal
             </Button>
           </>
         }
       >
-        <p className="text-xs text-text-muted">
-          Removing this member will reduce the team&apos;s skill coverage and free up a roster slot.
+        <p className="text-xs text-retro-muted font-sans">
+          Removing this member will reduce the team&apos;s collective skill coverage and vacate a roster slot.
         </p>
       </Modal>
 
@@ -220,21 +223,21 @@ export default function MyTeam() {
       <Modal
         isOpen={addMemberModalOpen}
         onClose={() => setAddMemberModalOpen(false)}
-        title="Invite Student to Team"
-        description="Select a student to immediately recruit onto your project roster."
+        title="Recruit Peer to Crew"
+        description="Select a candidate to immediately place onto your project roster."
         maxWidth="max-w-xl"
       >
-        <div className="space-y-3 max-h-96 overflow-y-auto py-2">
+        <div className="space-y-2 max-h-96 overflow-y-auto py-2">
           {availableCandidates.slice(0, 8).map((cand) => (
             <div
               key={cand.id}
-              className="p-3.5 rounded-xl bg-surface border border-surface-border flex items-center justify-between gap-3 hover:border-surface-border-hover transition-all"
+              className="p-3 rounded-none bg-retro-surface-elevated border border-retro-border flex items-center justify-between gap-3 hover:border-retro-orange/60 transition-all"
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2.5">
                 <Avatar name={cand.name} size="sm" />
                 <div>
-                  <h4 className="text-xs font-semibold text-text-primary">{cand.name}</h4>
-                  <p className="text-[11px] text-text-muted">{cand.department} • {cand.year}</p>
+                  <h4 className="text-xs font-bold text-retro-paper">{cand.name}</h4>
+                  <p className="text-[10px] text-retro-muted">{cand.department} // {cand.year}</p>
                 </div>
               </div>
               <Button
@@ -242,7 +245,7 @@ export default function MyTeam() {
                 size="sm"
                 onClick={() => handleAddMember(cand)}
               >
-                Add Member
+                Recruit
               </Button>
             </div>
           ))}

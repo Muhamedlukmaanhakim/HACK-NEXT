@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Layers, Menu, X, ArrowRight } from 'lucide-react';
+import { Cpu, Menu, X, ArrowRight } from 'lucide-react';
 import Button from '../ui/Button';
 
 export default function Navbar({ isAuthenticated = false }) {
@@ -18,48 +18,61 @@ export default function Navbar({ isAuthenticated = false }) {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-200 ${
-        scrolled ? 'glass-nav py-3.5 shadow-soft' : 'bg-transparent py-5'
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-200 border-b ${
+        scrolled
+          ? 'bg-retro-bg/95 backdrop-blur-md border-retro-border py-2.5 shadow-panel'
+          : 'bg-retro-bg/80 border-transparent py-4'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        {/* Brand Logo */}
-        <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-xl bg-gradient-primary flex items-center justify-center text-white shadow-soft group-hover:shadow-glow-indigo transition-all">
-            <Layers className="w-5 h-5" />
+        {/* Brand Logo & Telemetry */}
+        <div className="flex items-center gap-4">
+          <Link to="/" className="flex items-center gap-2.5 group">
+            <div className="w-8 h-8 rounded-sm bg-retro-surface border border-retro-orange/80 flex items-center justify-center text-retro-orange group-hover:bg-retro-orange group-hover:text-retro-bg transition-colors shadow-panel">
+              <Cpu className="w-4 h-4" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-sm sm:text-base font-display font-extrabold tracking-wider text-retro-paper">
+                COLLAB<span className="text-retro-orange">MATRIX</span>
+              </span>
+              <span className="text-[9px] font-mono text-retro-muted hidden sm:inline tracking-widest uppercase">
+                // SYSTEM 1978.4
+              </span>
+            </div>
+          </Link>
+
+          {/* Coordinate Watermark (Desktop) */}
+          <div className="hidden lg:flex items-center gap-2 px-2.5 py-1 rounded-sm border border-retro-border/60 bg-retro-surface/50 text-[10px] font-mono text-retro-muted">
+            <span className="w-1.5 h-1.5 rounded-full bg-retro-amber animate-pulse" />
+            <span>FREQ: 1420 MHZ // GRID: 28°N 77°E</span>
           </div>
-          <div className="flex flex-col">
-            <span className="text-base font-extrabold tracking-tight text-text-primary">
-              COLLAB<span className="text-accent-teal">MATRIX</span>
-            </span>
-          </div>
-        </Link>
+        </div>
 
         {/* Desktop Links */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-6 text-xs font-mono tracking-wider">
           <a
             href="#problem"
-            className="text-xs font-medium text-text-secondary hover:text-text-primary transition-colors"
+            className="text-retro-paper/70 hover:text-retro-orange transition-colors"
           >
-            Problem
+            01. PROBLEM
           </a>
           <a
             href="#solution"
-            className="text-xs font-medium text-text-secondary hover:text-text-primary transition-colors"
+            className="text-retro-paper/70 hover:text-retro-orange transition-colors"
           >
-            How it Works
+            02. ARCHITECTURE
           </a>
           <a
             href="#features"
-            className="text-xs font-medium text-text-secondary hover:text-text-primary transition-colors"
+            className="text-retro-paper/70 hover:text-retro-orange transition-colors"
           >
-            Features
+            03. CAPABILITIES
           </a>
           <a
             href="#ecosystem"
-            className="text-xs font-medium text-text-secondary hover:text-text-primary transition-colors"
+            className="text-retro-paper/70 hover:text-retro-orange transition-colors"
           >
-            Ecosystem
+            04. ECOSYSTEM
           </a>
         </nav>
 
@@ -73,7 +86,7 @@ export default function Navbar({ isAuthenticated = false }) {
               iconPosition="right"
               onClick={() => navigate('/dashboard')}
             >
-              Go to Dashboard
+              Console Dashboard
             </Button>
           ) : (
             <>
@@ -91,7 +104,7 @@ export default function Navbar({ isAuthenticated = false }) {
                 iconPosition="right"
                 onClick={() => navigate('/register')}
               >
-                Get Started
+                Enter Network
               </Button>
             </>
           )}
@@ -102,52 +115,62 @@ export default function Navbar({ isAuthenticated = false }) {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-xl text-text-secondary hover:text-text-primary hover:bg-white/5 focus-visible:outline-none"
+            className="p-1.5 rounded-sm border border-retro-border text-retro-paper/80 hover:text-retro-paper hover:bg-retro-surface-hover focus-visible:outline-none"
             aria-label="Toggle navigation menu"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden glass-panel border-b border-surface-border px-4 pt-4 pb-6 mt-2 space-y-4 animate-slide-up">
-          <nav className="flex flex-col space-y-3">
+        <div className="md:hidden border-b border-retro-border bg-retro-surface/98 px-5 pt-4 pb-6 mt-2 space-y-4 shadow-panel font-mono">
+          <div className="text-[10px] text-retro-muted tracking-widest border-b border-retro-border/60 pb-2 flex justify-between">
+            <span>[ SYSTEM NAVIGATION ]</span>
+            <span className="text-retro-amber">● ACTIVE</span>
+          </div>
+
+          <nav className="flex flex-col space-y-2 text-xs">
             <a
               href="#problem"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-medium text-text-secondary hover:text-text-primary py-1"
+              className="text-retro-paper/80 hover:text-retro-orange py-1 flex items-center justify-between"
             >
-              Problem
+              <span>01. PROBLEM</span>
+              <span className="text-retro-muted">→</span>
             </a>
             <a
               href="#solution"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-medium text-text-secondary hover:text-text-primary py-1"
+              className="text-retro-paper/80 hover:text-retro-orange py-1 flex items-center justify-between"
             >
-              How it Works
+              <span>02. ARCHITECTURE</span>
+              <span className="text-retro-muted">→</span>
             </a>
             <a
               href="#features"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-medium text-text-secondary hover:text-text-primary py-1"
+              className="text-retro-paper/80 hover:text-retro-orange py-1 flex items-center justify-between"
             >
-              Features
+              <span>03. CAPABILITIES</span>
+              <span className="text-retro-muted">→</span>
             </a>
             <a
               href="#ecosystem"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-medium text-text-secondary hover:text-text-primary py-1"
+              className="text-retro-paper/80 hover:text-retro-orange py-1 flex items-center justify-between"
             >
-              Ecosystem
+              <span>04. ECOSYSTEM</span>
+              <span className="text-retro-muted">→</span>
             </a>
           </nav>
-          <div className="pt-3 border-t border-surface-border flex flex-col gap-2">
+
+          <div className="pt-3 border-t border-retro-border flex flex-col gap-2">
             {isAuthenticated ? (
               <Button
                 variant="primary"
-                className="w-full"
+                className="w-full font-mono"
                 onClick={() => {
                   setMobileMenuOpen(false);
                   navigate('/dashboard');
@@ -159,23 +182,23 @@ export default function Navbar({ isAuthenticated = false }) {
               <>
                 <Button
                   variant="outline"
-                  className="w-full"
+                  className="w-full font-mono"
                   onClick={() => {
                     setMobileMenuOpen(false);
                     navigate('/login');
                   }}
                 >
-                  Sign In
+                  [ SIGN IN ]
                 </Button>
                 <Button
                   variant="primary"
-                  className="w-full"
+                  className="w-full font-mono"
                   onClick={() => {
                     setMobileMenuOpen(false);
                     navigate('/register');
                   }}
                 >
-                  Get Started
+                  [ ENTER NETWORK ]
                 </Button>
               </>
             )}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CheckCircle2, ArrowRight, ArrowLeft, Sparkles } from 'lucide-react';
+import { CheckSquare, ArrowRight, ArrowLeft, Cpu } from 'lucide-react';
 import Input from '../components/ui/Input';
 import Textarea from '../components/ui/Textarea';
 import Select from '../components/ui/Select';
@@ -11,11 +11,11 @@ import { DEPARTMENTS, YEARS, INTEREST_OPTIONS, AVAILABILITY_OPTIONS, COLLABORATI
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 
-function ChipGroup({ label, options, selected, onToggle, activeClass = 'bg-accent-indigo text-white border-accent-indigo' }) {
+function ChipGroup({ label, options, selected, onToggle, activeClass = 'bg-retro-orange text-retro-bg font-bold border-retro-orange' }) {
   return (
-    <div className="space-y-2">
-      {label && <label className="text-xs font-semibold uppercase tracking-wider text-text-muted">{label}</label>}
-      <div className="flex flex-wrap gap-2">
+    <div className="space-y-1.5 font-mono">
+      {label && <label className="text-[10px] font-mono uppercase tracking-wider text-retro-muted">{label}</label>}
+      <div className="flex flex-wrap gap-1.5">
         {options.map((opt) => {
           const isSelected = selected.includes(opt);
           return (
@@ -23,10 +23,10 @@ function ChipGroup({ label, options, selected, onToggle, activeClass = 'bg-accen
               key={opt}
               type="button"
               onClick={() => onToggle(opt)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-medium border transition-all ${
+              className={`px-2.5 py-1 rounded-none text-xs font-mono uppercase tracking-wider border transition-all ${
                 isSelected
                   ? activeClass
-                  : 'bg-surface-elevated text-text-secondary border-surface-border hover:border-surface-border-hover'
+                  : 'bg-retro-surface-elevated text-retro-paper/70 border-retro-border hover:border-retro-orange/60 hover:text-retro-paper'
               }`}
             >
               {opt}
@@ -91,8 +91,8 @@ export default function Onboarding() {
     await completeOnboarding(formData);
     addToast({
       type: 'success',
-      title: 'Profile Ready',
-      message: 'Your campus collaboration profile is now active!',
+      title: 'Profile Calibrated',
+      message: 'Your campus collaboration dossier is now active!',
     });
     navigate('/dashboard');
   };
@@ -106,30 +106,32 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-text-primary py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
-      <div className="max-w-2xl w-full bg-surface border border-surface-border rounded-3xl p-6 sm:p-10 shadow-elevated space-y-7 animate-fade-in">
-        <div className="space-y-2.5">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-accent-teal">
-              Step {step} of 5
+    <div className="min-h-screen bg-retro-bg text-retro-paper py-10 px-4 sm:px-6 lg:px-8 flex items-center justify-center bg-retro-grid font-mono">
+      <div className="max-w-2xl w-full bg-retro-surface border border-retro-border-strong rounded-none p-6 sm:p-9 shadow-terminal space-y-6 animate-fade-in relative">
+        {/* Step Telemetry */}
+        <div className="space-y-2 border-b border-retro-border pb-4">
+          <div className="flex items-center justify-between text-xs font-mono">
+            <span className="text-retro-orange uppercase tracking-wider font-bold">
+              [ SEQUENCE // STEP 0{step} OF 05 ]
             </span>
-            <span className="text-xs text-text-muted">
-              {['Basic Information', 'Skill Matrix', 'Domain Interests', 'Preferences & Availability', 'Complete'][step - 1]}
+            <span className="text-retro-muted uppercase">
+              {['Basic Credentials', 'Competency Matrix', 'Domain Vectors', 'Schedule & Protocols', 'Calibrated'][step - 1]}
             </span>
           </div>
-          <ProgressBar value={step} max={5} variant="teal" size="sm" />
+          <ProgressBar value={step} max={5} variant="orange" size="sm" />
         </div>
 
         {stepErrors && (
-          <div className="p-3 rounded-xl bg-status-danger/10 border border-status-danger/30 text-xs text-status-danger">
-            {stepErrors}
+          <div className="p-3 rounded-none bg-retro-red/10 border border-retro-red/40 text-xs text-retro-red font-mono">
+            [ERR: {stepErrors}]
           </div>
         )}
 
         {/* Step 1 */}
         {step === 1 && (
           <div className="space-y-4 animate-slide-up">
-            <h2 className="text-xl font-bold text-text-primary">Tell us about yourself</h2>
+            <div className="text-[10px] text-retro-muted uppercase tracking-widest">// STAGE 01: OPERATOR DETAILS</div>
+            <h2 className="text-lg sm:text-xl font-display font-bold text-retro-paper uppercase">Operator Identity</h2>
             <Input
               label="Full Name"
               value={formData.name}
@@ -153,7 +155,7 @@ export default function Onboarding() {
               />
             </div>
             <Textarea
-              label="Short Bio"
+              label="Biographical Summary"
               rows={3}
               maxLength={200}
               placeholder="What problems excite you? What projects do you want to build?"
@@ -166,7 +168,8 @@ export default function Onboarding() {
         {/* Step 2 */}
         {step === 2 && (
           <div className="space-y-4 animate-slide-up">
-            <h2 className="text-xl font-bold text-text-primary">What are your core skills?</h2>
+            <div className="text-[10px] text-retro-muted uppercase tracking-widest">// STAGE 02: SKILL CALIBRATION</div>
+            <h2 className="text-lg sm:text-xl font-display font-bold text-retro-paper uppercase">Registered Competencies</h2>
             <SkillSelector
               selectedSkills={formData.skills}
               onChange={(newSkills) => setFormData({ ...formData, skills: newSkills })}
@@ -178,20 +181,21 @@ export default function Onboarding() {
         {/* Step 3 */}
         {step === 3 && (
           <div className="space-y-4 animate-slide-up">
-            <h2 className="text-xl font-bold text-text-primary">What domains interest you most?</h2>
+            <div className="text-[10px] text-retro-muted uppercase tracking-widest">// STAGE 03: DOMAIN VECTORS</div>
+            <h2 className="text-lg sm:text-xl font-display font-bold text-retro-paper uppercase">Project Interests</h2>
             <ChipGroup
               options={INTEREST_OPTIONS}
               selected={formData.interests}
               onToggle={(item) => toggleArrayItem('interests', item)}
-              activeClass="bg-accent-teal/20 text-accent-teal border-accent-teal shadow-glow-teal"
             />
           </div>
         )}
 
         {/* Step 4 */}
         {step === 4 && (
-          <div className="space-y-5 animate-slide-up">
-            <h2 className="text-xl font-bold text-text-primary">Preferences & Availability</h2>
+          <div className="space-y-4 animate-slide-up">
+            <div className="text-[10px] text-retro-muted uppercase tracking-widest">// STAGE 04: SCHEDULE PROTOCOLS</div>
+            <h2 className="text-lg sm:text-xl font-display font-bold text-retro-paper uppercase">Availability & Formats</h2>
             <ChipGroup
               label="Collaboration Formats"
               options={COLLABORATION_TYPES}
@@ -203,7 +207,6 @@ export default function Onboarding() {
               options={AVAILABILITY_OPTIONS}
               selected={formData.availability}
               onToggle={(item) => toggleArrayItem('availability', item)}
-              activeClass="bg-accent-teal/20 text-accent-teal border-accent-teal"
             />
           </div>
         )}
@@ -211,17 +214,20 @@ export default function Onboarding() {
         {/* Step 5 */}
         {step === 5 && (
           <div className="text-center py-6 space-y-4 animate-slide-up">
-            <div className="w-14 h-14 rounded-2xl bg-status-success/15 border border-status-success/30 flex items-center justify-center text-status-success mx-auto">
-              <CheckCircle2 className="w-8 h-8" />
+            <div className="w-12 h-12 rounded-none bg-retro-teal/15 border border-retro-teal text-retro-teal flex items-center justify-center mx-auto">
+              <CheckSquare className="w-6 h-6" />
             </div>
-            <h2 className="text-2xl font-bold text-text-primary">Your CollabMatrix profile is ready!</h2>
-            <p className="text-xs sm:text-sm text-text-secondary max-w-md mx-auto leading-relaxed">
-              We&apos;ve initialized your matching vector. You can now discover matching students, post opportunities, and run team gap analyses.
+            <div className="text-[10px] text-retro-muted uppercase tracking-widest">[ SYSTEM // CALIBRATION_COMPLETE ]</div>
+            <h2 className="text-xl sm:text-2xl font-display font-bold text-retro-paper uppercase">
+              CollabMatrix Dossier Initialized
+            </h2>
+            <p className="text-xs sm:text-sm text-retro-muted font-sans max-w-md mx-auto leading-relaxed">
+              Your compatibility vector has been registered on the campus collaboration grid. You can now discover matching students, post opportunities, and run team gap analyses.
             </p>
           </div>
         )}
 
-        <div className="pt-5 border-t border-surface-border flex items-center justify-between gap-3">
+        <div className="pt-4 border-t border-retro-border flex items-center justify-between gap-3">
           {step > 1 && step < 5 ? (
             <Button variant="outline" size="md" icon={ArrowLeft} onClick={handleBack}>
               Back
@@ -230,11 +236,11 @@ export default function Onboarding() {
 
           {step < 5 ? (
             <Button variant="primary" size="md" icon={ArrowRight} iconPosition="right" onClick={handleNext}>
-              Next Step
+              Next Stage
             </Button>
           ) : (
-            <Button variant="primary" size="lg" icon={Sparkles} iconPosition="right" onClick={handleFinish} className="w-full sm:w-auto">
-              Go to Dashboard
+            <Button variant="primary" size="lg" icon={Cpu} iconPosition="right" onClick={handleFinish} className="w-full sm:w-auto">
+              Access Dashboard Console
             </Button>
           )}
         </div>

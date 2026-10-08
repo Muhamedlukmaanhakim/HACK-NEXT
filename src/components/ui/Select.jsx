@@ -22,14 +22,14 @@ const Select = forwardRef(function Select(
   const helperId = `${selectId}-helper`;
 
   return (
-    <div className="w-full space-y-1.5">
+    <div className="w-full space-y-1.5 font-sans">
       {label && (
         <label
           htmlFor={selectId}
-          className="block text-xs font-semibold uppercase tracking-wider text-text-secondary"
+          className="block text-[11px] font-mono font-semibold uppercase tracking-wider text-text-secondary"
         >
           {label}
-          {required && <span className="text-status-danger ml-1">*</span>}
+          {required && <span className="text-accent-orange ml-1">*</span>}
         </label>
       )}
 
@@ -43,11 +43,11 @@ const Select = forwardRef(function Select(
           aria-describedby={
             error ? errorId : helperText ? helperId : undefined
           }
-          className={`w-full bg-surface-elevated text-text-primary text-sm rounded-xl border appearance-none px-3.5 pr-10 py-2.5 h-10 transition-all duration-200 outline-none
+          className={`w-full bg-surface-elevated text-paper text-xs sm:text-sm rounded-sm border appearance-none px-3 pr-9 py-2 h-10 transition-all duration-150 outline-none
             ${
               error
                 ? 'border-status-danger/70 focus:border-status-danger focus:ring-1 focus:ring-status-danger'
-                : 'border-surface-border hover:border-surface-border-hover focus:border-accent-indigo focus:ring-2 focus:ring-accent-indigo/20'
+                : 'border-surface-border hover:border-surface-border-hover focus:border-accent-orange focus:ring-1 focus:ring-accent-orange/40'
             }
             disabled:opacity-50 disabled:cursor-not-allowed
             ${className}`}
@@ -58,7 +58,7 @@ const Select = forwardRef(function Select(
             const value = typeof opt === 'object' ? opt.value : opt;
             const labelText = typeof opt === 'object' ? opt.label : opt;
             return (
-              <option key={value} value={value} className="bg-surface-elevated text-text-primary">
+              <option key={value} value={value} className="bg-surface-elevated text-paper">
                 {labelText}
               </option>
             );
@@ -71,12 +71,12 @@ const Select = forwardRef(function Select(
       </div>
 
       {error ? (
-        <p id={errorId} className="text-xs text-status-danger font-medium">
-          {error}
+        <p id={errorId} className="text-[11px] font-mono text-status-danger font-medium">
+          [ ERR // {error} ]
         </p>
       ) : helperText ? (
-        <p id={helperId} className="text-xs text-text-muted">
-          {helperText}
+        <p id={helperId} className="text-[11px] font-mono text-text-muted">
+          // {helperText}
         </p>
       ) : null}
     </div>

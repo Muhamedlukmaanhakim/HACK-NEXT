@@ -57,22 +57,25 @@ export default function Profile() {
     e.preventDefault();
     await updateProfile(editData);
     setStudent((prev) => ({ ...prev, ...editData }));
-    addToast({ type: 'success', title: 'Profile Saved', message: 'Details updated successfully.' });
+    addToast({ type: 'success', title: 'Dossier Calibrated', message: 'Credentials updated successfully.' });
     setEditModalOpen(false);
   };
 
   const handleConnect = async () => {
     if (!student) return;
     await connectStudent(student);
-    addToast({ type: 'success', title: 'Request Sent', message: `Invitation sent to ${student.name}.` });
+    addToast({ type: 'success', title: 'Invitation Transmitted', message: `Invitation transmitted to ${student.name}.` });
   };
 
-  if (loading) return <LoadingState message="Loading profile..." />;
+  if (loading) return <LoadingState message="Accessing student dossier telemetry..." />;
   if (!student) {
     return (
-      <div className="text-center py-12">
-        <h3 className="text-lg font-bold text-text-primary">Profile Not Found</h3>
-        <Button variant="outline" size="sm" onClick={() => navigate(-1)} className="mt-4">Go Back</Button>
+      <div className="text-center py-12 font-mono">
+        <div className="text-[10px] text-retro-muted uppercase">[ FAULT // NO_RECORD ]</div>
+        <h3 className="text-lg font-bold text-retro-paper">Student Record Not Located</h3>
+        <Button variant="outline" size="sm" onClick={() => navigate(-1)} className="mt-4">
+          Return to Directory
+        </Button>
       </div>
     );
   }
@@ -80,59 +83,79 @@ export default function Profile() {
   const isRequested = sentConnections.includes(student.id);
 
   return (
-    <div className="space-y-8 animate-fade-in max-w-5xl mx-auto">
+    <div className="space-y-6 sm:space-y-8 animate-fade-in max-w-5xl mx-auto font-mono">
       {!isOwnProfile && (
-        <button type="button" onClick={() => navigate(-1)} className="inline-flex items-center gap-1.5 text-xs text-text-muted hover:text-text-primary">
-          <ArrowLeft className="w-4 h-4" /> <span>Back to directory</span>
+        <button
+          type="button"
+          onClick={() => navigate(-1)}
+          className="inline-flex items-center gap-1.5 text-xs text-retro-muted hover:text-retro-paper uppercase tracking-wider"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" /> <span>[ RETURN TO DIRECTORY ]</span>
         </button>
       )}
 
       {/* Header Banner */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-surface border border-surface-border">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-          <div className="flex items-start sm:items-center gap-5">
+      <div className="p-5 sm:p-7 rounded-none bg-retro-surface border border-retro-border shadow-terminal">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 border-b border-retro-border pb-5">
+          <div className="flex items-start sm:items-center gap-4">
             <Avatar name={student.name} size="2xl" />
-            <div className="space-y-1">
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-text-primary">{student.name}</h1>
-              <div className="flex items-center gap-3 text-xs text-text-secondary flex-wrap">
-                <span className="flex items-center gap-1"><GraduationCap className="w-4 h-4 text-accent-indigo" />{student.department} • {student.year}</span>
-                <span className="flex items-center gap-1 text-text-muted"><Mail className="w-3.5 h-3.5" />{student.email}</span>
+            <div className="space-y-0.5">
+              <div className="text-[10px] text-retro-muted uppercase tracking-widest">[ OPERATOR // DOSSIER ]</div>
+              <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper uppercase">{student.name}</h1>
+              <div className="flex items-center gap-3 text-xs text-retro-muted flex-wrap">
+                <span className="flex items-center gap-1 text-retro-paper/80">
+                  <GraduationCap className="w-3.5 h-3.5 text-retro-orange" />
+                  {student.department} // {student.year}
+                </span>
+                <span className="flex items-center gap-1 text-retro-muted">
+                  <Mail className="w-3.5 h-3.5" />
+                  {student.email}
+                </span>
               </div>
             </div>
           </div>
           {isOwnProfile ? (
-            <Button variant="secondary" size="md" icon={Edit3} onClick={() => setEditModalOpen(true)}>Edit Profile</Button>
+            <Button variant="secondary" size="md" icon={Edit3} onClick={() => setEditModalOpen(true)}>
+              Edit Dossier
+            </Button>
           ) : (
-            <Button variant={isRequested ? 'secondary' : 'primary'} size="md" disabled={isRequested} icon={isRequested ? UserCheck : UserPlus} onClick={handleConnect}>
+            <Button
+              variant={isRequested ? 'secondary' : 'primary'}
+              size="md"
+              disabled={isRequested}
+              icon={isRequested ? UserCheck : UserPlus}
+              onClick={handleConnect}
+            >
               {isRequested ? 'Request Sent' : 'Connect'}
             </Button>
           )}
         </div>
-        <div className="mt-6 pt-6 border-t border-surface-border">
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-2">About</h3>
-          <p className="text-sm text-text-secondary leading-relaxed bg-surface-elevated/40 p-4 rounded-xl border border-surface-border">
+
+        <div className="mt-4 pt-2">
+          <div className="text-[10px] uppercase tracking-widest text-retro-muted mb-1.5">// BIOGRAPHICAL SUMMARY:</div>
+          <p className="text-xs sm:text-sm text-retro-paper/80 font-sans leading-relaxed bg-retro-surface-elevated p-3.5 border border-retro-border">
             {student.bio || 'Passionate student eager to collaborate on high-impact projects.'}
           </p>
         </div>
       </div>
 
       {/* Grid: Skills, Availability */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="md:col-span-2 p-6 rounded-2xl bg-surface border border-surface-border space-y-4">
-          <h3 className="text-sm font-semibold text-text-primary">Skills & Competencies</h3>
-          <div className="flex flex-wrap gap-2">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="md:col-span-2 p-5 rounded-none bg-retro-surface border border-retro-border space-y-3.5 shadow-panel">
+          <div className="text-[10px] uppercase tracking-widest text-retro-muted">// REGISTERED COMPETENCIES:</div>
+          <div className="flex flex-wrap gap-1.5">
             {(student.skills || []).map((sk) => <SkillBadge key={sk} skill={sk} size="md" />)}
           </div>
           {student.proficiency && (
-            <div className="pt-4 border-t border-surface-border space-y-2">
-              <span className="text-xs font-semibold text-text-muted uppercase">Proficiency</span>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div className="pt-3 border-t border-retro-border space-y-2">
+              <span className="text-[10px] text-retro-muted uppercase tracking-wider">// PROFICIENCY RATINGS:</span>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                 {Object.entries(student.proficiency).map(([skill, lvl]) => (
-                  <div key={skill} className="p-2.5 rounded-xl bg-surface-elevated border border-surface-border">
-                    <span className="text-xs font-medium text-text-primary">{skill}</span>
-                    <div className="flex gap-1 mt-1.5">
+                  <div key={skill} className="p-2 bg-retro-surface-elevated border border-retro-border text-xs">
+                    <span className="font-bold text-retro-paper">{skill}</span>
+                    <div className="flex gap-1 mt-1">
                       {[1, 2, 3, 4, 5].map((star) => (
-                        <div key={star} className={`w-2 h-2 rounded-full ${star <= lvl ? 'bg-accent-indigo' : 'bg-surface-hover'}`} />
+                        <div key={star} className={`w-1.5 h-1.5 rounded-none ${star <= lvl ? 'bg-retro-orange' : 'bg-retro-border'}`} />
                       ))}
                     </div>
                   </div>
@@ -142,18 +165,18 @@ export default function Profile() {
           )}
         </div>
 
-        <div className="p-6 rounded-2xl bg-surface border border-surface-border space-y-5">
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-text-primary">Availability</h3>
-            <div className="flex flex-wrap gap-1.5">
+        <div className="p-5 rounded-none bg-retro-surface border border-retro-border space-y-4 shadow-panel">
+          <div className="space-y-1.5">
+            <div className="text-[10px] uppercase tracking-widest text-retro-muted">// AVAILABILITY WINDOWS:</div>
+            <div className="flex flex-wrap gap-1">
               {(student.availability || []).map((av) => (
                 <Badge key={av} variant="teal" size="sm"><Calendar className="w-3 h-3 mr-1" />{av}</Badge>
               ))}
             </div>
           </div>
-          <div className="space-y-2 pt-4 border-t border-surface-border">
-            <h3 className="text-sm font-semibold text-text-primary">Interests</h3>
-            <div className="flex flex-wrap gap-1.5">
+          <div className="space-y-1.5 pt-3 border-t border-retro-border">
+            <div className="text-[10px] uppercase tracking-widest text-retro-muted">// DOMAIN INTERESTS:</div>
+            <div className="flex flex-wrap gap-1">
               {(student.interests || []).map((it) => <Badge key={it} variant="primary" size="sm">{it}</Badge>)}
             </div>
           </div>
@@ -161,21 +184,21 @@ export default function Profile() {
       </div>
 
       {/* Projects & Accolades */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="p-6 rounded-2xl bg-surface border border-surface-border space-y-3">
-          <h3 className="text-sm font-semibold text-text-primary">Featured Projects</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="p-5 rounded-none bg-retro-surface border border-retro-border space-y-2.5 shadow-panel">
+          <div className="text-[10px] uppercase tracking-widest text-retro-muted">// FEATURED PROJECTS:</div>
           {(student.projects || [{ name: 'CardioVision AI', desc: 'Real-time arrhythmia classification.' }]).map((p, idx) => (
-            <div key={idx} className="p-3.5 rounded-xl bg-surface-elevated/70 border border-surface-border">
-              <h4 className="text-xs font-semibold text-text-primary">{p.name}</h4>
-              <p className="text-xs text-text-secondary mt-0.5">{p.desc}</p>
+            <div key={idx} className="p-3 bg-retro-surface-elevated border border-retro-border">
+              <h4 className="text-xs font-bold text-retro-paper">{p.name}</h4>
+              <p className="text-xs text-retro-muted font-sans mt-0.5">{p.desc}</p>
             </div>
           ))}
         </div>
-        <div className="p-6 rounded-2xl bg-surface border border-surface-border space-y-3">
-          <h3 className="text-sm font-semibold text-text-primary">Accolades</h3>
+        <div className="p-5 rounded-none bg-retro-surface border border-retro-border space-y-2.5 shadow-panel">
+          <div className="text-[10px] uppercase tracking-widest text-retro-muted">// VERIFIED ACCOLADES:</div>
           {(student.achievements || ['Top Finalist, National Healthcare AI Hackathon 2025']).map((ach, idx) => (
-            <div key={idx} className="flex items-center gap-2 p-3 rounded-xl bg-surface-elevated/70 border border-surface-border text-xs text-text-secondary">
-              <Award className="w-4 h-4 text-status-warning flex-shrink-0" />
+            <div key={idx} className="flex items-center gap-2 p-2.5 bg-retro-surface-elevated border border-retro-border text-xs text-retro-paper/80 font-sans">
+              <Award className="w-4 h-4 text-retro-amber flex-shrink-0" />
               <span>{ach}</span>
             </div>
           ))}
@@ -186,12 +209,12 @@ export default function Profile() {
       <Modal
         isOpen={editModalOpen}
         onClose={() => setEditModalOpen(false)}
-        title="Edit Profile"
-        description="Update your credentials and skills."
+        title="Edit Operator Dossier"
+        description="Update your credentials and skill index."
         footer={
           <>
             <Button variant="ghost" size="sm" onClick={() => setEditModalOpen(false)}>Cancel</Button>
-            <Button variant="primary" size="sm" onClick={handleSaveProfile}>Save</Button>
+            <Button variant="primary" size="sm" onClick={handleSaveProfile}>Save Changes</Button>
           </>
         }
       >

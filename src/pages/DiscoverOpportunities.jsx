@@ -57,14 +57,17 @@ export default function DiscoverOpportunities() {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-6 animate-fade-in font-mono">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-retro-border pb-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-text-primary tracking-tight">
+          <div className="text-[10px] text-retro-muted uppercase tracking-widest mb-1">
+            [ DIRECTORY // CAMPUS_PROJECT_LOG ]
+          </div>
+          <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper tracking-wide uppercase">
             Discover Opportunities
           </h1>
-          <p className="text-xs sm:text-sm text-text-secondary mt-1">
+          <p className="text-xs text-retro-muted font-sans mt-0.5">
             Explore open project postings, hackathon squads, research initiatives, and campus startups.
           </p>
         </div>
@@ -86,7 +89,7 @@ export default function DiscoverOpportunities() {
             icon={PlusCircle}
             onClick={() => navigate('/opportunities/create')}
           >
-            Post Opportunity
+            Create Project
           </Button>
         </div>
       </div>
@@ -95,7 +98,7 @@ export default function DiscoverOpportunities() {
       <SearchBar
         value={search}
         onChange={setSearch}
-        placeholder="Search projects by title, requirement (e.g. AI/ML, UI/UX) or type..."
+        placeholder="QUERY BY PROJECT TITLE, REQUIREMENT (E.G. AI/ML, UI/UX) OR TYPE..."
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
@@ -113,20 +116,20 @@ export default function DiscoverOpportunities() {
         />
 
         {/* Opportunity Cards Feed */}
-        <div className="lg:col-span-3 space-y-4">
-          <div className="flex items-center justify-between text-xs text-text-muted px-1">
-            <span>Showing {filteredOpportunities.length} opportunities</span>
+        <div className="lg:col-span-3 space-y-3.5">
+          <div className="flex items-center justify-between text-[10px] text-retro-muted uppercase px-1">
+            <span>[ OPEN_PROJECT_POSTS // {filteredOpportunities.length} LOCATED ]</span>
           </div>
 
           {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <CardSkeleton />
               <CardSkeleton />
               <CardSkeleton />
               <CardSkeleton />
             </div>
           ) : filteredOpportunities.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               {filteredOpportunities.map((opp) => (
                 <OpportunityCard
                   key={opp.id}
@@ -139,9 +142,9 @@ export default function DiscoverOpportunities() {
           ) : (
             <EmptyState
               icon={Compass}
-              title="No opportunities match your filters"
-              description="Try relaxing your filters or create your own opportunity to assemble a new team."
-              actionLabel="Reset Filters"
+              title="No opportunities match your filter parameters"
+              description="Adjust filters or initialize your own project post to assemble a new crew."
+              actionLabel="Clear Filter Parameters"
               onAction={handleResetFilters}
             />
           )}

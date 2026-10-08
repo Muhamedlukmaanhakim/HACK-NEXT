@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { Sparkles, Info, Filter, ArrowUpDown } from 'lucide-react';
+import { Cpu, Info, ArrowUpDown } from 'lucide-react';
 import MatchCard from '../components/cards/MatchCard';
-import Select from '../components/ui/Select';
 import LoadingState from '../components/ui/LoadingState';
 import EmptyState from '../components/ui/EmptyState';
 import { useAppData } from '../context/AppDataContext';
@@ -48,8 +47,8 @@ export default function MatchResults() {
     await connectStudent(student, opp?.title || 'AI Healthcare Assistant');
     addToast({
       type: 'success',
-      title: 'Collaboration Request Dispatched',
-      message: `Request sent to ${student.name} with project context.`,
+      title: 'Collaboration Invitation Dispatched',
+      message: `Invitation transmitted to ${student.name} with project context.`,
     });
   };
 
@@ -59,40 +58,43 @@ export default function MatchResults() {
   }));
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-6 animate-fade-in font-mono">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-retro-border pb-4">
         <div>
+          <div className="text-[10px] text-retro-muted uppercase tracking-widest mb-1">
+            [ SUBROUTINE // MATCHING_ENGINE ]
+          </div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl sm:text-3xl font-bold text-text-primary tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper tracking-wide uppercase">
               AI-Powered Match Results
             </h1>
-            <span className="p-1 rounded-lg bg-accent-indigo/20 text-accent-indigo">
-              <Sparkles className="w-4 h-4" />
+            <span className="p-1 rounded-none bg-retro-surface-elevated text-retro-orange border border-retro-orange/40">
+              <Cpu className="w-4 h-4" />
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-text-secondary mt-1">
-            Students who best match the requirements of your project.
+          <p className="text-xs text-retro-muted font-sans mt-0.5">
+            Candidates ranked by 50% skill competency, 20% interest, 15% availability, and 15% experience.
           </p>
         </div>
 
         {/* Prototype Honesty Notice */}
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-elevated border border-surface-border text-xs text-text-muted">
-          <Info className="w-3.5 h-3.5 text-accent-teal" />
-          <span>Prototype: results are simulated from mock data.</span>
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-none bg-retro-surface border border-retro-border text-xs text-retro-muted">
+          <Info className="w-3.5 h-3.5 text-retro-amber" />
+          <span>PROTOTYPE: results are simulated from mock data.</span>
         </div>
       </div>
 
       {/* Controls Bar: Opportunity Selector & Sorting */}
-      <div className="p-4 rounded-2xl bg-surface border border-surface-border flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+      <div className="p-4 rounded-none bg-retro-surface border border-retro-border flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 shadow-panel">
         <div className="flex-1 max-w-md">
-          <label className="block text-[11px] font-semibold uppercase tracking-wider text-text-muted mb-1">
-            Selected Opportunity
+          <label className="block text-[10px] font-mono uppercase tracking-wider text-retro-muted mb-1">
+            [ PARAMETER // TARGET_OPPORTUNITY ]
           </label>
           <select
             value={selectedOppId}
             onChange={(e) => setSelectedOppId(e.target.value)}
-            className="w-full bg-surface-elevated text-text-primary text-xs rounded-xl border border-surface-border px-3 py-2 outline-none focus:border-accent-indigo"
+            className="w-full bg-retro-surface-elevated text-retro-paper text-xs rounded-none border border-retro-border px-3 py-2 outline-none focus:border-retro-orange"
           >
             {oppOptions.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -103,18 +105,18 @@ export default function MatchResults() {
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2 bg-surface-elevated px-3 py-2 rounded-xl border border-surface-border text-xs">
-            <ArrowUpDown className="w-3.5 h-3.5 text-text-muted" />
-            <span className="text-text-muted">Rank By:</span>
+          <div className="flex items-center gap-2 bg-retro-surface-elevated px-3 py-2 rounded-none border border-retro-border text-xs">
+            <ArrowUpDown className="w-3.5 h-3.5 text-retro-muted" />
+            <span className="text-retro-muted">RANK BY:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="bg-transparent text-text-primary outline-none cursor-pointer font-medium"
+              className="bg-transparent text-retro-paper outline-none cursor-pointer font-bold font-mono"
             >
-              <option value="best" className="bg-surface-elevated">Best Overall Match</option>
-              <option value="skill" className="bg-surface-elevated">Skill Overlap (50%)</option>
-              <option value="availability" className="bg-surface-elevated">Availability (15%)</option>
-              <option value="experience" className="bg-surface-elevated">Experience Level (15%)</option>
+              <option value="best" className="bg-retro-surface">Best Overall Match</option>
+              <option value="skill" className="bg-retro-surface">Skill Overlap (50%)</option>
+              <option value="availability" className="bg-retro-surface">Availability (15%)</option>
+              <option value="experience" className="bg-retro-surface">Experience (15%)</option>
             </select>
           </div>
         </div>
@@ -124,7 +126,7 @@ export default function MatchResults() {
       {loading ? (
         <LoadingState message="Computing multi-factor student compatibility vectors..." />
       ) : matches.length > 0 ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           {matches.map((match) => (
             <MatchCard
               key={match.student.id}
@@ -137,8 +139,7 @@ export default function MatchResults() {
         </div>
       ) : (
         <EmptyState
-          icon={Sparkles}
-          title="No candidates found"
+          title="No candidates located"
           description="Try broadening the required skills for this project post to discover candidates."
         />
       )}

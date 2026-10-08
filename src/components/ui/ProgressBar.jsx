@@ -5,39 +5,41 @@ export default function ProgressBar({
   max = 100,
   label,
   showValue = false,
-  variant = 'indigo',
+  variant = 'orange',
   size = 'md',
   className = '',
 }) {
   const percentage = Math.min(100, Math.max(0, Math.round((value / max) * 100)));
 
   const variants = {
-    indigo: 'bg-gradient-primary',
-    teal: 'bg-accent-teal',
-    success: 'bg-status-success',
-    warning: 'bg-status-warning',
-    danger: 'bg-status-danger',
+    orange: 'bg-retro-orange',
+    amber: 'bg-retro-amber',
+    teal: 'bg-retro-teal',
+    indigo: 'bg-retro-orange', // map legacy indigo to retro-orange
+    success: 'bg-retro-teal',
+    warning: 'bg-retro-amber',
+    danger: 'bg-retro-red',
   };
 
   const sizes = {
     sm: 'h-1.5',
     md: 'h-2.5',
-    lg: 'h-4',
+    lg: 'h-3.5',
   };
 
-  const colorClass = variants[variant] || variants.indigo;
+  const colorClass = variants[variant] || variants.orange;
   const sizeClass = sizes[size] || sizes.md;
 
   return (
-    <div className={`w-full space-y-1.5 ${className}`}>
+    <div className={`w-full space-y-1 ${className}`}>
       {(label || showValue) && (
-        <div className="flex justify-between items-center text-xs">
-          {label && <span className="font-medium text-text-secondary">{label}</span>}
-          {showValue && <span className="font-semibold text-text-primary">{percentage}%</span>}
+        <div className="flex justify-between items-center text-[11px] font-mono">
+          {label && <span className="text-retro-muted uppercase tracking-wider">{label}</span>}
+          {showValue && <span className="font-bold text-retro-paper">{percentage}%</span>}
         </div>
       )}
       <div
-        className={`w-full bg-surface-elevated rounded-full overflow-hidden border border-surface-border p-0.5 ${sizeClass}`}
+        className={`w-full bg-retro-bg rounded-none border border-retro-border p-0.5 relative overflow-hidden ${sizeClass}`}
         role="progressbar"
         aria-valuenow={value}
         aria-valuemin={0}
@@ -45,7 +47,7 @@ export default function ProgressBar({
         aria-label={label || 'Progress'}
       >
         <div
-          className={`h-full rounded-full transition-all duration-500 ease-out ${colorClass}`}
+          className={`h-full transition-all duration-500 ease-out ${colorClass}`}
           style={{ width: `${percentage}%` }}
         />
       </div>

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Filter, Users, ArrowUpDown } from 'lucide-react';
 import SearchBar from '../components/features/SearchBar';
@@ -7,7 +7,6 @@ import StudentCard from '../components/cards/StudentCard';
 import Button from '../components/ui/Button';
 import EmptyState from '../components/ui/EmptyState';
 import { CardSkeleton } from '../components/ui/Skeleton';
-import ErrorState from '../components/ui/ErrorState';
 import { useAppData } from '../context/AppDataContext';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
@@ -31,8 +30,6 @@ export default function DiscoverStudents() {
     category: '',
     availability: '',
   });
-
-  const [isLoading, setIsLoading] = useState(false);
 
   // Filter students
   const filteredStudents = useMemo(() => {
@@ -84,8 +81,8 @@ export default function DiscoverStudents() {
     await connectStudent(student);
     addToast({
       type: 'success',
-      title: 'Collaboration Request Dispatched',
-      message: `Invitation sent to ${student.name}.`,
+      title: 'Collaboration Invitation Dispatched',
+      message: `Invitation transmitted to ${student.name}.`,
     });
   };
 
@@ -100,15 +97,18 @@ export default function DiscoverStudents() {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-6 animate-fade-in font-mono">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-retro-border pb-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-text-primary tracking-tight">
-            Find Your Next Teammate
+          <div className="text-[10px] text-retro-muted uppercase tracking-widest mb-1">
+            [ DIRECTORY // CAMPUS_CANDIDATE_INDEX ]
+          </div>
+          <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper tracking-wide uppercase">
+            Discover Campus Collaborators
           </h1>
-          <p className="text-xs sm:text-sm text-text-secondary mt-1">
-            Discover peer innovators across campus based on verified competencies and availability.
+          <p className="text-xs text-retro-muted font-sans mt-0.5">
+            Locate peer innovators across campus based on verified competencies and availability.
           </p>
         </div>
 
@@ -125,17 +125,17 @@ export default function DiscoverStudents() {
           </Button>
 
           {/* Sort Selector */}
-          <div className="flex items-center gap-2 bg-surface-elevated px-3 py-1.5 rounded-xl border border-surface-border text-xs">
-            <ArrowUpDown className="w-3.5 h-3.5 text-text-muted" />
-            <span className="text-text-muted">Sort:</span>
+          <div className="flex items-center gap-2 bg-retro-surface-elevated px-3 py-1.5 rounded-none border border-retro-border text-xs">
+            <ArrowUpDown className="w-3.5 h-3.5 text-retro-muted" />
+            <span className="text-retro-muted text-[10px]">RANK:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="bg-transparent text-text-primary outline-none cursor-pointer"
+              className="bg-transparent text-retro-paper outline-none cursor-pointer font-bold font-mono"
             >
-              <option value="match" className="bg-surface-elevated">Best Match</option>
-              <option value="name" className="bg-surface-elevated">Alphabetical</option>
-              <option value="year" className="bg-surface-elevated">Year Level</option>
+              <option value="match" className="bg-retro-surface">Best Match</option>
+              <option value="name" className="bg-retro-surface">Alphabetical</option>
+              <option value="year" className="bg-retro-surface">Year Level</option>
             </select>
           </div>
         </div>
@@ -145,7 +145,7 @@ export default function DiscoverStudents() {
       <SearchBar
         value={search}
         onChange={setSearch}
-        placeholder="Search by student name, skill (e.g. UI/UX, Python) or interest..."
+        placeholder="QUERY BY STUDENT NAME, SKILL (E.G. UI/UX, PYTHON), OR DOMAIN..."
       />
 
       {/* Main Content Layout with Sidebar Filters */}
@@ -166,20 +166,20 @@ export default function DiscoverStudents() {
         />
 
         {/* Student Cards Grid */}
-        <div className="lg:col-span-3 space-y-4">
-          <div className="flex items-center justify-between text-xs text-text-muted px-1">
-            <span>Showing {filteredStudents.length} candidates</span>
+        <div className="lg:col-span-3 space-y-3.5">
+          <div className="flex items-center justify-between text-[10px] text-retro-muted uppercase px-1">
+            <span>[ CANDIDATE_NODES // {filteredStudents.length} LOCATED ]</span>
           </div>
 
           {globalLoading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <CardSkeleton />
               <CardSkeleton />
               <CardSkeleton />
               <CardSkeleton />
             </div>
           ) : filteredStudents.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               {filteredStudents.map((student) => (
                 <StudentCard
                   key={student.id}
@@ -194,9 +194,9 @@ export default function DiscoverStudents() {
           ) : (
             <EmptyState
               icon={Users}
-              title="No students match your criteria"
-              description="Try adjusting your search query, department filter, or skill category to discover more peers."
-              actionLabel="Reset All Filters"
+              title="No candidates match query parameters"
+              description="Adjust your search query, department filter, or competency category to locate peers."
+              actionLabel="Clear Filter Parameters"
               onAction={handleResetFilters}
             />
           )}

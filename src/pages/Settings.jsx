@@ -73,59 +73,63 @@ export default function Settings() {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in max-w-4xl mx-auto">
-      <div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-text-primary tracking-tight">
-          Platform Settings
+    <div className="space-y-6 sm:space-y-8 animate-fade-in max-w-4xl mx-auto font-mono">
+      <div className="border-b border-retro-border pb-4">
+        <div className="text-[10px] text-retro-muted uppercase tracking-widest mb-1">
+          [ CONFIG // STATION_PREFERENCES ]
+        </div>
+        <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper tracking-wide uppercase">
+          Platform Configuration
         </h1>
-        <p className="text-xs sm:text-sm text-text-secondary mt-1">
-          Manage your account credentials, notifications, privacy, and prototype state.
+        <p className="text-xs text-retro-muted font-sans mt-0.5">
+          Manage credentials, telemetry notifications, discoverability parameters, and prototype state.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
         {/* Navigation Sidebar (4 cols) */}
-        <div className="md:col-span-4 p-3 rounded-2xl bg-surface border border-surface-border space-y-1">
+        <div className="md:col-span-4 p-2 rounded-none bg-retro-surface border border-retro-border space-y-1 shadow-panel">
           {[
-            { id: 'account', label: 'Account & Profile', icon: User },
-            { id: 'notifications', label: 'Notifications', icon: Bell },
-            { id: 'privacy', label: 'Privacy & Visibility', icon: Shield },
-            { id: 'appearance', label: 'Theme & Appearance', icon: Palette },
-            { id: 'demo', label: 'Demo Controls', icon: RotateCcw },
+            { id: 'account', label: '01. Account Dossier', icon: User },
+            { id: 'notifications', label: '02. Notifications', icon: Bell },
+            { id: 'privacy', label: '03. Visibility Grid', icon: Shield },
+            { id: 'appearance', label: '04. Theme Aesthetic', icon: Palette },
+            { id: 'demo', label: '05. Demo Controls', icon: RotateCcw },
           ].map((item) => (
             <button
               key={item.id}
               type="button"
               onClick={() => setActiveSection(item.id)}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition-all ${
+              className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs font-mono transition-all border ${
                 activeSection === item.id
-                  ? 'bg-accent-indigo text-white shadow-sm'
-                  : 'text-text-secondary hover:text-text-primary hover:bg-white/5'
+                  ? 'bg-retro-surface-elevated border-retro-orange text-retro-paper font-bold shadow-panel'
+                  : 'border-transparent text-retro-paper/70 hover:text-retro-paper hover:bg-retro-surface-hover'
               }`}
             >
-              <item.icon className="w-4 h-4" />
-              <span>{item.label}</span>
+              <item.icon className="w-3.5 h-3.5 text-retro-amber flex-shrink-0" />
+              <span className="truncate">{item.label}</span>
             </button>
           ))}
 
-          <div className="pt-3 border-t border-surface-border/60">
+          <div className="pt-2 border-t border-retro-border/60">
             <button
               type="button"
               onClick={handleLogout}
-              className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-status-danger hover:bg-status-danger/10 transition-colors"
+              className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-mono text-retro-red hover:bg-retro-red/10 transition-colors uppercase"
             >
-              <LogOut className="w-4 h-4" />
-              <span>Log Out</span>
+              <LogOut className="w-3.5 h-3.5" />
+              <span>[ LOG OUT ]</span>
             </button>
           </div>
         </div>
 
         {/* Setting Panel Content (8 cols) */}
-        <div className="md:col-span-8 p-6 rounded-2xl bg-surface border border-surface-border space-y-6">
+        <div className="md:col-span-8 p-5 sm:p-6 rounded-none bg-retro-surface border border-retro-border space-y-6 shadow-panel">
           {/* Account & Profile */}
           {activeSection === 'account' && (
-            <form onSubmit={handleSave} className="space-y-5">
-              <h3 className="text-base font-semibold text-text-primary">
+            <form onSubmit={handleSave} className="space-y-4">
+              <div className="text-[10px] text-retro-muted uppercase tracking-widest">// OPERATOR CREDENTIALS:</div>
+              <h3 className="text-sm font-bold text-retro-paper uppercase">
                 Account Credentials
               </h3>
 
@@ -139,7 +143,7 @@ export default function Settings() {
                 label="College Email"
                 value={settings.email}
                 disabled
-                helperText="Email is bound to your verified campus domain."
+                helperText="Email is bound to verified campus node."
               />
 
               <div className="grid grid-cols-2 gap-4">
@@ -157,7 +161,7 @@ export default function Settings() {
                 />
               </div>
 
-              <div className="pt-4 border-t border-surface-border flex justify-end">
+              <div className="pt-4 border-t border-retro-border flex justify-end">
                 <Button type="submit" variant="primary" size="sm" icon={Save}>
                   Save Changes
                 </Button>
@@ -167,12 +171,13 @@ export default function Settings() {
 
           {/* Notifications */}
           {activeSection === 'notifications' && (
-            <div className="space-y-5">
-              <h3 className="text-base font-semibold text-text-primary">
+            <div className="space-y-4">
+              <div className="text-[10px] text-retro-muted uppercase tracking-widest">// TELEMETRY ALERTS:</div>
+              <h3 className="text-sm font-bold text-retro-paper uppercase">
                 Notification Preferences
               </h3>
 
-              <div className="space-y-4">
+              <div className="space-y-3 pt-1">
                 <Toggle
                   label="Collaboration Request Alerts"
                   description="Receive instant alerts when a peer requests to join your project."
@@ -197,15 +202,16 @@ export default function Settings() {
 
           {/* Privacy */}
           {activeSection === 'privacy' && (
-            <div className="space-y-5">
-              <h3 className="text-base font-semibold text-text-primary">
-                Privacy & Discoverability
+            <div className="space-y-4">
+              <div className="text-[10px] text-retro-muted uppercase tracking-widest">// NODE DISCOVERABILITY:</div>
+              <h3 className="text-sm font-bold text-retro-paper uppercase">
+                Privacy & Visibility
               </h3>
 
-              <div className="space-y-4">
+              <div className="space-y-3 pt-1">
                 <Toggle
                   label="Public Campus Profile"
-                  description="Allow other students to find you in the Discover Students directory."
+                  description="Allow other students to locate your dossier in the candidate directory."
                   checked={settings.publicProfile}
                   onChange={(v) => setSettings({ ...settings, publicProfile: v })}
                 />
@@ -221,23 +227,19 @@ export default function Settings() {
 
           {/* Appearance */}
           {activeSection === 'appearance' && (
-            <div className="space-y-5">
-              <h3 className="text-base font-semibold text-text-primary">
-                Appearance & Theme
+            <div className="space-y-4">
+              <div className="text-[10px] text-retro-muted uppercase tracking-widest">// SYSTEM AESTHETIC:</div>
+              <h3 className="text-sm font-bold text-retro-paper uppercase">
+                Console Theme Language
               </h3>
 
-              <div className="space-y-3">
-                <label className="text-xs font-semibold uppercase tracking-wider text-text-muted">
-                  Interface Theme
-                </label>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="p-4 rounded-xl bg-surface-elevated border-2 border-accent-indigo flex items-center justify-between cursor-pointer">
-                    <span className="text-xs font-bold text-text-primary">Dark Premium SaaS</span>
-                    <Check className="w-4 h-4 text-accent-indigo" />
+              <div className="space-y-2">
+                <div className="p-4 rounded-none bg-retro-surface-elevated border border-retro-orange flex items-center justify-between">
+                  <div>
+                    <div className="text-xs font-bold text-retro-paper uppercase">RETRO-FUTURISTIC MISSION CONTROL</div>
+                    <p className="text-[11px] text-retro-muted mt-0.5">1970s NASA Terminal × Modern Usability</p>
                   </div>
-                  <div className="p-4 rounded-xl bg-surface-elevated/40 border border-surface-border opacity-50 flex items-center justify-between cursor-not-allowed">
-                    <span className="text-xs font-medium text-text-muted">Light Mode (Coming Soon)</span>
-                  </div>
+                  <Check className="w-4 h-4 text-retro-orange" />
                 </div>
               </div>
             </div>
@@ -245,19 +247,20 @@ export default function Settings() {
 
           {/* Demo Controls */}
           {activeSection === 'demo' && (
-            <div className="space-y-5">
-              <h3 className="text-base font-semibold text-text-primary">
-                Demo & Prototype Diagnostics
+            <div className="space-y-4">
+              <div className="text-[10px] text-retro-muted uppercase tracking-widest">// PROTOTYPE DIAGNOSTICS:</div>
+              <h3 className="text-sm font-bold text-retro-paper uppercase">
+                Demo State Controls
               </h3>
 
-              <p className="text-xs text-text-secondary leading-relaxed">
-                Resetting the demo restores all seed students, requests, teams, and initial state back to the exact initial demo storyline (§6).
+              <p className="text-xs text-retro-muted font-sans leading-relaxed">
+                Resetting the demo restores all seed students, requests, teams, and initial state back to the exact demo storyline (§6).
               </p>
 
-              <div className="p-4 rounded-xl bg-accent-indigo/10 border border-accent-indigo/25 flex items-center justify-between gap-4">
+              <div className="p-4 rounded-none bg-retro-surface-elevated border border-retro-border flex items-center justify-between gap-4">
                 <div>
-                  <h4 className="text-xs font-semibold text-text-primary">Reset Demo Seed Data</h4>
-                  <p className="text-[11px] text-text-muted">Clears local storage modifications and restores Lukmaan&apos;s team.</p>
+                  <h4 className="text-xs font-bold text-retro-paper">[ RESET DEMO SEED DATA ]</h4>
+                  <p className="text-[10px] text-retro-muted font-sans">Clears local storage modifications and restores Lukmaan&apos;s team.</p>
                 </div>
                 <Button
                   variant="primary"

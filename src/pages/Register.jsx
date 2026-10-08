@@ -55,31 +55,34 @@ export default function Register() {
       });
       addToast({
         type: 'success',
-        title: 'Account Created',
-        message: 'Welcome! Let’s set up your collaboration profile.',
+        title: 'Account Registered',
+        message: 'Welcome! Initializing onboarding sequence...',
       });
       navigate('/onboarding');
     } catch (err) {
-      setErrors({ form: err.message || 'Failed to create account.' });
+      setErrors({ form: err.message || 'Failed to register account.' });
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 font-mono">
       <div>
-        <h1 className="text-2xl font-bold text-text-primary tracking-tight">
-          Create Student Account
+        <div className="text-[10px] text-retro-muted uppercase tracking-widest mb-1">
+          [ AUTH // OPERATOR_REGISTRATION ]
+        </div>
+        <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper uppercase tracking-wide">
+          Register Student Account
         </h1>
-        <p className="text-xs text-text-secondary mt-1">
-          Join CollabMatrix to find project partners across departments.
+        <p className="text-xs text-retro-muted font-sans mt-0.5">
+          Enroll on CollabMatrix to find project partners across campus departments.
         </p>
       </div>
 
       {errors.form && (
-        <div className="p-3 rounded-xl bg-status-danger/10 border border-status-danger/30 text-xs text-status-danger">
-          {errors.form}
+        <div className="p-2.5 rounded-none bg-retro-red/10 border border-retro-red/40 text-xs text-retro-red">
+          [ERR: {errors.form}]
         </div>
       )}
 
@@ -136,13 +139,13 @@ export default function Register() {
           iconPosition="right"
           isLoading={isSubmitting}
         >
-          Create Account & Continue
+          Register & Continue
         </Button>
       </form>
 
-      <p className="text-xs text-text-muted text-center pt-2">
-        Already have an account?{' '}
-        <Link to="/login" className="text-accent-indigo hover:text-accent-violet font-semibold transition-colors">
+      <p className="text-xs text-retro-muted text-center pt-2">
+        Existing operator?{' '}
+        <Link to="/login" className="text-retro-orange hover:text-retro-amber font-bold transition-colors uppercase tracking-wider">
           Sign In
         </Link>
       </p>

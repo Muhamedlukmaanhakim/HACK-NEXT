@@ -26,7 +26,7 @@ export default function Requests() {
     addToast({
       type: 'success',
       title: 'Collaboration Confirmed',
-      message: `${req.student?.name} has been added to your team roster!`,
+      message: `${req.student?.name} has been enrolled into your project roster!`,
     });
   };
 
@@ -35,39 +35,42 @@ export default function Requests() {
     await declineRequest(declineModalState.request.id);
     addToast({
       type: 'info',
-      title: 'Request Declined',
+      title: 'Request Archived',
       message: `Declined request from ${declineModalState.request.student?.name}.`,
     });
     setDeclineModalState({ isOpen: false, request: null });
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-6 animate-fade-in font-mono">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-text-primary tracking-tight">
-          Collaboration Requests
+      <div className="border-b border-retro-border pb-4">
+        <div className="text-[10px] text-retro-muted uppercase tracking-widest mb-1">
+          [ COMMUNICATIONS // COLLABORATION_DISPATCH ]
+        </div>
+        <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper tracking-wide uppercase">
+          Collaboration Inquiries
         </h1>
-        <p className="text-xs sm:text-sm text-text-secondary mt-1">
-          Review incoming applications to join your projects and track your outgoing team invitations.
+        <p className="text-xs text-retro-muted font-sans mt-0.5">
+          Review inbound applications to join your projects and monitor outgoing team invitations.
         </p>
       </div>
 
       {/* Tabs */}
       <Tabs
         tabs={[
-          { id: 'incoming', label: 'Incoming Requests', count: pendingIncomingCount },
-          { id: 'sent', label: 'Sent Invitations', count: pendingSentCount },
+          { id: 'incoming', label: 'Incoming Dispatches', count: pendingIncomingCount },
+          { id: 'sent', label: 'Transmitted Invitations', count: pendingSentCount },
         ]}
         activeTab={activeTab}
         onChange={setActiveTab}
       />
 
       {/* Content */}
-      <div className="space-y-4">
+      <div className="space-y-3.5">
         {activeTab === 'incoming' ? (
           incomingRequests.length > 0 ? (
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 gap-3.5">
               {incomingRequests.map((req) => (
                 <RequestCard
                   key={req.id}
@@ -81,13 +84,13 @@ export default function Requests() {
           ) : (
             <EmptyState
               icon={Inbox}
-              title="No incoming requests yet"
-              description="When students discover your opportunities and apply, their requests will appear here."
+              title="No incoming collaboration dispatches"
+              description="When students discover your opportunities and apply, their dispatches will register here."
             />
           )
         ) : (
           sentRequests.length > 0 ? (
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 gap-3.5">
               {sentRequests.map((req) => (
                 <RequestCard
                   key={req.id}
@@ -99,8 +102,8 @@ export default function Requests() {
           ) : (
             <EmptyState
               icon={Send}
-              title="No sent invitations"
-              description="You haven’t invited any collaborators yet. Explore students or view project matches to connect."
+              title="No transmitted invitations"
+              description="You have not transmitted invitations to any collaborators yet. Explore students or inspect matches to connect."
             />
           )
         )}
@@ -111,7 +114,7 @@ export default function Requests() {
         isOpen={declineModalState.isOpen}
         onClose={() => setDeclineModalState({ isOpen: false, request: null })}
         title="Decline Collaboration Request?"
-        description="Are you sure you want to decline this student's request to join your project?"
+        description="Confirm rejection of this student's request to join your project roster."
         footer={
           <>
             <Button
@@ -126,14 +129,14 @@ export default function Requests() {
               size="sm"
               onClick={handleConfirmDecline}
             >
-              Decline Request
+              Decline Dispatch
             </Button>
           </>
         }
       >
-        <div className="p-3 rounded-xl bg-status-danger/10 border border-status-danger/20 flex items-center gap-3 text-xs text-status-danger">
+        <div className="p-3 rounded-none bg-retro-red/10 border border-retro-red/30 flex items-center gap-2.5 text-xs text-retro-red font-mono">
           <AlertTriangle className="w-4 h-4 flex-shrink-0" />
-          <span>The student will be notified that your roster is currently full.</span>
+          <span>The applicant will receive telemetry notification that your roster is currently occupied.</span>
         </div>
       </Modal>
     </div>

@@ -15,8 +15,8 @@ export default function Toggle({
     <div className={`flex items-start justify-between gap-4 select-none ${className}`}>
       {(label || description) && (
         <label htmlFor={toggleId} className="cursor-pointer flex-1">
-          {label && <div className="text-sm font-medium text-text-primary">{label}</div>}
-          {description && <div className="text-xs text-text-muted mt-0.5">{description}</div>}
+          {label && <div className="text-sm font-mono font-medium text-retro-paper">{label}</div>}
+          {description && <div className="text-xs text-retro-muted mt-0.5 font-sans">{description}</div>}
         </label>
       )}
 
@@ -27,13 +27,13 @@ export default function Toggle({
         aria-checked={checked}
         disabled={disabled}
         onClick={() => !disabled && onChange(!checked)}
-        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-indigo focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50 disabled:cursor-not-allowed ${
-          checked ? 'bg-accent-indigo' : 'bg-surface-elevated border border-surface-border'
+        className={`relative inline-flex h-5 w-10 flex-shrink-0 cursor-pointer rounded-none border border-retro-border transition-colors duration-200 ease-in-out focus-visible:outline-none disabled:opacity-50 disabled:cursor-not-allowed ${
+          checked ? 'bg-retro-orange' : 'bg-retro-surface-elevated'
         }`}
       >
         <span
-          className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${
-            checked ? 'translate-x-5' : 'translate-x-0'
+          className={`pointer-events-none inline-block h-3.5 w-4 my-auto transform bg-retro-bg border border-retro-border transition duration-150 ease-in-out ${
+            checked ? 'translate-x-5 bg-retro-paper' : 'translate-x-0.5'
           }`}
         />
       </button>

@@ -21,14 +21,14 @@ export function getInitials(name = '') {
  */
 export function getAvatarGradient(name = '') {
   const gradients = [
-    { from: '#6366F1', to: '#8B5CF6' }, // Indigo to Violet
-    { from: '#3B82F6', to: '#2DD4BF' }, // Blue to Teal
-    { from: '#EC4899', to: '#8B5CF6' }, // Pink to Violet
-    { from: '#10B981', to: '#059669' }, // Emerald
-    { from: '#F59E0B', to: '#EA580C' }, // Amber to Orange
-    { from: '#8B5CF6', to: '#D946EF' }, // Violet to Fuchsia
-    { from: '#06B6D4', to: '#3B82F6' }, // Cyan to Blue
-    { from: '#F43F5E', to: '#FB7185' }, // Rose
+    { from: '#F26A2E', to: '#F5B544' }, // Retro Orange to Amber
+    { from: '#4D8B83', to: '#24211C' }, // Desaturated Teal to Dark Graphite
+    { from: '#B94A3A', to: '#F26A2E' }, // Muted Red to Orange
+    { from: '#F5B544', to: '#D97736' }, // Amber to Ochre
+    { from: '#4D8B83', to: '#E9DFC9' }, // Teal to Warm Ivory
+    { from: '#B57048', to: '#1B1915' }, // Terracotta to Surface
+    { from: '#D97736', to: '#F5B544' }, // Ochre to Amber
+    { from: '#B94A3A', to: '#4D8B83' }, // Red to Teal
   ];
 
   let hash = 0;

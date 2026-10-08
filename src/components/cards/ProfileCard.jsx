@@ -24,22 +24,27 @@ export default function ProfileCard({
   } = student;
 
   return (
-    <div className={`p-6 rounded-2xl bg-surface border border-surface-border ${className}`}>
+    <div className={`p-5 sm:p-6 rounded-none bg-retro-surface border border-retro-border font-mono relative shadow-panel ${className}`}>
+      {/* Corner crosshairs */}
+      <div className="absolute top-1 left-1 text-[8px] text-retro-muted/40 leading-none select-none">+</div>
+      <div className="absolute top-1 right-1 text-[8px] text-retro-muted/40 leading-none select-none">+</div>
+
       {/* Header Info */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 border-b border-retro-border pb-4">
+        <div className="flex items-center gap-3.5">
           <Avatar name={name} size="xl" />
           <div>
-            <h2 className="text-xl font-bold text-text-primary tracking-tight">
+            <div className="text-[10px] text-retro-muted uppercase tracking-widest">[ OPERATOR // DOSSIER ]</div>
+            <h2 className="text-lg sm:text-xl font-display font-bold text-retro-paper tracking-tight">
               {name}
             </h2>
-            <div className="flex items-center gap-2 text-xs text-text-secondary mt-1 flex-wrap">
+            <div className="flex items-center gap-3 text-xs text-retro-muted mt-1 flex-wrap">
               <span className="flex items-center gap-1">
-                <GraduationCap className="w-3.5 h-3.5 text-accent-indigo" />
-                {department} • {year}
+                <GraduationCap className="w-3.5 h-3.5 text-retro-orange" />
+                {department} // {year}
               </span>
               {email && (
-                <span className="flex items-center gap-1 text-text-muted">
+                <span className="flex items-center gap-1 text-retro-muted">
                   <Mail className="w-3.5 h-3.5" />
                   {email}
                 </span>
@@ -50,26 +55,26 @@ export default function ProfileCard({
 
         {isOwnProfile && onEdit && (
           <Button variant="secondary" size="sm" onClick={onEdit}>
-            Edit Profile
+            Edit Dossier
           </Button>
         )}
       </div>
 
       {/* Bio */}
-      <div className="mb-6">
-        <h4 className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-2">
-          About
-        </h4>
-        <p className="text-sm text-text-secondary leading-relaxed bg-surface-elevated/40 p-3.5 rounded-xl border border-surface-border">
+      <div className="mb-5">
+        <div className="text-[10px] font-bold uppercase tracking-widest text-retro-muted mb-1.5">
+          // BIOGRAPHICAL SUMMARY:
+        </div>
+        <p className="text-xs sm:text-sm text-retro-paper/80 font-sans leading-relaxed bg-retro-surface-elevated p-3 border border-retro-border">
           {bio || 'Passionate student eager to collaborate and build high-impact projects.'}
         </p>
       </div>
 
       {/* Skills */}
-      <div className="mb-6">
-        <h4 className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-2.5">
-          Skills & Expertise
-        </h4>
+      <div className="mb-5">
+        <div className="text-[10px] font-bold uppercase tracking-widest text-retro-muted mb-2">
+          // REGISTERED COMPETENCIES:
+        </div>
         <div className="flex flex-wrap gap-1.5">
           {skills.map((skill) => (
             <SkillBadge key={skill} skill={skill} size="sm" />
@@ -78,12 +83,12 @@ export default function ProfileCard({
       </div>
 
       {/* Interests & Availability */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
         <div>
-          <h4 className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-2">
-            Interests
-          </h4>
-          <div className="flex flex-wrap gap-1.5">
+          <div className="text-[10px] font-bold uppercase tracking-widest text-retro-muted mb-1.5">
+            // DOMAIN INTERESTS:
+          </div>
+          <div className="flex flex-wrap gap-1">
             {interests.map((interest) => (
               <Badge key={interest} variant="teal" size="sm">
                 {interest}
@@ -92,13 +97,13 @@ export default function ProfileCard({
           </div>
         </div>
         <div>
-          <h4 className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-2">
-            Availability
-          </h4>
-          <div className="flex flex-wrap gap-1.5">
+          <div className="text-[10px] font-bold uppercase tracking-widest text-retro-muted mb-1.5">
+            // AVAILABILITY WINDOWS:
+          </div>
+          <div className="flex flex-wrap gap-1">
             {availability.map((avail) => (
               <Badge key={avail} variant="default" size="sm">
-                <Calendar className="w-3 h-3 mr-1 text-text-muted" />
+                <Calendar className="w-3 h-3 mr-1 text-retro-muted" />
                 {avail}
               </Badge>
             ))}
@@ -109,13 +114,13 @@ export default function ProfileCard({
       {/* Achievements */}
       {achievements.length > 0 && (
         <div>
-          <h4 className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-2">
-            Achievements
-          </h4>
-          <ul className="space-y-1.5 text-xs text-text-secondary">
+          <div className="text-[10px] font-bold uppercase tracking-widest text-retro-muted mb-2">
+            // DOCUMENTED MILESTONES:
+          </div>
+          <ul className="space-y-1 text-xs text-retro-paper/80 font-sans">
             {achievements.map((ach, idx) => (
               <li key={idx} className="flex items-center gap-2">
-                <Award className="w-3.5 h-3.5 text-accent-indigo flex-shrink-0" />
+                <Award className="w-3.5 h-3.5 text-retro-amber flex-shrink-0" />
                 <span>{ach}</span>
               </li>
             ))}

@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
-  Users,
-  Calendar,
   Sparkles,
   ArrowLeft,
-  CheckCircle2,
-  Clock,
   Send,
   Check,
 } from 'lucide-react';
@@ -49,13 +45,13 @@ export default function OpportunityDetails() {
   }, [id, opportunities]);
 
   if (loading) {
-    return <LoadingState message="Loading opportunity specifications..." />;
+    return <LoadingState message="Retrieving opportunity specifications..." />;
   }
 
   if (!opportunity) {
     return (
       <ErrorState
-        title="Opportunity Not Found"
+        title="Opportunity Record Not Found"
         message="The requested collaboration post does not exist or has expired."
         onRetry={() => navigate('/discover/opportunities')}
       />
@@ -84,62 +80,66 @@ export default function OpportunityDetails() {
     });
     addToast({
       type: 'success',
-      title: 'Join Request Sent',
+      title: 'Join Request Transmitted',
       message: `Your request was sent to ${opportunity.creator?.name}.`,
     });
   };
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-6 animate-fade-in font-mono">
       {/* Back Link */}
       <button
         type="button"
         onClick={() => navigate(-1)}
-        className="inline-flex items-center gap-1.5 text-xs text-text-muted hover:text-text-primary transition-colors"
+        className="inline-flex items-center gap-1.5 text-xs text-retro-muted hover:text-retro-paper transition-colors uppercase tracking-wider"
       >
-        <ArrowLeft className="w-4 h-4" />
-        <span>Back to listings</span>
+        <ArrowLeft className="w-3.5 h-3.5" />
+        <span>[ RETURN TO DIRECTORY ]</span>
       </button>
 
       {/* Main Card Header */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-surface border border-surface-border space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+      <div className="p-5 sm:p-7 rounded-none bg-retro-surface border border-retro-border space-y-6 shadow-terminal relative">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-retro-border pb-5">
           <div className="space-y-2">
             <div className="flex items-center gap-2 flex-wrap">
               <Badge variant="teal" size="sm">
                 {opportunity.type}
               </Badge>
               <Badge variant={isFull ? 'danger' : 'success'} size="sm">
-                {isFull ? 'Team Full' : opportunity.status || 'Open'}
+                {isFull ? 'ROSTER FULL' : opportunity.status || 'OPEN'}
               </Badge>
               {opportunity.matchScore && (
-                <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-accent-indigo/15 text-indigo-300 border border-accent-indigo/30">
-                  {opportunity.matchScore}% Compatibility
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-none bg-retro-orange/15 text-retro-orange border border-retro-orange/40">
+                  {opportunity.matchScore}% COMPATIBILITY
                 </span>
               )}
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-text-primary tracking-tight">
+            <div className="text-[10px] text-retro-muted uppercase tracking-widest">
+              [ SPEC // {opportunity.id?.toUpperCase()} ]
+            </div>
+
+            <h1 className="text-xl sm:text-2xl font-display font-bold text-retro-paper tracking-wide uppercase">
               {opportunity.title}
             </h1>
 
-            <div className="flex items-center gap-2.5 pt-1">
+            <div className="flex items-center gap-2 pt-1 text-xs">
               <Avatar name={opportunity.creator?.name || 'Creator'} size="sm" />
-              <span className="text-xs text-text-secondary">
-                Posted by <strong className="text-text-primary">{opportunity.creator?.name}</strong> ({opportunity.creator?.department || 'CSE'})
+              <span className="text-retro-muted">
+                LEAD: <strong className="text-retro-paper font-semibold">{opportunity.creator?.name}</strong> ({opportunity.creator?.department || 'CSE'})
               </span>
             </div>
           </div>
 
           {/* Action CTAs */}
-          <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex items-center gap-2.5 flex-wrap">
             <Button
               variant="secondary"
               size="md"
               icon={Sparkles}
               onClick={() => navigate(`/matches?opportunity=${opportunity.id}`)}
             >
-              View Best Matches
+              Inspect Matches
             </Button>
 
             {!isOwner && (
@@ -157,35 +157,34 @@ export default function OpportunityDetails() {
         </div>
 
         {/* Description */}
-        <div className="space-y-2 pt-4 border-t border-surface-border">
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-text-muted">
-            Project Overview
-          </h3>
-          <p className="text-sm text-text-secondary leading-relaxed bg-surface-elevated/40 p-4 rounded-xl border border-surface-border">
+        <div className="space-y-2">
+          <div className="text-[10px] uppercase tracking-widest text-retro-muted">
+            // PROJECT SPECIFICATION & SCOPE:
+          </div>
+          <p className="text-xs sm:text-sm text-retro-paper/80 font-sans leading-relaxed bg-retro-surface-elevated p-3.5 border border-retro-border">
             {opportunity.description}
           </p>
         </div>
 
         {/* Team Progress Roster */}
-        <div className="space-y-3 pt-4 border-t border-surface-border">
-          <div className="flex items-center justify-between">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-text-muted">
-              Team Roster ({memberCount} of {opportunity.teamSize} spots filled)
-            </h3>
+        <div className="space-y-2.5 pt-2">
+          <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-retro-muted">
+            <span>// TEAM ROSTER STATUS:</span>
+            <span className="text-retro-paper font-bold font-mono">{memberCount} OF {opportunity.teamSize} SPOTS OCCUPIED</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {activeMembers.map((member) => (
               <div
                 key={member.id}
-                className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center gap-3"
+                className="p-3 rounded-none bg-retro-surface-elevated border border-retro-border flex items-center gap-2.5 shadow-panel"
               >
                 <Avatar name={member.name} size="sm" />
                 <div className="min-w-0">
-                  <p className="text-xs font-semibold text-text-primary truncate">
+                  <p className="text-xs font-bold text-retro-paper truncate">
                     {member.name}
                   </p>
-                  <p className="text-[11px] text-text-muted truncate">
+                  <p className="text-[10px] text-retro-muted truncate">
                     {member.role || 'Member'}
                   </p>
                 </div>
@@ -195,20 +194,20 @@ export default function OpportunityDetails() {
             {Array.from({ length: Math.max(0, opportunity.teamSize - memberCount) }).map((_, idx) => (
               <div
                 key={`empty-${idx}`}
-                className="p-3 rounded-xl border border-dashed border-surface-border flex items-center justify-center text-xs text-text-muted text-center"
+                className="p-3 rounded-none border border-dashed border-retro-border/80 flex items-center justify-center text-[11px] text-retro-muted text-center bg-retro-surface/30"
               >
-                <span>+ Open Slot</span>
+                <span>[ OPEN SLOT ]</span>
               </div>
             ))}
           </div>
         </div>
 
         {/* What We're Looking For (Required Skills) */}
-        <div className="space-y-3 pt-4 border-t border-surface-border">
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-text-muted">
-            What We&apos;re Looking For
-          </h3>
-          <div className="flex flex-wrap gap-2">
+        <div className="space-y-2 pt-2">
+          <div className="text-[10px] uppercase tracking-widest text-retro-muted">
+            // REQUIRED COMPETENCIES:
+          </div>
+          <div className="flex flex-wrap gap-1.5">
             {(opportunity.requiredSkills || []).map((skill) => (
               <SkillBadge key={skill} skill={skill} size="md" />
             ))}

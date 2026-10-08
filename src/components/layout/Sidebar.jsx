@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard,
   Users,
@@ -10,9 +10,8 @@ import {
   PieChart,
   User,
   Settings,
-  Layers,
+  Cpu,
   RotateCcw,
-  Sparkles,
 } from 'lucide-react';
 import Avatar from '../ui/Avatar';
 
@@ -22,73 +21,85 @@ export default function Sidebar({
   onResetDemo,
   className = '',
 }) {
-  const navigate = useNavigate();
-
   const navGroups = [
     {
-      title: 'Overview',
+      code: '01',
+      title: 'CONSOLE OVERVIEW',
       items: [
-        { label: 'Dashboard', to: '/dashboard', icon: LayoutDashboard },
+        { num: '01', label: 'Dashboard', to: '/dashboard', icon: LayoutDashboard },
       ],
     },
     {
-      title: 'Discover',
+      code: '02',
+      title: 'DISCOVERY MATRIX',
       items: [
-        { label: 'Find Students', to: '/discover/students', icon: Users },
-        { label: 'Opportunities', to: '/discover/opportunities', icon: Compass },
+        { num: '02', label: 'Find Students', to: '/discover/students', icon: Users },
+        { num: '03', label: 'Opportunities', to: '/discover/opportunities', icon: Compass },
       ],
     },
     {
-      title: 'Collaboration',
+      code: '03',
+      title: 'COLLABORATION',
       items: [
-        { label: 'Create Project', to: '/opportunities/create', icon: PlusCircle },
+        { num: '04', label: 'Create Project', to: '/opportunities/create', icon: PlusCircle },
         {
+          num: '05',
           label: 'Requests',
           to: '/requests',
           icon: Inbox,
           badge: pendingRequestCount > 0 ? pendingRequestCount : null,
         },
-        { label: 'My Team', to: '/team', icon: UserCheck },
-        { label: 'Team Gap Analysis', to: '/team/gap-analysis', icon: PieChart },
+        { num: '06', label: 'My Team', to: '/team', icon: UserCheck },
+        { num: '07', label: 'Team Gap Analysis', to: '/team/gap-analysis', icon: PieChart },
       ],
     },
     {
-      title: 'Preferences',
+      code: '04',
+      title: 'STATION CONFIG',
       items: [
-        { label: 'My Profile', to: '/profile', icon: User },
-        { label: 'Settings', to: '/settings', icon: Settings },
+        { num: '08', label: 'My Profile', to: '/profile', icon: User },
+        { num: '09', label: 'Settings', to: '/settings', icon: Settings },
       ],
     },
   ];
 
   return (
     <aside
-      className={`w-64 h-screen flex-shrink-0 flex flex-col justify-between glass-panel border-r border-surface-border bg-surface/90 text-text-primary z-30 ${className}`}
+      className={`w-64 h-screen flex-shrink-0 flex flex-col justify-between border-r border-retro-border bg-retro-surface text-retro-paper z-30 select-none ${className}`}
     >
-      {/* Brand Header */}
+      {/* Flight Console Header */}
       <div>
-        <div className="p-5 border-b border-surface-border/80 flex items-center justify-between">
+        <div className="p-4 border-b border-retro-border bg-retro-surface-elevated/40">
+          <div className="flex items-center justify-between text-[10px] font-mono text-retro-muted mb-2 tracking-wider">
+            <span>[ SYS // CONSOLE-01 ]</span>
+            <span className="flex items-center gap-1.5 text-retro-amber">
+              <span className="w-1.5 h-1.5 rounded-full bg-retro-amber animate-pulse" />
+              ONLINE
+            </span>
+          </div>
+
           <NavLink to="/dashboard" className="flex items-center gap-2.5 group">
-            <div className="w-8 h-8 rounded-xl bg-gradient-primary flex items-center justify-center text-white shadow-soft group-hover:shadow-glow-indigo transition-all">
-              <Layers className="w-4 h-4" />
+            <div className="w-8 h-8 rounded-sm bg-retro-surface border border-retro-orange/60 flex items-center justify-center text-retro-orange group-hover:bg-retro-orange group-hover:text-retro-bg transition-colors shadow-panel">
+              <Cpu className="w-4 h-4" />
             </div>
             <div className="flex flex-col">
-              <span className="text-sm font-extrabold tracking-tight text-text-primary">
-                COLLAB<span className="text-accent-teal">MATRIX</span>
+              <span className="text-sm font-display font-extrabold tracking-wider text-retro-paper">
+                COLLAB<span className="text-retro-orange">MATRIX</span>
               </span>
-              <span className="text-[10px] text-text-muted font-medium -mt-1 tracking-wide">
-                Campus Team Matrix
+              <span className="text-[9px] font-mono text-retro-muted tracking-widest uppercase">
+                TELEMETRY & MATCH GRID
               </span>
             </div>
           </NavLink>
         </div>
 
         {/* Navigation Sections */}
-        <div className="p-3 space-y-5 overflow-y-auto max-h-[calc(100vh-160px)]">
+        <div className="p-2 space-y-4 overflow-y-auto max-h-[calc(100vh-175px)] scrollbar-none">
           {navGroups.map((group) => (
             <div key={group.title} className="space-y-1">
-              <div className="px-3 text-[10px] font-bold uppercase tracking-wider text-text-muted">
-                {group.title}
+              <div className="px-2.5 py-1 text-[9px] font-mono tracking-widest text-retro-muted/80 uppercase flex items-center justify-between border-b border-retro-border/40 mb-1">
+                <span>{group.title}</span>
+                <span className="text-retro-amber/60">{group.code}</span>
               </div>
               <div className="space-y-0.5">
                 {group.items.map((item) => {
@@ -98,22 +109,27 @@ export default function Sidebar({
                       key={item.to}
                       to={item.to}
                       className={({ isActive }) =>
-                        `flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all duration-150 ${
+                        `flex items-center justify-between px-2.5 py-2 rounded-sm text-xs font-mono transition-all duration-150 border ${
                           isActive
-                            ? 'bg-accent-indigo text-white shadow-sm font-semibold'
-                            : 'text-text-secondary hover:text-text-primary hover:bg-white/5'
+                            ? 'bg-retro-surface-elevated border-retro-orange text-retro-paper shadow-panel font-semibold'
+                            : 'border-transparent text-retro-paper/70 hover:text-retro-paper hover:bg-retro-surface-hover hover:border-retro-border'
                         }`
                       }
                     >
-                      <div className="flex items-center gap-2.5">
-                        <Icon className="w-4 h-4" />
-                        <span>{item.label}</span>
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <Icon className="w-3.5 h-3.5 text-retro-amber flex-shrink-0" />
+                        <span className="truncate tracking-wide">{item.label}</span>
                       </div>
-                      {item.badge && (
-                        <span className="px-1.5 py-0.2 rounded-full text-[10px] font-bold bg-accent-teal text-background">
-                          {item.badge}
+                      <div className="flex items-center gap-1.5 flex-shrink-0">
+                        {item.badge && (
+                          <span className="px-1.5 py-0.2 rounded-none text-[9px] font-mono font-bold bg-retro-orange text-retro-bg">
+                            {item.badge}
+                          </span>
+                        )}
+                        <span className="text-[9px] font-mono text-retro-muted opacity-50">
+                          .{item.num}
                         </span>
-                      )}
+                      </div>
                     </NavLink>
                   );
                 })}
@@ -123,34 +139,36 @@ export default function Sidebar({
         </div>
       </div>
 
-      {/* Footer Section: User Profile & Reset Demo */}
-      <div className="p-3 border-t border-surface-border/80 bg-surface-elevated/40">
+      {/* Operator Telemetry Footer */}
+      <div className="p-3 border-t border-retro-border bg-retro-surface-elevated/60">
         <NavLink
           to="/profile"
-          className="flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 transition-colors group mb-2"
+          className="flex items-center gap-2.5 p-2 rounded-sm border border-retro-border/60 hover:border-retro-orange/50 hover:bg-retro-surface transition-colors group mb-2"
         >
           <Avatar name={user?.name || 'Lukmaan Hakim'} size="sm" />
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-semibold text-text-primary truncate group-hover:text-accent-teal transition-colors">
+            <div className="text-[9px] font-mono text-retro-muted uppercase tracking-wider">
+              OPERATOR //
+            </div>
+            <p className="text-xs font-semibold text-retro-paper truncate group-hover:text-retro-amber transition-colors">
               {user?.name || 'Lukmaan Hakim'}
             </p>
-            <p className="text-[11px] text-text-muted truncate">
-              {user?.department || 'CSE'} • {user?.year || '2nd Year'}
+            <p className="text-[10px] font-mono text-retro-muted truncate">
+              {user?.department || 'CSE'} // {user?.year || 'YR-02'}
             </p>
           </div>
         </NavLink>
 
-        {/* Reset Demo button link */}
-        <div className="px-2 pt-1 border-t border-surface-border/40 flex items-center justify-between text-[11px]">
-          <span className="text-[10px] text-text-muted">Demo Mode</span>
+        <div className="px-1 pt-1 border-t border-retro-border/40 flex items-center justify-between text-[10px] font-mono">
+          <span className="text-retro-muted tracking-wide">SEED: v2.4</span>
           <button
             type="button"
             onClick={onResetDemo}
-            className="text-[11px] text-text-muted hover:text-accent-teal flex items-center gap-1 transition-colors"
+            className="text-retro-amber hover:text-retro-orange flex items-center gap-1 transition-colors uppercase font-mono tracking-wider"
             title="Reset to initial seed data"
           >
             <RotateCcw className="w-3 h-3" />
-            <span>Reset Demo</span>
+            <span>[RESET SEED]</span>
           </button>
         </div>
       </div>
