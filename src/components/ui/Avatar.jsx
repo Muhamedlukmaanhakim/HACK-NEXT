@@ -1,8 +1,8 @@
 import React from 'react';
 import { getInitials } from '../../utils/format';
 
-const BG_PALETTE = ['#FF4D2E', '#FFD43B', '#3FA66B', '#111111', '#252525'];
-const TEXT_PALETTE = ['#FFFFFF', '#111111', '#111111', '#FFFFFF', '#FFFFFF'];
+const BG_PALETTE = ['#D93620', '#F1C83B', '#111111', '#687A55', '#222222'];
+const TEXT_PALETTE = ['#FFFFFF', '#111111', '#FFFFFF', '#FFFFFF', '#FFFFFF'];
 
 export default function Avatar({
   name = '',
@@ -48,7 +48,7 @@ export default function Avatar({
       </div>
       {showOnline && (
         <span
-          className={`absolute -top-1 -right-1 block rounded-full border border-ink ${
+          className={`absolute -top-1 -right-1 block border border-ink ${
             isOnline ? 'bg-campus-green' : 'bg-canvas'
           } ${size === 'xs' || size === 'sm' ? 'w-2.5 h-2.5' : 'w-3 h-3'}`}
           aria-hidden="true"

@@ -1,85 +1,97 @@
 import React from 'react';
-import { Check, Info, Sparkles } from 'lucide-react';
+import { ArrowDown } from 'lucide-react';
 import Button from '../ui/Button';
-import SkillBadge from '../skills/SkillBadge';
 
 export default function AIAnalysisCard({
   analysis,
+  inputQuery = '',
   onApplySkills,
-  onRemoveSkill,
   className = '',
 }) {
   if (!analysis) return null;
 
   const {
     skills = [],
-    summary = 'Extracted high-priority project disciplines based on provided context.',
     confidence = 94,
   } = analysis;
 
   return (
-    <div className={`p-5 bg-white border-2 border-ink shadow-brutal animate-slide-up ${className}`}>
+    <div className={`p-4 bg-white border-2 border-ink shadow-brutal font-mono animate-slide-up space-y-3 ${className}`}>
       {/* Header */}
-      <div className="flex items-center justify-between pb-3 mb-3 border-b-2 border-ink">
-        <div>
-          <div className="text-[10px] font-mono font-bold text-brutal-red uppercase tracking-wider">
-            NATURAL LANGUAGE PARSER // ANALYSIS COMPLETE
-          </div>
-          <h4 className="font-display font-black text-sm uppercase text-ink">
-            PARSED COMPETENCIES IDENTIFIED
-          </h4>
-        </div>
-        <span className="font-mono text-xs font-bold px-2 py-0.5 bg-signal-yellow text-ink border border-ink">
-          CONFIDENCE {confidence}%
+      <div className="flex items-center justify-between border-b-2 border-ink pb-2 text-[10px] font-bold">
+        <span className="text-brutal-red uppercase">
+          PROJECT ANALYSIS / 01
+        </span>
+        <span className="bg-signal-yellow text-ink px-1.5 py-0.5 border border-ink">
+          ENGINE CONFIDENCE: {confidence}%
         </span>
       </div>
 
-      {/* Summary */}
-      <div className="text-xs font-sans text-ink/80 bg-canvas p-3 border-2 border-ink mb-4 leading-relaxed font-normal">
-        {summary}
+      {/* 1. INPUT */}
+      <div className="space-y-1">
+        <div className="text-[10px] font-bold text-ink/50 uppercase">INPUT</div>
+        <p className="text-xs text-ink/90 font-mono italic bg-canvas p-2.5 border border-ink">
+          "{inputQuery || 'I need someone who can design the interface and confidently present our project.'}"
+        </p>
       </div>
 
-      {/* Detected Skills */}
-      <div className="mb-4 space-y-2">
-        <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-ink/70">
-          IDENTIFIED REQUIRED SKILLS ({skills.length}):
+      {/* Down arrow indicator */}
+      <div className="flex justify-center text-ink/40">
+        <ArrowDown className="w-4 h-4 stroke-[2.5]" />
+      </div>
+
+      {/* 2. REQUIREMENTS IDENTIFIED */}
+      <div className="space-y-1.5">
+        <div className="text-[10px] font-bold text-ink/50 uppercase">
+          REQUIREMENTS IDENTIFIED
         </div>
-        <div className="flex flex-wrap gap-1.5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5 text-xs font-bold">
           {skills.map((skill) => (
-            <SkillBadge
+            <div
               key={skill}
-              skill={skill}
-              size="sm"
-              onRemove={onRemoveSkill ? () => onRemoveSkill(skill) : undefined}
-            />
+              className="p-2 border-2 border-ink bg-white text-ink text-center uppercase shadow-brutal-sm flex items-center justify-center"
+            >
+              {skill}
+            </div>
           ))}
-          {skills.length === 0 && (
-            <span className="text-xs font-mono text-ink/50 uppercase">
-              No matching skill vectors detected.
-            </span>
-          )}
         </div>
       </div>
 
-      {/* Actions */}
-      <div className="pt-3 border-t-2 border-ink flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-        <div className="flex items-center gap-1.5 text-[11px] font-mono text-ink/60">
-          <Info className="w-3.5 h-3.5 text-ink flex-shrink-0" />
-          <span>SIMULATION: Mock requirement extraction engine.</span>
-        </div>
+      {/* Down arrow indicator */}
+      <div className="flex justify-center text-ink/40">
+        <ArrowDown className="w-4 h-4 stroke-[2.5]" />
+      </div>
 
-        {onApplySkills && skills.length > 0 && (
+      {/* 3. MATCHING PARAMETERS */}
+      <div className="space-y-1">
+        <div className="text-[10px] font-bold text-ink/50 uppercase">
+          MATCHING PARAMETERS
+        </div>
+        <div className="flex flex-wrap gap-1 text-[11px] font-bold">
+          {['SKILL', 'INTEREST', 'AVAILABILITY', 'EXPERIENCE', 'DOMAIN'].map((param) => (
+            <span
+              key={param}
+              className="px-2 py-0.5 border border-ink bg-canvas text-ink uppercase"
+            >
+              {param}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Apply Action */}
+      {onApplySkills && skills.length > 0 && (
+        <div className="pt-2 border-t-2 border-ink flex justify-end">
           <Button
-            variant="danger"
+            variant="accent"
             size="sm"
-            icon={Check}
             onClick={onApplySkills}
             className="text-xs font-bold"
           >
-            MERGE SKILLS INTO PROJECT →
+            [ MERGE INTO REQUIREMENTS → ]
           </Button>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

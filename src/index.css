@@ -1,31 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --canvas-bg: #F4F1E8;
+  --canvas-bg: #F4F0E6;
   --ink-primary: #111111;
   --color-white: #FFFFFF;
-  --brutal-red: #FF4D2E;
-  --signal-yellow: #FFD43B;
-  --campus-green: #3FA66B;
-  --secondary-dark: #252525;
+  --brutal-red: #D93620;
+  --signal-yellow: #F1C83B;
+  --campus-green: #687A55;
 }
 
 @layer base {
   * {
     border-color: #111111;
+    border-radius: 0px !important;
   }
 
   ::selection {
-    background-color: #FF4D2E;
-    color: #FFFFFF;
+    background-color: #F1C83B;
+    color: #111111;
   }
 
   body {
-    background-color: #F4F1E8;
+    background-color: #F4F0E6;
     color: #111111;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -34,32 +34,31 @@
     overflow-x: hidden;
   }
 
-  h1, h2, h3, h4, .font-editorial {
-    font-family: 'Space Grotesk', 'Inter', sans-serif;
-    letter-spacing: -0.02em;
+  h1, h2, h3, h4, h5, h6, .font-editorial {
+    font-family: 'Space Grotesk', -apple-system, sans-serif;
+    letter-spacing: -0.03em;
   }
 
   /* Accessible brutalist focus ring */
   :focus-visible {
-    outline: 2px solid #FF4D2E;
-    outline-offset: 2px;
+    outline: 2px solid #D93620;
+    outline-offset: 1px;
   }
 
   /* Brutalist custom scrollbar */
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #F4F1E8;
+    background: #F4F0E6;
     border-left: 1px solid #111111;
   }
   ::-webkit-scrollbar-thumb {
     background: #111111;
-    border-radius: 0px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #FF4D2E;
+    background: #D93620;
   }
 }
 
@@ -67,48 +66,71 @@
 .brutal-card {
   background-color: #FFFFFF;
   border: 2px solid #111111;
-  box-shadow: 4px 4px 0 #111111;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 3px 3px 0 #111111;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .brutal-card:hover {
   transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 #111111;
+  box-shadow: 5px 5px 0 #111111;
 }
 
 .brutal-card-flat {
   background-color: #FFFFFF;
-  border: 2px solid #111111;
+  border: 1px solid #111111;
 }
 
 .brutal-border {
+  border: 1px solid #111111;
+}
+
+.brutal-border-2 {
   border: 2px solid #111111;
 }
 
-.brutal-border-t {
-  border-top: 2px solid #111111;
-}
-
-.brutal-border-b {
-  border-bottom: 2px solid #111111;
+.brutal-border-3 {
+  border: 3px solid #111111;
 }
 
 /* Hard offset button physics */
 .brutal-btn {
   border: 2px solid #111111;
   box-shadow: 3px 3px 0 #111111;
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out, background-color 0.15s ease-out;
 }
 .brutal-btn:hover {
   transform: translate(-1px, -1px);
-  box-shadow: 5px 5px 0 #111111;
+  box-shadow: 4px 4px 0 #111111;
 }
 .brutal-btn:active {
   transform: translate(2px, 2px);
   box-shadow: 1px 1px 0 #111111;
 }
 
+/* Hard offset button (red accent) */
+.brutal-btn-red {
+  background-color: #D93620;
+  color: #FFFFFF;
+  border: 2px solid #111111;
+  box-shadow: 3px 3px 0 #111111;
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+.brutal-btn-red:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 #111111;
+}
+.brutal-btn-red:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #111111;
+}
+
 /* Editorial rule separator */
 .editorial-separator {
+  height: 1px;
+  background-color: #111111;
+  width: 100%;
+}
+
+.editorial-separator-thick {
   height: 2px;
   background-color: #111111;
   width: 100%;
@@ -119,9 +141,17 @@
   font-family: 'Space Mono', monospace;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  font-size: 11px;
 }
 
-/* Reduced motion preference */
+/* Publication central frame for desktop */
+.publication-frame {
+  max-width: 68rem; /* 1088px */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Animation utilities */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

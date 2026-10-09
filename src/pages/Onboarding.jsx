@@ -11,7 +11,12 @@ import { DEPARTMENTS, YEARS, INTEREST_OPTIONS, AVAILABILITY_OPTIONS, COLLABORATI
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 
-function ChipGroup({ label, options, selected, onToggle }) {
+const SEMESTERS = [
+  'Semester 1', 'Semester 2', 'Semester 3', 'Semester 4',
+  'Semester 5', 'Semester 6', 'Semester 7', 'Semester 8',
+];
+
+function ChipGroup({ label, options, selected = [], onToggle }) {
   return (
     <div className="space-y-1.5">
       {label && <label className="text-[10px] font-mono font-bold uppercase tracking-wider text-ink/70">{label}</label>}
@@ -29,7 +34,7 @@ function ChipGroup({ label, options, selected, onToggle }) {
                   : 'bg-white text-ink hover:bg-canvas'
               }`}
             >
-              [ {opt} ]
+              [ {isSelected ? '✓ ' : ''}{opt} ]
             </button>
           );
         })}
@@ -44,36 +49,60 @@ export default function Onboarding() {
   const { addToast } = useToast();
   const navigate = useNavigate();
 
+  // Controlled form state initialized strictly from actual user data, NEVER hardcoded mock defaults
   const [formData, setFormData] = useState({
-    name: user?.name || 'Lukmaan Hakim',
-    department: user?.department || 'Computer Science (CSE)',
-    year: user?.year || '2nd Year',
-    bio: user?.bio || 'AI researcher and systems developer passionate about building predictive diagnostics and intelligent healthcare pipelines.',
-    skills: user?.skills?.length ? user.skills : ['Python', 'AI/ML'],
-    interests: user?.interests?.length ? user.interests : ['Healthcare & MedTech', 'AI & Machine Learning'],
-    availability: user?.availability?.length ? user.availability : ['Weekends'],
-    preferences: user?.preferences?.length ? user.preferences : ['Hackathon', 'Project'],
+    name: user?.name || '',
+    rollNo: user?.rollNo || '',
+    department: user?.department || '',
+    year: user?.year || '',
+    semester: user?.semester || '',
+    domain: user?.domain || '',
+    bio: user?.bio || '',
+    skills: user?.skills || [],
+    interests: user?.interests || [],
+    availability: user?.availability || [],
+    preferences: user?.preferences || [],
   });
 
   const [stepErrors, setStepErrors] = useState('');
 
   const validateStep = (currentStep) => {
     setStepErrors('');
-    if (currentStep === 1 && (!formData.name.trim() || !formData.department || !formData.year)) {
-      setStepErrors('Please complete all basic information fields.');
-      return false;
+    if (currentStep === 1) {
+      if (!formData.name.trim()) {
+        setStepErrors('Full name is required.');
+        return false;
+      }
+      if (!formData.department) {
+        setStepErrors('Please select your academic department.');
+        return false;
+      }
+      if (!formData.year) {
+        setStepErrors('Please select your year of study.');
+        return false;
+      }
+      if (!formData.semester) {
+        setStepErrors('Please select your current semester.');
+        return false;
+      }
     }
-    if (currentStep === 2 && (!formData.skills || formData.skills.length === 0)) {
-      setStepErrors('Please select at least one skill to continue.');
-      return false;
+    if (currentStep === 2) {
+      if (!formData.skills || formData.skills.length === 0) {
+        setStepErrors('Please explicitly register at least one skill or capability.');
+        return false;
+      }
     }
-    if (currentStep === 3 && (!formData.interests || formData.interests.length === 0)) {
-      setStepErrors('Please select at least one domain interest.');
-      return false;
+    if (currentStep === 3) {
+      if (!formData.interests || formData.interests.length === 0) {
+        setStepErrors('Please choose at least one project interest area.');
+        return false;
+      }
     }
-    if (currentStep === 4 && (!formData.availability || formData.availability.length === 0)) {
-      setStepErrors('Please choose your availability schedule.');
-      return false;
+    if (currentStep === 4) {
+      if (!formData.availability || formData.availability.length === 0) {
+        setStepErrors('Please declare your available sprint schedule.');
+        return false;
+      }
     }
     return true;
   };
@@ -92,7 +121,7 @@ export default function Onboarding() {
     addToast({
       type: 'success',
       title: 'PROFILE ACTIVATED',
-      message: 'Your campus collaboration dossier is now live!',
+      message: 'Your campus student profile has been calibrated and saved.',
     });
     navigate('/dashboard');
   };
@@ -103,6 +132,7 @@ export default function Onboarding() {
       ...formData,
       [field]: list.includes(item) ? list.filter((x) => x !== item) : [...list, item],
     });
+    setStepErrors('');
   };
 
   return (
@@ -112,10 +142,10 @@ export default function Onboarding() {
         <div className="space-y-3 border-b-2 border-ink pb-4">
           <div className="flex items-center justify-between text-xs font-mono font-bold">
             <span className="text-brutal-red uppercase tracking-wider">
-              0{step} / 05 // INITIAL ONBOARDING
+              0{step} / 05 // STUDENT ONBOARDING
             </span>
             <span className="text-ink/60 uppercase">
-              {['Basic Credentials', 'Competency Matrix', 'Domain Vectors', 'Schedule & Protocols', 'Calibrated'][step - 1]}
+              {['Academic Profile', 'Registered Skills', 'Interest Vectors', 'Availability Schedule', 'Dossier Ready'][step - 1]}
             </span>
           </div>
           <ProgressBar value={step} max={5} variant="coral" size="sm" />
@@ -127,49 +157,77 @@ export default function Onboarding() {
           </div>
         )}
 
-        {/* Step 1 */}
+        {/* Step 1: Academic Credentials */}
         {step === 1 && (
           <div className="space-y-4">
-            <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-brutal-red">STAGE 01: IDENTITY</div>
-            <h2 className="text-2xl font-display font-black text-ink uppercase">Operator Identity</h2>
+            <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-brutal-red">STAGE 01: ACADEMIC CREDENTIALS</div>
+            <h2 className="text-2xl font-display font-black text-ink uppercase">Academic Profile</h2>
+            <p className="text-xs text-ink/70 font-sans">
+              Provide your campus credentials. No department or year is preselected.
+            </p>
+
             <Input
               label="FULL NAME"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               required
             />
+
+            <Input
+              label="COLLEGE ROLL NUMBER"
+              value={formData.rollNo}
+              placeholder="e.g. 24CSE-1029"
+              onChange={(e) => setFormData({ ...formData, rollNo: e.target.value })}
+              helperText="Campus registry student identifier"
+            />
+
+            <Select
+              label="DEPARTMENT"
+              value={formData.department}
+              placeholder="[ SELECT YOUR DEPARTMENT ]"
+              onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+              options={DEPARTMENTS}
+              required
+            />
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Select
-                label="DEPARTMENT"
-                value={formData.department}
-                onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                options={DEPARTMENTS}
-                required
-              />
               <Select
                 label="YEAR OF STUDY"
                 value={formData.year}
+                placeholder="[ SELECT YEAR ]"
                 onChange={(e) => setFormData({ ...formData, year: e.target.value })}
                 options={YEARS}
                 required
               />
+              <Select
+                label="SEMESTER"
+                value={formData.semester}
+                placeholder="[ SELECT SEMESTER ]"
+                onChange={(e) => setFormData({ ...formData, semester: e.target.value })}
+                options={SEMESTERS}
+                required
+              />
             </div>
+
             <Textarea
-              label="BIOGRAPHICAL SUMMARY"
+              label="BIOGRAPHICAL SUMMARY / INTEREST STATEMENT"
               rows={3}
-              maxLength={200}
-              placeholder="What problems excite you? What projects do you want to build?"
+              maxLength={250}
+              placeholder="What problems do you care about solving? What kinds of projects do you want to build?"
               value={formData.bio}
               onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
             />
           </div>
         )}
 
-        {/* Step 2 */}
+        {/* Step 2: Skills */}
         {step === 2 && (
           <div className="space-y-4">
             <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-brutal-red">STAGE 02: SKILLS</div>
             <h2 className="text-2xl font-display font-black text-ink uppercase">Registered Competencies</h2>
+            <p className="text-xs text-ink/70 font-sans">
+              Explicitly choose skills you can demonstrate. You can later attach project links, code, or certificates to earn verified status.
+            </p>
             <SkillSelector
               selectedSkills={formData.skills}
               onChange={(newSkills) => setFormData({ ...formData, skills: newSkills })}
@@ -178,11 +236,14 @@ export default function Onboarding() {
           </div>
         )}
 
-        {/* Step 3 */}
+        {/* Step 3: Domain Interests */}
         {step === 3 && (
           <div className="space-y-4">
-            <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-brutal-red">STAGE 03: DOMAINS</div>
+            <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-brutal-red">STAGE 03: DOMAIN INTERESTS</div>
             <h2 className="text-2xl font-display font-black text-ink uppercase">Project Interests</h2>
+            <p className="text-xs text-ink/70 font-sans">
+              Select the problem spaces and domains that interest you.
+            </p>
             <ChipGroup
               options={INTEREST_OPTIONS}
               selected={formData.interests}
@@ -191,19 +252,19 @@ export default function Onboarding() {
           </div>
         )}
 
-        {/* Step 4 */}
+        {/* Step 4: Availability */}
         {step === 4 && (
           <div className="space-y-4">
-            <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-brutal-red">STAGE 04: SCHEDULE</div>
-            <h2 className="text-2xl font-display font-black text-ink uppercase">Availability & Formats</h2>
+            <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-brutal-red">STAGE 04: AVAILABILITY & PROTOCOLS</div>
+            <h2 className="text-2xl font-display font-black text-ink uppercase">Availability & Collaboration Formats</h2>
             <ChipGroup
-              label="COLLABORATION FORMATS"
+              label="COLLABORATION PREFERENCES"
               options={COLLABORATION_TYPES}
               selected={formData.preferences}
               onToggle={(item) => toggleArrayItem('preferences', item)}
             />
             <ChipGroup
-              label="AVAILABILITY WINDOWS"
+              label="STATED AVAILABILITY WINDOWS"
               options={AVAILABILITY_OPTIONS}
               selected={formData.availability}
               onToggle={(item) => toggleArrayItem('availability', item)}
@@ -211,35 +272,41 @@ export default function Onboarding() {
           </div>
         )}
 
-        {/* Step 5 */}
+        {/* Step 5: Complete */}
         {step === 5 && (
           <div className="text-center py-6 space-y-4">
             <div className="w-14 h-14 bg-campus-green border-2 border-ink flex items-center justify-center mx-auto shadow-brutal-sm">
               <CheckSquare className="w-8 h-8 text-ink stroke-[2.5]" />
             </div>
             <h2 className="text-3xl font-display font-black text-ink uppercase">
-              DOSSIER INITIALIZED
+              STUDENT DOSSIER READY
             </h2>
+            <div className="max-w-md mx-auto p-4 border-2 border-ink bg-canvas font-mono text-left text-xs space-y-1.5 shadow-brutal-sm">
+              <div><strong>OPERATOR:</strong> {formData.name} ({formData.rollNo || 'ID PENDING'})</div>
+              <div><strong>DEPARTMENT:</strong> {formData.department} // {formData.year}</div>
+              <div><strong>SKILLS:</strong> {formData.skills.join(', ')}</div>
+              <div><strong>AVAILABILITY:</strong> {formData.availability.join(', ')}</div>
+            </div>
             <p className="text-xs sm:text-sm font-sans text-ink/80 max-w-md mx-auto leading-relaxed">
-              Your profile is now registered on the campus collaboration network. You can discover teammates, post projects, and analyze team gaps.
+              Your profile is registered without fabricated scores. You can now discover teammates, initiate Trial Sprints, and log verified contributions.
             </p>
           </div>
         )}
 
         <div className="pt-4 border-t-2 border-ink flex items-center justify-between gap-3">
           {step > 1 && step < 5 ? (
-            <Button variant="outline" size="md" icon={ArrowLeft} onClick={handleBack} className="text-xs font-bold">
-              BACK
+            <Button variant="outline" size="md" icon={ArrowLeft} onClick={handleBack} className="text-xs font-bold font-mono">
+              [ BACK ]
             </Button>
           ) : <div />}
 
           {step < 5 ? (
-            <Button variant="primary" size="md" icon={ArrowRight} iconPosition="right" onClick={handleNext} className="text-xs font-bold">
-              NEXT STAGE →
+            <Button variant="primary" size="md" icon={ArrowRight} iconPosition="right" onClick={handleNext} className="text-xs font-bold font-mono">
+              [ NEXT STAGE → ]
             </Button>
           ) : (
-            <Button variant="danger" size="lg" icon={Cpu} iconPosition="right" onClick={handleFinish} className="w-full sm:w-auto text-xs font-bold">
-              ENTER DASHBOARD →
+            <Button variant="danger" size="lg" icon={Cpu} iconPosition="right" onClick={handleFinish} className="w-full sm:w-auto text-xs font-bold font-mono">
+              [ ENTER STUDENT DASHBOARD → ]
             </Button>
           )}
         </div>

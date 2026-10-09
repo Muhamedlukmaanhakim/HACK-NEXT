@@ -15,7 +15,7 @@ export default function Button({
   ...props
 }) {
   const baseClasses =
-    'inline-flex items-center justify-center font-display font-bold tracking-wider uppercase border-2 border-ink transition-all duration-150 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brutal-red disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none';
+    'group inline-flex items-center justify-center font-display font-bold tracking-wider uppercase border-2 border-ink transition-all duration-150 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brutal-red disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none rounded-none';
 
   const variants = {
     primary:
@@ -62,9 +62,13 @@ export default function Button({
         </>
       ) : (
         <>
-          {Icon && iconPosition === 'left' && <Icon className="w-4 h-4 flex-shrink-0" aria-hidden="true" />}
+          {Icon && iconPosition === 'left' && (
+            <Icon className="w-4 h-4 flex-shrink-0 transition-transform duration-150 group-hover:-translate-x-0.5" aria-hidden="true" />
+          )}
           <span>{children}</span>
-          {Icon && iconPosition === 'right' && <Icon className="w-4 h-4 flex-shrink-0" aria-hidden="true" />}
+          {Icon && iconPosition === 'right' && (
+            <Icon className="w-4 h-4 flex-shrink-0 transition-transform duration-150 group-hover:translate-x-1" aria-hidden="true" />
+          )}
         </>
       )}
     </button>

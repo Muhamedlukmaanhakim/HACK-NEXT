@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Mail, Lock, LogIn, KeyRound, ArrowRight } from 'lucide-react';
+import { Mail, Lock, LogIn, KeyRound } from 'lucide-react';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
 import Modal from '../components/ui/Modal';
@@ -15,19 +15,17 @@ export default function Login() {
   const [forgotModalOpen, setForgotModalOpen] = useState(false);
   const [forgotEmail, setForgotEmail] = useState('');
 
-  const { login, loginAsDemo, loginWithGoogle } = useAuth();
+  const { login, loginWithGoogle } = useAuth();
   const { addToast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
-
-  const destination = location.state?.from?.pathname || '/dashboard';
 
   const validate = () => {
     const errs = {};
     if (!email.trim()) {
       errs.email = 'Email address is required.';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      errs.email = 'Please enter a valid email address.';
+      errs.email = 'Please enter a valid campus email address.';
     }
     if (!password) {
       errs.password = 'Password is required.';
@@ -36,36 +34,38 @@ export default function Login() {
     return Object.keys(errs).length === 0;
   };
 
+  const handleSuccessfulAuth = (authenticatedUser) => {
+    const intendedFrom = location.state?.from?.pathname;
+    let target = '/dashboard';
+
+    if (authenticatedUser.role === 'faculty') {
+      target = intendedFrom && intendedFrom.startsWith('/faculty') ? intendedFrom : '/faculty/dashboard';
+    } else {
+      target = intendedFrom && !intendedFrom.startsWith('/faculty') ? intendedFrom : '/dashboard';
+    }
+
+    if (!authenticatedUser.hasCompletedOnboarding) {
+      target = authenticatedUser.role === 'faculty' ? '/onboarding/faculty' : '/onboarding';
+    }
+
+    navigate(target, { replace: true });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
 
     setIsSubmitting(true);
     try {
-      await login(email, password);
+      const authenticatedUser = await login(email, password);
       addToast({
         type: 'success',
-        title: 'Session Authenticated',
-        message: 'Welcome back to CollabMatrix.',
+        title: 'SESSION AUTHENTICATED',
+        message: `Welcome back, ${authenticatedUser.name || 'Operator'} (${authenticatedUser.role.toUpperCase()}).`,
       });
-      navigate(destination, { replace: true });
+      handleSuccessfulAuth(authenticatedUser);
     } catch (err) {
       setErrors({ form: err.message || 'Authentication rejected.' });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleDemoLogin = async () => {
-    setIsSubmitting(true);
-    try {
-      await loginAsDemo();
-      addToast({
-        type: 'success',
-        title: 'Demo Session Active',
-        message: 'Signed in as Lukmaan Hakim (CSE, 2nd Year).',
-      });
-      navigate('/dashboard', { replace: true });
     } finally {
       setIsSubmitting(false);
     }
@@ -74,13 +74,13 @@ export default function Login() {
   const handleGoogleLogin = async () => {
     setIsSubmitting(true);
     try {
-      await loginWithGoogle();
+      const gUser = await loginWithGoogle();
       addToast({
         type: 'success',
-        title: 'Google Sign-In Active',
-        message: 'Authenticated with Google account.',
+        title: 'GOOGLE AUTHENTICATED',
+        message: 'Signed in via verified Google campus identity.',
       });
-      navigate('/dashboard', { replace: true });
+      handleSuccessfulAuth(gUser);
     } finally {
       setIsSubmitting(false);
     }
@@ -91,7 +91,7 @@ export default function Login() {
     if (!forgotEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(forgotEmail)) {
       addToast({
         type: 'error',
-        title: 'Invalid Email',
+        title: 'INVALID EMAIL',
         message: 'Please enter a valid campus email address.',
       });
       return;
@@ -99,7 +99,7 @@ export default function Login() {
     setForgotModalOpen(false);
     addToast({
       type: 'info',
-      title: 'Reset Token Dispatched',
+      title: 'TOKEN DISPATCHED',
       message: `Simulated recovery token dispatched to ${forgotEmail}.`,
     });
     setForgotEmail('');
@@ -115,26 +115,10 @@ export default function Login() {
           WELCOME BACK.
         </h1>
         <p className="text-xs text-ink/70 font-sans mt-0.5">
-          Sign in to access your collaboration dashboard and active build squads.
+          Sign in to access your collaboration dashboard and active project squads.
         </p>
       </div>
 
-      {/* Demo Login Quick Shortcut Banner */}
-      <div className="p-4 border-2 border-ink bg-signal-yellow shadow-brutal-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-        <div>
-          <p className="text-xs font-display font-extrabold text-ink uppercase tracking-wider">HACKATHON DEMO MODE</p>
-          <p className="text-[11px] font-mono text-ink/80">1-click instant login as Lukmaan Hakim (CSE, YR-02)</p>
-        </div>
-        <Button
-          variant="primary"
-          size="sm"
-          onClick={handleDemoLogin}
-          isLoading={isSubmitting}
-          className="w-full sm:w-auto"
-        >
-          [ DEMO LOGIN → ]
-        </Button>
-      </div>
 
       {errors.form && (
         <div className="p-3 border-2 border-brutal-red bg-brutal-red/10 text-xs font-bold text-brutal-red">
@@ -145,7 +129,7 @@ export default function Login() {
       {/* Standard Email/Password Form */}
       <form onSubmit={handleSubmit} className="space-y-4 font-sans">
         <Input
-          label="College Email"
+          label="CAMPUS COLLEGE EMAIL"
           type="email"
           placeholder="your.name@campus.edu"
           value={email}
@@ -160,7 +144,7 @@ export default function Login() {
 
         <div>
           <Input
-            label="Password"
+            label="PASSWORD"
             type="password"
             placeholder="••••••••"
             value={password}
@@ -187,11 +171,11 @@ export default function Login() {
           type="submit"
           variant="primary"
           size="md"
-          className="w-full"
+          className="w-full font-mono font-bold"
           icon={LogIn}
           isLoading={isSubmitting}
         >
-          [ SIGN IN → ]
+          [ SIGN IN TO NODE → ]
         </Button>
       </form>
 
@@ -210,7 +194,7 @@ export default function Login() {
         className="w-full font-mono text-xs"
         onClick={handleGoogleLogin}
       >
-        CONTINUE WITH YOUR GOOGLE ACCOUNT
+        CONTINUE WITH GOOGLE CAMPUS SSO
       </Button>
 
       {/* Register redirect */}
@@ -225,7 +209,7 @@ export default function Login() {
       <Modal
         isOpen={forgotModalOpen}
         onClose={() => setForgotModalOpen(false)}
-        title="Reset Access Token"
+        title="RESET ACCESS TOKEN"
         description="We will simulate dispatching a recovery token to your registered college email."
         footer={
           <>

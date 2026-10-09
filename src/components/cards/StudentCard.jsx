@@ -1,8 +1,6 @@
 import React from 'react';
-import Avatar from '../ui/Avatar';
-import SkillBadge from '../skills/SkillBadge';
 import Button from '../ui/Button';
-import { UserCheck, UserPlus, Clock, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, UserCheck, UserPlus } from 'lucide-react';
 
 export default function StudentCard({
   student,
@@ -10,6 +8,7 @@ export default function StudentCard({
   onConnect,
   onViewProfile,
   matchScore,
+  index = 1,
   className = '',
 }) {
   const {
@@ -17,91 +16,103 @@ export default function StudentCard({
     name,
     department,
     year,
-    bio,
     skills = [],
+    interests = [],
     availability = [],
   } = student;
 
+  const isHighMatch = (matchScore || 0) >= 90;
+  const numStr = index < 10 ? `0${index}` : `${index}`;
+
   return (
-    <div className={`p-5 bg-white border-2 border-ink shadow-brutal hover:shadow-brutal-lg hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-150 flex flex-col justify-between group ${className}`}>
-      <div>
-        {/* Top Header */}
-        <div className="flex items-start justify-between gap-3 mb-3">
-          <div className="flex items-start gap-3">
-            <Avatar name={name} size="md" className="border-2 border-ink" />
-            <div>
-              <div className="text-[10px] font-mono text-ink/50 uppercase tracking-wider font-semibold">
-                NODE // {id?.toUpperCase() || 'STU'}
-              </div>
-              <h3 className="font-display font-bold text-base sm:text-lg text-ink uppercase tracking-tight leading-tight group-hover:text-brutal-red transition-colors">
-                {name}
-              </h3>
-              <p className="text-[11px] font-mono text-ink/70 font-semibold uppercase mt-0.5">
-                {department} · {year}
-              </p>
-            </div>
-          </div>
+    <div
+      className={`p-4 bg-white border-2 transition-all duration-150 flex flex-col justify-between group ${
+        isHighMatch
+          ? 'border-brutal-red shadow-brutal hover:shadow-brutal-lg'
+          : 'border-ink shadow-brutal-sm hover:shadow-brutal'
+      } hover:-translate-x-0.5 hover:-translate-y-0.5 ${className}`}
+    >
+      <div className="space-y-3">
+        {/* Top Technical Header: 01 / STUDENT */}
+        <div className="flex items-center justify-between border-b border-ink/20 pb-2 text-[10px] font-mono font-bold">
+          <span className="text-ink/60 uppercase">
+            {numStr} / STUDENT
+          </span>
           {matchScore !== undefined && (
-            <span className={`text-[11px] font-mono font-bold px-2 py-0.5 border-2 border-ink whitespace-nowrap ${
-              matchScore >= 90
-                ? 'bg-signal-yellow text-ink shadow-brutal-sm'
-                : 'bg-canvas text-ink'
-            }`}>
-              {matchScore}% MATCH
+            <span
+              className={`px-1.5 py-0.5 border border-ink font-bold ${
+                isHighMatch
+                  ? 'bg-signal-yellow text-ink shadow-brutal-sm'
+                  : 'bg-canvas text-ink/80'
+              }`}
+            >
+              MATCH {matchScore}%
             </span>
           )}
         </div>
 
-        {/* Bio */}
-        <p className="text-xs text-ink/80 font-sans line-clamp-2 mb-4 leading-relaxed font-normal">
-          {bio || 'Ambitious builder looking to collaborate on high-impact projects.'}
-        </p>
-
-        {/* Skills */}
-        <div className="mb-4">
-          <div className="flex flex-wrap gap-1.5">
-            {skills.slice(0, 4).map((skill) => (
-              <SkillBadge key={skill} skill={skill} size="xs" />
-            ))}
-            {skills.length > 4 && (
-              <span className="text-[10px] font-mono font-bold text-ink px-1.5 py-0.5 bg-canvas border border-ink">
-                +{skills.length - 4} MORE
-              </span>
-            )}
-          </div>
+        {/* Student Name & Academic Year */}
+        <div>
+          <h3 className="font-display font-black text-base sm:text-lg text-ink uppercase tracking-tight leading-tight group-hover:text-brutal-red transition-colors">
+            {name}
+          </h3>
+          <p className="text-[11px] font-mono text-ink/70 uppercase font-bold mt-0.5">
+            {department} / {year}
+          </p>
         </div>
+
+        {/* Thin Divider */}
+        <div className="editorial-separator" />
+
+        {/* Skills Section: Editorial dot format */}
+        <div className="space-y-1">
+          <div className="text-[10px] font-mono font-bold text-ink/50 uppercase">
+            COMPETENCIES
+          </div>
+          <p className="text-xs font-mono font-bold text-ink uppercase tracking-wide leading-relaxed">
+            {skills.slice(0, 3).join(' · ')}
+            {skills.length > 3 && ` · +${skills.length - 3}`}
+          </p>
+        </div>
+
+        {/* Interests */}
+        {interests && interests.length > 0 && (
+          <div className="space-y-1">
+            <div className="text-[10px] font-mono font-bold text-ink/50 uppercase">
+              INTERESTS
+            </div>
+            <p className="text-xs font-mono text-ink/80 uppercase">
+              {interests.slice(0, 2).join(' · ')}
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Footer / Actions */}
-      <div className="pt-3 border-t-2 border-ink flex items-center justify-between gap-2">
-        <div className="flex items-center gap-1.5 text-[11px] font-mono text-ink/70 font-semibold">
-          <Clock className="w-3.5 h-3.5 flex-shrink-0 text-ink" />
-          <span className="truncate max-w-[110px] uppercase">{availability[0] || 'Flexible'}</span>
-        </div>
-
-        <div className="flex items-center gap-2">
-          {onViewProfile && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => onViewProfile(student)}
-              className="text-xs px-2.5 py-1"
-            >
-              PROFILE
-            </Button>
-          )}
-
-          <Button
-            variant={isRequested ? 'secondary' : 'primary'}
-            size="sm"
-            disabled={isRequested}
-            icon={isRequested ? UserCheck : UserPlus}
-            onClick={() => !isRequested && onConnect && onConnect(student)}
-            className="text-xs px-3 py-1"
+      <div className="pt-3 mt-4 border-t-2 border-ink flex items-center justify-between gap-2">
+        {onViewProfile ? (
+          <button
+            type="button"
+            onClick={() => onViewProfile(student)}
+            className="text-[11px] font-mono font-bold text-ink hover:text-brutal-red uppercase transition-colors"
           >
-            {isRequested ? 'SENT' : 'CONNECT →'}
-          </Button>
-        </div>
+            [ PROFILE ]
+          </button>
+        ) : (
+          <span className="text-[10px] font-mono text-ink/60 uppercase">
+            {availability[0] || 'WEEKENDS'}
+          </span>
+        )}
+
+        <Button
+          variant={isRequested ? 'secondary' : isHighMatch ? 'accent' : 'primary'}
+          size="sm"
+          disabled={isRequested}
+          onClick={() => !isRequested && onConnect && onConnect(student)}
+          className="text-xs px-2.5 py-1"
+        >
+          {isRequested ? 'SENT ✓' : '[ CONNECT → ]'}
+        </Button>
       </div>
     </div>
   );

@@ -42,35 +42,35 @@ export default function Requests() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="border-b-3 border-ink pb-6">
-        <div className="text-xs font-mono font-bold uppercase tracking-wider text-brutal-red mb-1">
+    <div className="space-y-6 sm:space-y-8 animate-fade-in font-sans">
+      {/* 1. Header (Section 24) */}
+      <div className="border-b-2 border-ink pb-5 font-mono">
+        <div className="text-xs font-bold uppercase tracking-wider text-ink/60 mb-2">
           05 / COLLABORATION REQUESTS
         </div>
         <h1 className="text-3xl sm:text-5xl font-display font-black text-ink uppercase tracking-tight leading-none">
-          INBOX & SENT INVITATIONS.
+          NOTICES & DISPATCHES
         </h1>
-        <p className="text-xs sm:text-sm font-mono text-ink/70 font-semibold uppercase mt-2">
-          REVIEW INBOUND APPLICATIONS AND MONITOR OUTGOING INVITATIONS
+        <p className="text-xs sm:text-sm text-ink/70 font-bold uppercase mt-2">
+          INBOUND MEMBERSHIP REQUESTS & OUTBOUND RECRUITMENT
         </p>
       </div>
 
-      {/* Tabs */}
+      {/* 2. Tabs */}
       <Tabs
         tabs={[
-          { id: 'incoming', label: 'Incoming Dispatches', count: pendingIncomingCount },
-          { id: 'sent', label: 'Transmitted Invitations', count: pendingSentCount },
+          { id: 'incoming', label: 'INCOMING REQUESTS', count: pendingIncomingCount },
+          { id: 'sent', label: 'OUTGOING DISPATCHES', count: pendingSentCount },
         ]}
         activeTab={activeTab}
         onChange={setActiveTab}
       />
 
-      {/* Content */}
+      {/* 3. Requests Grid */}
       <div className="space-y-4">
         {activeTab === 'incoming' ? (
           incomingRequests.length > 0 ? (
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {incomingRequests.map((req) => (
                 <RequestCard
                   key={req.id}
@@ -84,13 +84,13 @@ export default function Requests() {
           ) : (
             <EmptyState
               icon={Inbox}
-              title="NO INCOMING COLLABORATION REQUESTS"
-              description="When students discover your opportunities and apply, their dispatches will appear here."
+              title="NO INCOMING NOTICES"
+              description="When students discover your opportunities and apply, their notices will appear here."
             />
           )
         ) : (
           sentRequests.length > 0 ? (
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {sentRequests.map((req) => (
                 <RequestCard
                   key={req.id}
@@ -102,8 +102,8 @@ export default function Requests() {
           ) : (
             <EmptyState
               icon={Send}
-              title="NO TRANSMITTED INVITATIONS"
-              description="You have not transmitted invitations to any collaborators yet. Explore students or inspect matches to connect."
+              title="NO TRANSMITTED NOTICES"
+              description="You have not transmitted invitations to any collaborators yet."
             />
           )
         )}
@@ -113,8 +113,8 @@ export default function Requests() {
       <Modal
         isOpen={declineModalState.isOpen}
         onClose={() => setDeclineModalState({ isOpen: false, request: null })}
-        title="DECLINE COLLABORATION REQUEST?"
-        description="Confirm rejection of this student's request to join your project roster."
+        title="DECLINE NOTICE?"
+        description="Confirm archive of this collaboration request."
         footer={
           <>
             <Button
@@ -129,14 +129,14 @@ export default function Requests() {
               size="sm"
               onClick={handleConfirmDecline}
             >
-              DECLINE DISPATCH
+              DECLINE
             </Button>
           </>
         }
       >
-        <div className="p-3 bg-canvas border-2 border-ink flex items-center gap-2.5 text-xs text-ink font-mono font-bold">
+        <div className="p-3 bg-canvas border-2 border-ink flex items-center gap-2 text-xs text-ink font-mono font-bold">
           <AlertTriangle className="w-4 h-4 text-brutal-red flex-shrink-0 stroke-[2.5]" />
-          <span>The applicant will receive notification that the project roster is currently full.</span>
+          <span>The applicant will receive notification that the project is currently full.</span>
         </div>
       </Modal>
     </div>

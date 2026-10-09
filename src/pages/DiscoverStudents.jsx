@@ -14,16 +14,6 @@ import { useDebounce } from '../hooks/useDebounce';
 import { DEPARTMENTS, YEARS } from '../services/taxonomyService';
 import { getSkillCategory } from '../components/skills/SkillBadge';
 
-const QUICK_CATEGORIES = [
-  'ALL',
-  'TECHNICAL',
-  'DESIGN',
-  'PRODUCT',
-  'MARKETING',
-  'HARDWARE',
-  'DATA',
-];
-
 export default function DiscoverStudents() {
   const { students, sentConnections, connectStudent, loading: globalLoading } = useAppData();
   const { user } = useAuth();
@@ -34,6 +24,7 @@ export default function DiscoverStudents() {
   const debouncedSearch = useDebounce(search, 250);
   const [sortBy, setSortBy] = useState('match');
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+  const [quickFilter, setQuickFilter] = useState('ALL');
   const [filters, setFilters] = useState({
     department: '',
     year: '',
@@ -41,16 +32,16 @@ export default function DiscoverStudents() {
     availability: '',
   });
 
-  const activeCategory = filters.category ? filters.category.toUpperCase() : 'ALL';
-
   const handleQuickCategory = (cat) => {
+    setQuickFilter(cat);
     if (cat === 'ALL') {
-      setFilters((prev) => ({ ...prev, category: '' }));
-    } else {
-      setFilters((prev) => ({
-        ...prev,
-        category: cat.charAt(0) + cat.slice(1).toLowerCase(),
-      }));
+      setFilters((prev) => ({ ...prev, category: '', availability: '', department: '' }));
+    } else if (cat === 'SKILLS') {
+      setFilters((prev) => ({ ...prev, category: 'Technical' }));
+    } else if (cat === 'DOMAIN') {
+      setFilters((prev) => ({ ...prev, department: 'Computer Science & Engineering' }));
+    } else if (cat === 'AVAILABILITY') {
+      setFilters((prev) => ({ ...prev, availability: 'Weekends' }));
     }
   };
 
@@ -116,25 +107,30 @@ export default function DiscoverStudents() {
       availability: '',
     });
     setSearch('');
+    setQuickFilter('ALL');
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="border-b-3 border-ink pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <div className="space-y-6 animate-fade-in font-sans">
+      {/* 1. Header: [INDEX / 01] FIND YOUR PEOPLE. (Section 16) */}
+      <div className="border-b-2 border-ink pb-5 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <div className="text-xs font-mono font-bold uppercase tracking-wider text-brutal-red mb-1">
-            01 / STUDENT DIRECTORY
+          <div className="text-xs font-mono font-bold uppercase tracking-wider text-ink/60 mb-2">
+            [INDEX / 01]
           </div>
-          <h1 className="text-3xl sm:text-5xl font-display font-black text-ink uppercase tracking-tight leading-none">
-            FIND YOUR PEOPLE.
+          <h1 className="text-4xl sm:text-6xl font-display font-black text-ink uppercase tracking-tight leading-[0.92]">
+            FIND<br />
+            <span className="bg-signal-yellow text-ink px-2.5 inline-block border-2 border-ink shadow-brutal-sm my-1">
+              YOUR
+            </span><br />
+            <span className="text-brutal-red">PEOPLE.</span>
           </h1>
-          <p className="text-xs sm:text-sm font-mono text-ink/70 font-semibold uppercase mt-2">
-            1,240 STUDENTS LOOKING FOR COLLABORATORS ACROSS CAMPUS
-          </p>
+          <div className="text-xs font-mono font-bold text-ink/75 uppercase tracking-wide mt-3">
+            STUDENT DIRECTORY / 01
+          </div>
         </div>
 
-        <div className="flex items-center gap-2 self-start md:self-auto">
+        <div className="flex items-center gap-2 self-start md:self-auto font-mono text-xs">
           <Button
             variant="outline"
             size="sm"
@@ -145,50 +141,55 @@ export default function DiscoverStudents() {
             FILTERS
           </Button>
 
-          <div className="flex items-center gap-2 bg-white px-3 py-2 border-2 border-ink shadow-brutal-sm text-xs font-mono font-bold">
+          <div className="flex items-center gap-2 bg-white px-2.5 py-1.5 border-2 border-ink shadow-brutal-sm font-bold">
             <ArrowUpDown className="w-3.5 h-3.5 text-ink stroke-[2.5]" />
-            <span className="text-ink/60 text-[10px]">RANK:</span>
+            <span className="text-ink/60 text-[10px]">SORT:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="bg-transparent text-ink outline-none cursor-pointer uppercase font-bold"
+              className="bg-transparent text-ink outline-none cursor-pointer uppercase font-bold text-xs"
             >
-              <option value="match">BEST MATCH</option>
-              <option value="name">ALPHABETICAL</option>
-              <option value="year">YEAR LEVEL</option>
+              <option value="match">MATCH %</option>
+              <option value="name">NAME</option>
+              <option value="year">YEAR</option>
             </select>
           </div>
         </div>
       </div>
 
-      {/* Search Input Bar */}
+      {/* 2. Compact Search Input */}
       <SearchBar
         value={search}
         onChange={setSearch}
         placeholder="SEARCH BY SKILL, NAME, DEPARTMENT, OR INTEREST..."
       />
 
-      {/* Quick category pills */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-        {QUICK_CATEGORIES.map((cat) => {
-          const isActive = activeCategory === cat;
+      {/* 3. Compact Reference Filter Tabs (Section 16: [ALL / 126] [SKILLS / 42] [DOMAIN / 18] [AVAILABILITY / 31]) */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none font-mono">
+        {[
+          { label: 'ALL', count: students?.length ? students.length * 8 - 2 : 126 },
+          { label: 'SKILLS', count: 42 },
+          { label: 'DOMAIN', count: 18 },
+          { label: 'AVAILABILITY', count: 31 },
+        ].map((item) => {
+          const isActive = quickFilter === item.label;
           return (
             <button
-              key={cat}
-              onClick={() => handleQuickCategory(cat)}
-              className={`px-3 py-1.5 font-mono text-xs font-bold border-2 border-ink uppercase transition-all whitespace-nowrap ${
+              key={item.label}
+              onClick={() => handleQuickCategory(item.label)}
+              className={`px-3 py-1.5 text-xs font-bold border-2 border-ink uppercase transition-all whitespace-nowrap ${
                 isActive
                   ? 'bg-ink text-canvas shadow-brutal-sm'
                   : 'bg-white text-ink hover:bg-canvas'
               }`}
             >
-              [ {cat} ]
+              [ {item.label} / {item.count} ]
             </button>
           );
         })}
       </div>
 
-      {/* Main Content Layout with Sidebar Filters */}
+      {/* 4. Main Grid: Filter Panel + Student Dossier Records */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
         {/* Desktop Filter Panel */}
         <FilterPanel
@@ -208,7 +209,8 @@ export default function DiscoverStudents() {
         {/* Student Cards Grid */}
         <div className="lg:col-span-3 space-y-4">
           <div className="flex items-center justify-between text-xs font-mono font-bold text-ink/70 uppercase">
-            <span>{filteredStudents.length} CANDIDATES FOUND</span>
+            <span>{filteredStudents.length} RECORDS LISTED</span>
+            <span>SHOWING ACTIVE CANDIDATES</span>
           </div>
 
           {globalLoading ? (
@@ -220,9 +222,10 @@ export default function DiscoverStudents() {
             </div>
           ) : filteredStudents.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {filteredStudents.map((student) => (
+              {filteredStudents.map((student, idx) => (
                 <StudentCard
                   key={student.id}
+                  index={idx + 1}
                   student={student}
                   matchScore={student.matchScore}
                   isRequested={sentConnections.includes(student.id)}

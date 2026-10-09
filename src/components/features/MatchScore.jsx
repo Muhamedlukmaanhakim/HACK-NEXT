@@ -16,10 +16,10 @@ export default function MatchScore({
 
   const colorStroke =
     rounded >= 90
-      ? '#FF4D2E' // Brutal red
+      ? '#D93620' // Target red
       : rounded >= 80
-      ? '#FFD43B' // Signal yellow
-      : '#3FA66B'; // Campus green
+      ? '#F1C83B' // Target yellow
+      : '#687A55'; // Target muted green
 
   const dimensions = {
     sm: 'w-10 h-10',
@@ -55,7 +55,7 @@ export default function MatchScore({
           fill="transparent"
           strokeWidth={stroke}
           strokeDasharray={`${circumference} ${circumference}`}
-          style={{ strokeDashoffset, transition: 'stroke-dashoffset 0.8s ease-in-out' }}
+          style={{ strokeDashoffset, transition: 'stroke-dashoffset 0.6s ease-out' }}
           strokeLinecap="square"
           r={normalizedRadius}
           cx={radius}

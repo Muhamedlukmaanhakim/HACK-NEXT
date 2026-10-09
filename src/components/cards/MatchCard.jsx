@@ -1,9 +1,5 @@
-import React from 'react';
-import Avatar from '../ui/Avatar';
-import MatchScore from '../features/MatchScore';
+import React, { useState, useEffect } from 'react';
 import Button from '../ui/Button';
-import ProgressBar from '../ui/ProgressBar';
-import { UserCheck, UserPlus, Check, Sparkles } from 'lucide-react';
 
 export default function MatchCard({
   match,
@@ -14,121 +10,124 @@ export default function MatchCard({
 }) {
   const {
     student,
-    score = 90,
-    subScores = { skill: 95, interest: 90, availability: 85, experience: 85 },
-    matchedSkills = [],
-    reason = '',
+    score = 94,
+    matchedSkills = ['UI/UX', 'Research', 'Presentation'],
   } = match;
 
+  // Animated 0 -> score counter (Section 21 & 29)
+  const [animatedScore, setAnimatedScore] = useState(0);
+
+  useEffect(() => {
+    let start = 0;
+    const end = Math.round(score);
+    const duration = 500;
+    const startTime = performance.now();
+
+    function update(time) {
+      const elapsed = time - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // easeOutExpo
+      const current = Math.floor(progress === 1 ? end : (1 - Math.pow(2, -10 * progress)) * end);
+      setAnimatedScore(current);
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        setAnimatedScore(end);
+      }
+    }
+    const rafId = requestAnimationFrame(update);
+    return () => cancelAnimationFrame(rafId);
+  }, [score]);
+
   return (
-    <div className={`p-6 bg-white border-2 border-ink shadow-brutal hover:shadow-brutal-lg transition-all flex flex-col justify-between group ${className}`}>
-      <div>
-        {/* Top Header */}
-        <div className="flex items-start justify-between gap-4 pb-4 mb-4 border-b-2 border-ink">
-          <div className="flex items-start gap-3">
-            <Avatar name={student.name} size="lg" className="border-2 border-ink" />
-            <div>
-              <div className="text-[10px] font-mono text-ink/50 uppercase tracking-wider font-semibold">
-                NODE // {student.id?.toUpperCase() || 'STU'}
-              </div>
-              <h3 className="font-display font-black text-xl text-ink uppercase tracking-tight leading-tight group-hover:text-brutal-red transition-colors">
-                {student.name}
-              </h3>
-              <p className="text-[11px] font-mono text-ink/70 font-semibold uppercase mt-0.5">
-                {student.department} · {student.year}
-              </p>
-              <p className="text-xs text-ink/80 font-sans mt-1 line-clamp-1 font-normal">
-                {student.bio}
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
-            <span className={`text-[11px] font-mono font-bold px-2 py-0.5 border-2 border-ink whitespace-nowrap ${
-              score >= 90
-                ? 'bg-signal-yellow text-ink shadow-brutal-sm'
-                : 'bg-canvas text-ink'
-            }`}>
-              {Math.round(score)}% MATCH
+    <div
+      className={`p-5 bg-white border-2 border-ink shadow-brutal hover:shadow-brutal-lg transition-all flex flex-col justify-between font-mono group ${className}`}
+    >
+      <div className="space-y-4">
+        {/* MATCH / 94% Header */}
+        <div className="flex items-center justify-between border-b-2 border-ink pb-2.5">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-black text-brutal-red uppercase">
+              MATCH /
             </span>
-            <MatchScore score={score} size="md" />
+            <span className="text-2xl sm:text-3xl font-display font-black text-ink">
+              {animatedScore}%
+            </span>
           </div>
+
+          <span className="px-2 py-0.5 border border-ink bg-signal-yellow text-ink text-[11px] font-bold uppercase">
+            BEST CANDIDATE
+          </span>
         </div>
 
-        {/* Breakdown Progress Bars */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-3 bg-canvas border-2 border-ink mb-4">
-          <div>
-            <div className="text-[10px] font-mono font-bold uppercase text-ink/70">SKILL 50%</div>
-            <div className="text-xs font-mono font-bold text-ink mt-0.5">{subScores.skill || 90}%</div>
-            <ProgressBar value={subScores.skill || 90} size="sm" variant="coral" />
-          </div>
-          <div>
-            <div className="text-[10px] font-mono font-bold uppercase text-ink/70">INTEREST 20%</div>
-            <div className="text-xs font-mono font-bold text-ink mt-0.5">{subScores.interest || 85}%</div>
-            <ProgressBar value={subScores.interest || 85} size="sm" variant="yellow" />
-          </div>
-          <div>
-            <div className="text-[10px] font-mono font-bold uppercase text-ink/70">AVAILABILITY 15%</div>
-            <div className="text-xs font-mono font-bold text-ink mt-0.5">{subScores.availability || 80}%</div>
-            <ProgressBar value={subScores.availability || 80} size="sm" variant="mint" />
-          </div>
-          <div>
-            <div className="text-[10px] font-mono font-bold uppercase text-ink/70">EXPERIENCE 15%</div>
-            <div className="text-xs font-mono font-bold text-ink mt-0.5">{subScores.experience || 85}%</div>
-            <ProgressBar value={subScores.experience || 85} size="sm" variant="coral" />
-          </div>
+        {/* Candidate Identity */}
+        <div>
+          <h3 className="font-display font-black text-xl text-ink uppercase tracking-tight group-hover:text-brutal-red transition-colors">
+            {student.name}
+          </h3>
+          <p className="text-xs font-bold text-ink/70 uppercase mt-0.5">
+            {student.department} / {student.year}
+          </p>
         </div>
 
-        {/* Matched Skills */}
-        <div className="mb-4 space-y-1.5">
-          <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-ink/60">
-            OVERLAPPING COMPETENCIES:
+        <div className="editorial-separator" />
+
+        {/* MATCH REASONS */}
+        <div className="space-y-1.5 bg-canvas p-3 border border-ink">
+          <div className="text-[10px] font-bold text-ink/50 uppercase">
+            MATCH REASONS:
+          </div>
+          <ul className="text-xs font-bold text-ink space-y-1 uppercase">
+            <li className="flex items-center gap-1.5 text-campus-green">
+              <span>●</span> 03 / 03 REQUIRED SKILLS
+            </li>
+            <li className="flex items-center gap-1.5 text-ink/80">
+              <span>●</span> 02 / 03 SHARED INTERESTS
+            </li>
+            <li className="flex items-center gap-1.5 text-ink/80">
+              <span>●</span> AVAILABLE WEEKENDS
+            </li>
+          </ul>
+        </div>
+
+        {/* SKILLS */}
+        <div className="space-y-1.5">
+          <div className="text-[10px] font-bold text-ink/50 uppercase">
+            SKILLS:
           </div>
           <div className="flex flex-wrap gap-1.5">
-            {matchedSkills.map((skill) => (
+            {(matchedSkills.length > 0 ? matchedSkills : student.skills || []).map((sk) => (
               <span
-                key={skill}
-                className="inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-mono font-bold bg-white text-ink border border-ink"
+                key={sk}
+                className="px-2 py-0.5 border border-ink bg-white text-xs font-bold text-ink uppercase shadow-brutal-sm"
               >
-                <Check className="w-3 h-3 stroke-[2.5] text-campus-green" />
-                <span>{skill}</span>
+                {sk}
               </span>
             ))}
           </div>
         </div>
-
-        {/* Why this match box */}
-        <div className="p-3.5 bg-canvas border-2 border-ink mb-4">
-          <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold text-brutal-red uppercase tracking-wider mb-1">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>WHY THIS MATCH:</span>
-          </div>
-          <p className="text-xs font-sans text-ink/80 leading-relaxed font-normal">
-            {reason || `Matches core project competencies with verified experience and aligned availability.`}
-          </p>
-        </div>
       </div>
 
-      {/* Action Footer */}
-      <div className="pt-3 border-t-2 border-ink flex items-center justify-between gap-3">
+      {/* Actions */}
+      <div className="pt-4 mt-4 border-t-2 border-ink flex items-center justify-between gap-3">
         {onViewProfile && (
-          <Button
-            variant="outline"
-            size="sm"
+          <button
+            type="button"
             onClick={() => onViewProfile(student)}
-            className="text-xs"
+            className="text-xs font-bold text-ink hover:text-brutal-red uppercase"
           >
-            VIEW PROFILE
-          </Button>
+            [ VIEW PROFILE ]
+          </button>
         )}
+
         <Button
-          variant={isRequested ? 'secondary' : 'primary'}
-          size="md"
+          variant={isRequested ? 'secondary' : 'accent'}
+          size="sm"
           disabled={isRequested}
-          icon={isRequested ? UserCheck : UserPlus}
           onClick={() => !isRequested && onConnect && onConnect(student)}
-          className="ml-auto text-xs"
+          className="ml-auto text-xs px-3 py-1.5"
         >
-          {isRequested ? 'INVITATION SENT' : 'SEND INVITATION →'}
+          {isRequested ? 'CONNECTED ✓' : '[ ESTABLISH CONNECTION → ]'}
         </Button>
       </div>
     </div>
